@@ -28,9 +28,6 @@ int	error_msg(int err, user usr){
 	case ERR_NOLOGIN:
 		std::cout << usr << ":User not logged in\n";
 		break;
-	case ERR_NOLOGIN:
-		std::cout << usr << ":User not logged in\n";
-		break;
 	// case RPL_AWAY:
 	// 	std::cout << usr.nick << ":" << usr.away_msg << std::endl;
 	// 	break;	
