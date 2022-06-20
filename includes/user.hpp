@@ -27,7 +27,7 @@ private:
 	// std::list<channel>		_list_chan;//list des chan où l'user est
 	bool					_away;
 	std::string				_away_msg;
-	unsigned int			_idle_time;
+	unsigned int			_idle_time;//temps en sec depuis la dernière activité. On pourrait éventuellement enregistrer la date et l'heure (a la sec pres) de la dernière activité plutot que d'utiliser un compteur pour chaque user...
 	std::string				_password;
 
 //overload d'operateurs
