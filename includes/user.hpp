@@ -28,6 +28,7 @@ private:
 	bool					_away;
 	std::string				_away_msg;
 	unsigned int			_idle_time;
+	std::string				_password;
 
 //overload d'operateurs
 private:
@@ -51,6 +52,8 @@ public:
 	std::string const		&getAway_msg() const;
 	//set de _idle_time est remplacé par idle_counter dans other member function
 	unsigned int const		&getIdle_time() const;
+	void					setPassword(std::string pwd);//pour l'instant c'est une fonction nulle sans securte sur le pwd
+	std::string const		&getPassword() const;
 
 //other member functions
 public:	
@@ -58,6 +61,8 @@ public:
 	void	clearHistory_nick();//clear de _history_nick
 	void	idle_counter();//je sais pas comment faire
 	void	resetIdle_counter();//remise a 0 de _idle_time
+	bool	find_in_history_nick(std::string s);//cherche si s est dans _history_nick (utile pour WHOWAS)
+	bool	test_password(std::string s);//test s == password
 };
 
 #endif

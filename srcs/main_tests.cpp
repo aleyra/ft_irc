@@ -8,9 +8,9 @@ int main(){
 	std::cout << "username = " << moi.getUsername() << std::endl;
 	moi.setTruename("mon tn");
 	std::cout << "tn = " << moi.getTruename() << std::endl;
-	moi.addHistory_nick("vieux pseudo1");
-	moi.addHistory_nick("vieux pseudo2");
-	moi.addHistory_nick("vieux pseudo3");
+	moi.addHistory_nick("truc");
+	moi.addHistory_nick("machin");
+	moi.addHistory_nick("chose");
 	std::list<std::string> list = moi.getHistory_nick();
 	std::cout << "debut list = " << *list.begin() << std::endl;
 	std::cout << "avant dernier list = " << *(--(--list.end())) << std::endl;
@@ -31,23 +31,16 @@ int main(){
 	std::cout << "idle time = " << moi.getIdle_time() << std::endl;
 	// moi.resetIdle_counter();
 	// std::cout << "idle time = " << moi.getIdle_time() << std::endl;
+	moi.setPassword("motdepasse");
+	std::cout << "mon pwd = " << moi.getPassword() << std::endl;
+	if (moi.test_password("coucou") == true)
+		std::cout << "gagne \n";
+	if (moi.find_in_history_nick("chose") == true)
+		std::cout << "trouve\n";
+	else	
+		std::cout << "inconnu\n";
 	std::cout << "--------------\n";
 	
-	user jumeau(moi);
-	std::cout << "nick = " << jumeau.getNick() << std::endl;
-	std::cout << "username = " << jumeau.getUsername() << std::endl;
-	std::cout << "tn = " << jumeau.getTruename() << std::endl;
-	list = jumeau.getHistory_nick();
-	std::cout << "debut list = " << *list.begin() << std::endl;
-	std::cout << "avant dernier list = " << *(--(--list.end())) << std::endl;
-	std::cout << "dernier list = " << *(--list.end()) << std::endl;
-	std::cout << "mon lvl = " << jumeau.getLvl() << std::endl;
-	if (jumeau.getAway() == true)
-		std::cout << "je suis absente\n";
-	else
-		std::cout << "je suis presente\n";
-	std::cout << "mon amsg = " << jumeau.getAway_msg() << std::endl;
-	std::cout << "idle time = " << jumeau.getIdle_time() << std::endl;
 
 	return (0);
 }

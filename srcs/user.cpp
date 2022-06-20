@@ -90,6 +90,15 @@ unsigned int const	&user::getIdle_time() const{
 	return (this->_idle_time);
 }
 
+void	user::setPassword(std::string pwd){
+	//on pourra eventuellement faire des tests de verification pour que le pwd respecte certaines regles
+	this->_password = pwd;
+}
+
+std::string const	&user::getPassword() const{
+	return (this->_password);
+}
+
 void	user::addHistory_nick(std::string	old_nick){
 	this->_history_nick.push_front(old_nick);
 }
@@ -107,5 +116,18 @@ void	user::resetIdle_counter(){
 	this->_idle_time = 0;
 }
 
+bool	user::find_in_history_nick(std::string s){
+	std::list<std::string>	list = this->_history_nick;
+	std::list<std::string>::iterator ret = std::find(list.begin(), list.end(), s);
+	if (ret == list.end())
+		return (false);
+	return (true);
+}
 
+bool	user::test_password(std::string s){
+	if (s == this->getPassword())
+		return (true);
+	std::cout << "Mot de Passe incorrect\n";
+	return (false);
+}
 
