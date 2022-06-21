@@ -26,7 +26,7 @@ int WhoisCmd(/*list of params = usr.mask*/, server srv){
 					std::cout << usr.chan[i];
 				}
 			}
-			sdt::cout << std::endl;
+			std::cout << std::endl;
 			std::cout << usr.getNick() << ": " << usr.idle_time << "seconds idle\n";//RPL_WHOISIDLE
 			if (/*is an irc op*/)//RPL_WHOISOPERATOR
 				std::cout << usr.getNick() << "is an IRC operator\n";
