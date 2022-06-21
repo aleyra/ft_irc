@@ -39,6 +39,9 @@ int main(){
 		std::cout << "trouve\n";
 	else	
 		std::cout << "inconnu\n";
+	moi.setLast_activity();
+	std::cout << "la = " << moi.getLast_activity() << std::endl;
+	std::cout << "now - la = " << moi.check_Idle_time() << std::endl;
 	std::cout << "--------------\n";
 	
 

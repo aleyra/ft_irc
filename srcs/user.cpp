@@ -90,6 +90,14 @@ unsigned int const	&user::getIdle_time() const{
 	return (this->_idle_time);
 }
 
+void	user::setLast_activity(){
+	this->_last_activity = std::time(nullptr);
+}
+
+std::time_t const	&user::getLast_activity() const{
+	return (this->_last_activity);
+}
+
 void	user::setPassword(std::string pwd){
 	//on pourra eventuellement faire des tests de verification pour que le pwd respecte certaines regles
 	this->_password = pwd;
@@ -131,3 +139,7 @@ bool	user::test_password(std::string s){
 	return (false);
 }
 
+std::time_t	user::check_Idle_time(){
+	std::time_t now = std::time(nullptr);
+	return (now - this->getLast_activity());
+}
