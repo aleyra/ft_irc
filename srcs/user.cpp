@@ -25,7 +25,9 @@ user	&user::operator=(user const &src){
 	this->_history_nick = src._history_nick;
 	this->_lvl = src._lvl;
 	// this->_chanop = src._chqnop;
-	// this->_list_chan = src._list_chan;
+	// for (int i = 0; i < 10; i++){
+	// 	this->_list_chan[i] = src._list_chan[i];
+	// }
 	this->_away = src._away;
 	this->_away_msg = src._away_msg;
 	this->_idle_time = src._idle_time;
