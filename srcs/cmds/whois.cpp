@@ -11,7 +11,7 @@ int WhoisCmd(/*list of params = usr.mask*/, server srv){
 	for(/*each param of WHOIS*/){
 		tmp = srv.findUser(/*a param*/)//chercher un nickname correspondant dans la liste des user ONLINE
 		if (tmp != NULL){//if there is display :
-			std::cout << usr.getNick() << "@" << usr << srv.host << "*:" << usr.true_name << std::endl;//RPL_WHOISUSER
+			std::cout << usr.getNick() << "@" << usr << srv.host << "*:" << usr.getTruename() << std::endl;//RPL_WHOISUSER
 			std::cout << usr.getNick() << ":";//RPL_WHOISCHANNELS
 			for (int i = 0; i < 10; i++) {
 				if (i != 0 && usr.chan[i] != NULL)
