@@ -1,10 +1,5 @@
 #include "numeric_reply.hpp"
-//usr.nick = nickname
 //usr = user // don't know more...
-	//usr.lvl = access lvl
-	//usr.away = boolean : if user is away return TRUE
-	//usr.away_msg = automatic msg setting by user when away
-	//usr.true_name = user's true name ?!
 	//usr.idle_time = time since last activity in seconds
 //srv.name = server's name
 //srv.mask = server's mask
@@ -17,19 +12,19 @@
 int	error_msg(int err, user usr){
 	switch (err){
 	case ERR_ERRONEUSNICKNAME:
-		std::cout << usr.nick << ":Erroneus nickname\n";//weird
+		std::cout << usr.getNick() << ":Erroneus nickname\n";//weird
 		break;
 	case ERR_NICKNAMEINUSE:
-		std::cout << usr.nick << ":Nickname is already in use\n";
+		std::cout << usr.getNick() << ":Nickname is already in use\n";
 		break;
 	case ERR_NICKCOLLISION:
-		std::cout << usr.nick << ":Nickname collision KILL\n";
+		std::cout << usr.getNick() << ":Nickname collision KILL\n";
 		break;
 	case ERR_NOLOGIN:
 		std::cout << usr << ":User not logged in\n";
 		break;
 	// case RPL_AWAY:
-	// 	std::cout << usr.nick << ":" << usr.away_msg << std::endl;
+	// 	std::cout << usr.getNick() << ":" << usr.getAway_msg() << std::endl;
 	// 	break;	
 	default:
 		break;
@@ -203,7 +198,7 @@ int	error_msg(int err, std::string s/*, file f*/){
 int	error_msg(int err, user usr, channel chan){
 	switch (err){
 	case ERR_USERNOTINCHANNEL:
-		std::cout << usr.nick << " " << chan << ":They aren't on that channel\n";
+		std::cout << usr.getNick() << " " << chan << ":They aren't on that channel\n";
 		break;
 	case ERR_USERONCHANNEL:
 		std::cout << usr << " " << chan << ":is already on channel\n";
@@ -217,18 +212,18 @@ int	error_msg(int err, user usr, channel chan){
 // int	error_msg(int err, user usr, server srv){
 // 	switch (err){
 // 	case RPL_USERHOST://to be used with a 'for' for each nick in the cmd USERHOST separate by a ' ' et a '\n' right after the 'for'
-// 		std::cout << usr.nick << "[";
-// 		if (usr.lvl == 2) std::cout << "operator";
+// 		std::cout << usr.getNick() << "[";
+// 		if (usr.getLvl() == 2) std::cout << "operator";
 // 		else std::cout << "non operator";
 // 		std::cout << "] = <";
-// 		if (usr.away == TRUE) std::cout << usr.away_msg;
+// 		if (usr.getAway() == TRUE) std::cout << usr.getAway_msg();
 // 		std::cout << ">" << srv.host;
 // 		break;
 // 	case RPL_WHOISUSER:
-// 		std::cout << usr.nick << " " << usr << srv.host << "*:" << usr.true_name << std::endl;
+// 		std::cout << usr.getNick() << " " << usr << srv.host << "*:" << usr.getTruename() << std::endl;
 // 		break;
 // 	case RPL_WHOISSERVER:
-// 		std::cout << usr.nick << " " << srv << ":" << srv.info << std::endl;
+// 		std::cout << usr.getNick() << " " << srv << ":" << srv.info << std::endl;
 // 		break;
 // 	}
 // return (err);

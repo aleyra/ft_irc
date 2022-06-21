@@ -1,6 +1,7 @@
 #ifndef NUM_RPL_H
 # define NUM_RPL_H
 # include <iostream>
+# include "user.hpp"//en attendant un .hpp qui inclu user.hpp
 
 typedef enum numeric_reply : int {//order by cmds which are order by abc.
 //NB : every error-type comment is because it already listed upper in the list
