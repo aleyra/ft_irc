@@ -6,8 +6,7 @@
 </p>
 <p>Mon travail
 <ul> mon so.notion avec un debrousaillage (j'ai besoin de vos mail pour vous inviter) https://www.notion.so/RFC-1459-Franc-ais-3d787c459ef14c849fa3ece854073952</ul>
-</p>
-<p> Les tâches que j'ai relevé pour le moment :
+<ul> Les tâches que j'ai relevé pour le moment :
 <li>gerer l'authentification par nickname et username</li>
 <li>gerer la creation/destruction de canaux</li>
 <li>gerer 3 types d'utilisateur : basiques, operateur de canal, operateur irc (pencez a voir les points 8.12.2 et 8.12.4 de la doc)</li>
@@ -27,4 +26,5 @@
 </li>
 <li>faire LE ficher de configuration</li>
 <li>lister les reponses numeriques </li>
+</ul>
 </p>
