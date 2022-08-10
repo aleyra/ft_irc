@@ -3,16 +3,15 @@
 #include <map>
 #include "numeric_reply.hpp"
 //srv.hostname = is the name of the server (as used in message prefixes).
-//channel
 
-int	who(std::string name, server srv){
+int	who(std::string name, server* srv){
 	user*				usr;
-	// std::list<channel>	list_chan;
+	std::list<channel*>	list_chan;
 	if (name.empty()){
 		std::list<std::map<int, class user> > usr_list;//a changer // recup la liste des user notee ici usr_list
 		for (std::list<std::map<int, class user> >::iterator it = usr_list.begin();
 				 it != usr_list.end(); ++it){
-			usr = &(it->at);//?????
+			usr = it->at;//?????
 
 		}
 	}
@@ -23,9 +22,9 @@ int	who(std::string name, server srv){
 			return RPL_ENDOFWHO;
 		}
 		std::cout << "<client>" << " ";
-		// list_chan = usr.getList_chan();
-		// if (!list_chan.empty())
-		// 	std::cout << /*nom d'un channel*/;
+		list_chan = usr->getList_chan();
+		if (!list_chan.empty())
+			std::cout << list_chan.begin()->getName();
 		else 
 			std::cout << "*";
 		std::cout << " " << usr->getUsername();
@@ -48,7 +47,7 @@ int	who(std::string name, server srv){
 	
 }
 
-int	who(std::string name, char o, server srv){
+int	who(std::string name, char o, server* srv){
 	if (o != 'o')
 		return EXIT_FAILURE;//chercher dans la doc comment reagir dans le cas ou l'option o n'est pas la bonne
 	
@@ -56,8 +55,8 @@ int	who(std::string name, char o, server srv){
 	if (name.empty()){
 		std::list<std::map<int, class user> > usr_list;//a changer // recup la liste des user notee ici usr_list
 		for (std::list<std::map<int, class user> >::iterator it = usr_list.begin(); it != usr_list.end(); it++){
-			usr = &(it->at);//?????		
-			if (usr.getIsop() == true){
+			usr = it->at;//?????		
+			if (usr->getIsop() == true){
 
 			}
 		}
