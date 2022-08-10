@@ -149,6 +149,16 @@ std::time_t	user::check_Idle_time(){
 	return (now - this->getLast_activity());
 }
 
+void	user::addList_chan(channel* nc){
+	this->_list_chan.push_back(nc);
+}
+void	user::rmList_chan(channel* c){
+	std::list<channel*>::iterator f = std::find(this->_list_chan.begin(),
+			this->_list_chan.end(), c);
+		if (f == this->_list_chan.end())
+			this->_list_chan.erase(f);
+}
+
 #pragma endregion other member functions
 
 #pragma region non-member functions

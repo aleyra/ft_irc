@@ -50,7 +50,7 @@ class user{
 		std::list<std::string> const &	getHistory_nick() const;
 		void							setLvl(int l);
 		int const &						getLvl() const;
-		//set de _list_chan est remplace par 
+		//set de _list_chan est remplace par addList_chan et rmList_chan
 		std::list<channel*> const &		getList_chan() const;//en attente de channel.hpp
 		void							setAway(bool a);
 		bool const &					getAway() const;
@@ -74,6 +74,8 @@ class user{
 		bool		find_in_history_nick(std::string s);//cherche si s est dans _history_nick (utile pour WHOWAS)
 		bool		test_password(std::string s);//test s == password
 		std::time_t	check_Idle_time();//donne le temps en secondes depuis _last_activity
+		void		addList_chan(channel* nc);//le plus recent est a la fin
+		void		rmList_chan(channel* c);
 	#pragma endregion other member functions
 };
 
