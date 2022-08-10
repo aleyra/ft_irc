@@ -1,0 +1,1 @@
+#include "user.hpp"//en attendant un .hpp qui inclu user.hpp

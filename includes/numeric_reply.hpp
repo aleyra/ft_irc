@@ -197,13 +197,13 @@ typedef enum numeric_reply : int {//order by cmds which are order by abc.
 class user;//a faire
 class server;//a faire
 class channel;//a faire
-int	error_msg(int err, user usr);
-int	error_msg(int err, server srv);
-int	error_msg(int err, channel chan);
+int	error_msg(int err, user* usr);
+int	error_msg(int err, server* srv);
+int	error_msg(int err, channel* chan);
 int	error_msg(int err, std::string s);//s for cmd, operation, charactere
 int	error_msg(int err);
 int	error_msg(int err, std::string s/*, file f*/);
-int	error_msg(int err, user usr, channel chan);
+int	error_msg(int err, user* usr, channel* chan);
 // int	error_msg(int err, user usr, server srv);
 
 #endif
