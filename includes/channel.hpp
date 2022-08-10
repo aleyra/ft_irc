@@ -30,4 +30,34 @@ class channel{
 	private:
 		channel&	operator=(channel const &src);//merci de mettre a jour cette fct quand vous ajoutez des attributs
 	#pragma endregion overload d'operateurs
+
+	#pragma region getters and setters
+	public:
+		void						setName(std::string n);
+		std::string const &			getName() const;
+		//pas de setter pour _founder
+		user const &				getFounder() const;
+		//pas de setter pour _usr_protected, voir addUsr_protected et rmUsr_protected
+		std::list<user*> const &	getUsr_protected() const;
+		//pas de setter pour _usr_op, voir addUsr_op et rmUsr_op
+		std::list<user*> const &	getUsr_op() const;
+		//pas de setter pour _usr_halfop, voir addUsr_halfop et rmUsr_halfop
+		std::list<user*> const &	getUsr_halfop() const;
+		void						setIsMod(bool b);
+		bool const &				getIsMod() const;
+		//pas de setter pour _usr_list, voir addUsr_list et rmUsr_list
+		std::list<user*> const &	getUsr_list() const;
+
+	#pragma endregion getters and setters
+
+	#pragma region other member functions
+		void	addUsr_protected(user* nu);//le plus recent est a la fin
+		void	addUsr_op(user* nu);//le plus recent est a la fin
+		void	addUsr_halfop(user* nu);//le plus recent est a la fin
+		void	addUsr_list(user* nu);//le plus recent est a la fin
+		void	rmUsr_protected(user* u);
+		void	rmUsr_op(user* u);
+		void	rmUsr_halfop(user* u);
+		void	rmUsr_list(user* u);
+	#pragma endregion other member functions
 };

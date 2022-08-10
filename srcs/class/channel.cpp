@@ -14,7 +14,12 @@ channel::channel(std::string name, user* founder){
 	this->_usr_list.push_back(founder);
 }
 
-channel::~channel(){}
+channel::~channel(){
+	this->_usr_protected.clear();
+	this->_usr_op.clear();
+	this->_usr_halfop.clear();
+	this->_usr_list.clear();
+}
 
 #pragma endregion constructors destructor
 
@@ -50,3 +55,71 @@ channel&	channel::operator=(channel const &src){
 }
 
 #pragma endregion overload d'operateurs
+
+#pragma region getters and setters
+	void	channel::setName(std::string n){this->_name = n;}
+
+	std::string const &	channel::getName() const{return this->_name;}
+
+	user const &	channel::getFounder() const{return this->_founder;}
+
+	std::list<user*> const &	channel::getUsr_protected() const{
+		return this->_usr_protected;
+	}
+
+	std::list<user*> const &	channel::getUsr_op() const{return this->_usr_op;}
+
+	std::list<user*> const &	channel::getUsr_halfop() const{
+		return this->_usr_halfop;
+	}
+
+	void	channel::setIsMod(bool b){this->_isMod = b;}
+
+	bool const &	channel::getIsMod() const{return this->_isMod;}
+
+	std::list<user*> const &	channel::getUsr_list() const{
+		return this->_usr_list;
+	}
+
+#pragma endregion getters and setters
+
+#pragma region other member functions
+	void	channel::addUsr_protected(user* nu){
+		this->_usr_protected.push_back(nu);
+	}
+
+	void	channel::addUsr_op(user* nu){this->_usr_op.push_back(nu);}
+
+	void	channel::addUsr_halfop(user* nu){this->_usr_halfop.push_back(nu);}
+
+	void	channel::addUsr_list(user* nu){this->_usr_list.push_back(nu);}
+
+	void	channel::rmUsr_protected(user* u){
+		std::list<user*>::iterator f = std::find(this->_usr_protected.begin(),
+			this->_usr_protected.end(), u);
+		if (f == this->_usr_protected.end())
+			this->_usr_protected.erase(f);
+	}
+
+	void	channel::rmUsr_op(user* u){
+		std::list<user*>::iterator f = std::find(this->_usr_op.begin(),
+			this->_usr_op.end(), u);
+		if (f == this->_usr_op.end())
+			this->_usr_op.erase(f);
+	}
+
+	void	channel::rmUsr_halfop(user* u){
+		std::list<user*>::iterator f = std::find(this->_usr_protected.begin(),
+			this->_usr_protected.end(), u);
+		if (f == this->_usr_protected.end())
+			this->_usr_protected.erase(f);
+	}
+
+	void	channel::rmUsr_list(user* u){
+		std::list<user*>::iterator f = std::find(this->_usr_protected.begin(),
+			this->_usr_protected.end(), u);
+		if (f == this->_usr_protected.end())
+			this->_usr_protected.erase(f);
+	}
+
+#pragma endregion other member functions
