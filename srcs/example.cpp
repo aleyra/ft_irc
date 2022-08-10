@@ -1,24 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   example.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlafay <tlafay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 11:25:23 by tlafay            #+#    #+#             */
-/*   Updated: 2022/06/28 13:18:12 by tlafay           ###   ########.fr       */
+/*   Updated: 2022/08/10 10:56:43 by tlafay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/socket.h> // For socket functions
 #include <netinet/in.h> // For sockaddr_in
+#include <sys/socket.h>
+#include <netdb.h>
 #include <cstdlib> // For exit() and EXIT_FAILURE
 #include <iostream> // For cout
 #include <unistd.h> // For read
 
 int main(int argc, char **argv) {
   // Create a socket (IPv4, TCP)
-  int sockfd = socket(AF_INET, SOCK_STREAM, 0);
+
+  struct addrinfo hints;
+  struct addrinfo *res;
+
+  memset(&hints, 0, sizeof hints);
+  hints.ai_family = AF_UNSPEC; 
+  hints.ai_socktype = SOCK_STREAM;
+  hints.ai_flags = AI_PASSIVE;
+  getaddrinfo("127.0.0.1", "9999", &hints, &res);
+  freeaddrinfo(res);
+  int sockfd = socket(res->ai_family, res->ai_socktype, res->ai_protocol);
   if (sockfd == -1) {
     std::cout << "Failed to create socket. errno: " << errno << std::endl;
     exit(EXIT_FAILURE);
