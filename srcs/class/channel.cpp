@@ -109,17 +109,17 @@ channel&	channel::operator=(channel const &src){
 	}
 
 	void	channel::rmUsr_halfop(user* u){
-		std::list<user*>::iterator f = std::find(this->_usr_protected.begin(),
-			this->_usr_protected.end(), u);
-		if (f == this->_usr_protected.end())
-			this->_usr_protected.erase(f);
+		std::list<user*>::iterator f = std::find(this->_usr_halfop.begin(),
+			this->_usr_halfop.end(), u);
+		if (f == this->_usr_halfop.end())
+			this->_usr_halfop.erase(f);
 	}
 
 	void	channel::rmUsr_list(user* u){
-		std::list<user*>::iterator f = std::find(this->_usr_protected.begin(),
-			this->_usr_protected.end(), u);
-		if (f == this->_usr_protected.end())
-			this->_usr_protected.erase(f);
+		std::list<user*>::iterator f = std::find(this->_usr_list.begin(),
+			this->_usr_list.end(), u);
+		if (f == this->_usr_list.end())
+			this->_usr_list.erase(f);
 	}
 
 #pragma endregion other member functions
