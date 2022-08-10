@@ -6,12 +6,12 @@
 
 int	who(std::string name, server* srv){
 	user*				usr;
-	std::list<channel*>	list_chan;
+	// std::list<vector*>	list_chan;
 	if (name.empty()){
-		std::list<std::map<int, class user> > usr_list;//a changer // recup la liste des user notee ici usr_list
-		for (std::list<std::map<int, class user> >::iterator it = usr_list.begin();
+		std::map<int, user*> usr_list;//a changer // recup la liste des user notee ici usr_list
+		for (std::map<int, user*>::iterator it = usr_list.begin();
 				 it != usr_list.end(); ++it){
-			usr = it->at;//?????
+			usr = *it;
 
 		}
 	}
@@ -22,14 +22,14 @@ int	who(std::string name, server* srv){
 			return RPL_ENDOFWHO;
 		}
 		std::cout << "<client>" << " ";
-		list_chan = usr->getList_chan();
+		std::vector<channel*> &	list_chan = usr->getList_chan();
 		if (!list_chan.empty())
-			std::cout << list_chan.begin()->getName();
+			std::cout << list_chan.front()->getName();
 		else 
 			std::cout << "*";
 		std::cout << " " << usr->getUsername();
 		// std::cout << " " <<"<host>";//<host> a modifier //????qu'est-ce que le host ici ?
-		std:: cout << " " << srv.hostname;//<server>
+		std:: cout << " " << srv->hostname;//<server>
 		std::cout << " " << usr->getNick() << " ";//<nick>//
 		if (usr->getAway() == true)//<flags>
 			std::cout << "G";//G for gone
@@ -37,9 +37,10 @@ int	who(std::string name, server* srv){
 			std::cout << "H";//H for here
 		if (usr->getLvl() == 2)
 			std::cout <<"*";//means is en srv op
-		for (std::list<channel>::iterator it = list_chan.begin();
-				it != list_chan.end(); ++it){
-			if (it->)
+		for (std::map<int, user*>::iterator it = usr_list.begin();
+				 it != usr_list.end(); ++it){
+			usr = *it;
+			//la suite ???? on est sur les flags
 		}
 		//:<hopcount> <realname> ;
 	}
@@ -53,9 +54,9 @@ int	who(std::string name, char o, server* srv){
 	
 	user*	usr;
 	if (name.empty()){
-		std::list<std::map<int, class user> > usr_list;//a changer // recup la liste des user notee ici usr_list
-		for (std::list<std::map<int, class user> >::iterator it = usr_list.begin(); it != usr_list.end(); it++){
-			usr = it->at;//?????		
+		std::map<int, user*> usr_list;//a changer // recup la liste des user notee ici usr_list
+		for (std::map<int, user*>::iterator it = usr_list.begin(); it != usr_list.end(); it++){
+			usr = *it;	
 			if (usr->getIsop() == true){
 
 			}

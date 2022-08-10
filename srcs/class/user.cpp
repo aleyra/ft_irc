@@ -10,7 +10,7 @@ user::user(){
 
 user::user(user const &src){*this = src;}
 
-user::user(std::string usr_name){
+user::user(std::string usr_name, unsigned int id){
 	this->_username = usr_name;
 	this->_away = false;//? je suis pas sure de : a quoi correspond usr_name dans la class usr
 	this->_username = usr_name;//? idem
@@ -19,10 +19,13 @@ user::user(std::string usr_name){
 	this->_away = false;
 	this->setLast_activity();
 	this->_isop = false;
+	this->_id = id;
 	// this->_idle_time = 0;
 }
 
-user::~user(){}
+user::~user(){
+	this->_history_nick.clear();
+}
 #pragma endregion constructors destrcutor
 
 #pragma region overload d'operateurs
@@ -32,13 +35,13 @@ user	&user::operator=(user const &src){
 	this->_truename = src._truename;
 	this->_history_nick = src._history_nick;
 	this->_lvl = src._lvl;
-	// this->_chanop = src._chqnop;
-	// for (int i = 0; i < 10; i++){
-	// 	this->_list_chan[i] = src._list_chan[i];
-	// }
+	if (!this->_list_chan.empty())
+		this->_list_chan.clear();
+	for (int i = 0; i < src._list_chan.size(); ++i){
+		this->_list_chan.push_back(src._list_chan[i]);
+	}
 	this->_away = src._away;
 	this->_away_msg = src._away_msg;
-	// this->_idle_time = src._idle_time;
 	this->_last_activity = src._last_activity;
 	this->_password = src._password;
 	this->_isop = src._isop;
@@ -76,7 +79,7 @@ void	user::setLvl(int l){//on s'assure que le lvl est entre 0 et 2
 
 int const	&user::getLvl() const{return (this->_lvl);}
 
-std::list<channel*> const &	user::getList_chan() const{
+std::vector<channel*> const &	user::getList_chan() const{
 	return (this->_list_chan);
 }
 
@@ -88,9 +91,6 @@ void	user::setAway_msg(std::string amsg){this->_away_msg = amsg;}
 
 std::string const	&user::getAway_msg() const{return (this->_away_msg);}
 
-// unsigned int const	&user::getIdle_time() const{
-// 	return (this->_idle_time);
-// }
 
 void	user::setLast_activity(){this->_last_activity = std::time(nullptr);}
 
@@ -109,6 +109,8 @@ void	user::setIsop(bool b){this->_isop = b;}
 
 bool const	&user::getIsop() const{return (this->_isop);}
 
+unsigned int const &	user::getId() const{return this->_id;}
+
 #pragma endregion getters and setters
 
 #pragma region other member functions
@@ -119,15 +121,6 @@ void	user::addHistory_nick(std::string	old_nick){
 void	user::clearHistory_nick(){
 	this->_history_nick.clear();
 }
-
-// void	user::idle_counter(){//a faire
-// 	//c'est un compteur en sec depuis la derniere activite du user
-// 	this->_idle_time = 30;//
-// }
-
-// void	user::resetIdle_counter(){
-// 	this->_idle_time = 0;
-// }
 
 bool	user::find_in_history_nick(std::string s){
 	std::list<std::string>	list = this->_history_nick;
@@ -153,7 +146,7 @@ void	user::addList_chan(channel* nc){
 	this->_list_chan.push_back(nc);
 }
 void	user::rmList_chan(channel* c){
-	std::list<channel*>::iterator f = std::find(this->_list_chan.begin(),
+	std::vector<channel*>::iterator f = std::find(this->_list_chan.begin(),
 			this->_list_chan.end(), c);
 		if (f == this->_list_chan.end())
 			this->_list_chan.erase(f);
@@ -162,11 +155,14 @@ void	user::rmList_chan(channel* c){
 #pragma endregion other member functions
 
 #pragma region non-member functions
+
+//comparatifs
+
 user*	searchUser(std::string mask){
 	user*	usr;
-	std::list<std::map<int, class user> > usr_list;//a changer // recup la liste des user notee ici usr_list
-	for (std::list<std::map<int, class user> >::iterator it = usr_list.begin(); it != usr_list.end(); it++){
-		usr = &(it->at);//?????
+	std::map<int, user*> usr_list;//a changer // recup la liste des user notee ici usr_list
+	for (std::map<int, user*>::iterator it = usr_list.begin(); it != usr_list.end(); it++){
+		usr = *it;
 		if (usr->getNick().compare(mask) == 0)			
 			return usr;
 	}
