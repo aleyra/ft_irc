@@ -1,30 +1,28 @@
 #include "numeric_reply.hpp"
 //usr = user // don't know more...
-	//usr.idle_time = time since last activity in seconds
-//srv.name = server's name
-//srv.mask = server's mask
-	//srv.host = host's server
+//chan = channel // don't know more... maybe canal's id ?
+//srv->name = server's name
+//srv->mask = server's mask
+	//srv->host = host's server
 //srv = server //don't know more...
-	//srv.info = server's info
-//chan.name = channel's name
-	//chan = channel // don't know more... maybe canal's id ?
+	//srv->info = server's info
 
-int	error_msg(int err, user usr){
+int	error_msg(int err, user* usr){
 	switch (err){
 	case ERR_ERRONEUSNICKNAME:
-		std::cout << usr.getNick() << ":Erroneus nickname" << std::endl;//weird
+		std::cout << usr->getNick() << ":Erroneus nickname" << std::endl;//weird
 		break;
 	case ERR_NICKNAMEINUSE:
-		std::cout << usr.getNick() << ":Nickname is already in use" << std::endl;
+		std::cout << usr->getNick() << ":Nickname is already in use" << std::endl;
 		break;
 	case ERR_NICKCOLLISION:
-		std::cout << usr.getNick() << ":Nickname collision KILL" << std::endl;
+		std::cout << usr->getNick() << ":Nickname collision KILL" << std::endl;
 		break;
 	case ERR_NOLOGIN:
 		std::cout << usr << ":User not logged in" << std::endl;
 		break;
 	// case RPL_AWAY:
-	// 	std::cout << usr.getNick() << ":" << usr.getAway_msg() << std::endl;
+	// 	std::cout << usr->getNick() << ":" << usr->getAway_msg() << std::endl;
 	// 	break;	
 	default:
 		break;
@@ -32,16 +30,16 @@ int	error_msg(int err, user usr){
 	return (err);
 }
 
-int	error_msg(int err, server srv){
+int	error_msg(int err, server* srv){
 	switch (err){
 	case ERR_NOSUCHSERVER:
-		std::cout << srv.name << ":No such serve" << std::endl;
+		std::cout << srv->name << ":No such serve" << std::endl;
 		break;
 	case ERR_NOTOPLEVEL:
-		std::cout << srv.mask << ":No toplevel domain specified" << std::endl;
+		std::cout << srv->mask << ":No toplevel domain specified" << std::endl;
 		break;
 	case ERR_WILDTOPLEVEL:
-		std::cout << srv.mask << ":Wildcard in toplevel domain" << std::endl;
+		std::cout << srv->mask << ":Wildcard in toplevel domain" << std::endl;
 		break;
 	case ERR_NOADMININFO:
 		std::cout << srv << ":No administrative info available" << std::endl;
@@ -52,19 +50,19 @@ int	error_msg(int err, server srv){
 	return (err);
 }
 
-int	error_msg(int err, channel chan){
+int	error_msg(int err, channel* chan){
 	switch (err){
 	case ERR_NOSUCHCHANNEL:
-		std::cout << chan.name << ":No such channel" << std::endl;
+		std::cout << chan->getName() << ":No such channel" << std::endl;
 		break;
 	case ERR_CANNOTSENDTOCHAN:
-		std::cout << chan.name << ":Cannot send to channel" << std::endl;
+		std::cout << chan->getName() << ":Cannot send to channel" << std::endl;
 		break;
 	case ERR_TOOMANYCHANNELS:
-		std::cout << chan.name << ":You have joined too many channels" << std::endl;
+		std::cout << chan->getName() << ":You have joined too many channels" << std::endl;
 		break;
 	case ERR_WASNOSUCHNICK:
-		std::cout << chan.name << ":There was no such nickname" << std::endl;
+		std::cout << chan->getName() << ":There was no such nickname" << std::endl;
 		break;
 	case ERR_NOTONCHANNEL:
 		std::cout << chan << ":You're not on that channel" << std::endl;
@@ -195,10 +193,10 @@ int	error_msg(int err, std::string s/*, file f*/){
 	return (err);
 }
 
-int	error_msg(int err, user usr, channel chan){
+int	error_msg(int err, user* usr, channel* chan){
 	switch (err){
 	case ERR_USERNOTINCHANNEL:
-		std::cout << usr.getNick() << " " << chan << ":They aren't on that channel" << std::endl;
+		std::cout << usr->getNick() << " " << chan << ":They aren't on that channel" << std::endl;
 		break;
 	case ERR_USERONCHANNEL:
 		std::cout << usr << " " << chan << ":is already on channel" << std::endl;
@@ -209,21 +207,21 @@ int	error_msg(int err, user usr, channel chan){
 	return (err);
 }
 
-// int	error_msg(int err, user usr, server srv){
+// int	error_msg(int err, user* usr, server* srv){
 // 	switch (err){
 // 	case RPL_USERHOST://to be used with a 'for' for each nick in the cmd USERHOST separate by a ' ' et a '\n' right after the 'for'
-// 		std::cout << usr.getNick() << "[";
-// 		if (usr.getLvl() == 2) std::cout << "operator";
+// 		std::cout << usr->getNick() << "[";
+// 		if (usr->getLvl() == 2) std::cout << "operator";
 // 		else std::cout << "non operator";
 // 		std::cout << "] = <";
-// 		if (usr.getAway() == TRUE) std::cout << usr.getAway_msg();
-// 		std::cout << ">" << srv.host;
+// 		if (usr->getAway() == TRUE) std::cout << usr->getAway_msg();
+// 		std::cout << ">" << srv->host;
 // 		break;
 // 	case RPL_WHOISUSER:
-// 		std::cout << usr.getNick() << " " << usr << srv.host << "*:" << usr.getTruename() << std::endl;
+// 		std::cout << usr->getNick() << " " << usr << srv->host << "*:" << usr->getTruename() << std::endl;
 // 		break;
 // 	case RPL_WHOISSERVER:
-// 		std::cout << usr.getNick() << " " << srv << ":" << srv.info << std::endl;
+// 		std::cout << usr->getNick() << " " << srv << ":" << srv->info << std::endl;
 // 		break;
 // 	}
 // return (err);

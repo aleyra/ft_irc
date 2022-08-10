@@ -4,7 +4,7 @@
 //srv.host =
 //usr.chan[10] = il faut un tableau de channel dans lequel le usr est 
 //usr.idle_time = time since last activity in seconds
-int WhoisCmd(/*list of params = usr.mask*/, server srv){
+int WhoisCmd(/*list of params = usr.mask*/, server* srv){
 	User tmp;
 	if (/*list empty*/)
 		return (numeric_reply(ERR_NONICKNAMEGIVEN));
