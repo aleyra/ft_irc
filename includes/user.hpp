@@ -5,7 +5,7 @@
 # include "algorithm"
 # include "list"
 # include "ctime"
-// # include "channel.hpp"
+# include "channel.hpp"
 
 class user{
 	private:
@@ -14,8 +14,8 @@ class user{
 		std::string					_truename;
 		std::list<std::string>		_history_nick;//liste des anciens nick de l'user, du moins ancien (au debut), au moins ancien (a la fin)
 		int							_lvl;//lvl access : 0 = simple utilisateur, 1 = channel operator, 2 = irc operator
-		// std::list<channel*>		_chanop;//list des chan où l'user est operator
-		// std::list<channel*>		_list_chan[10];//list des 10 (nombre recommandé) chan où l'user est ou peut être
+		std::list<channel*>			_chanop;//list des chan où l'user est operator
+		std::list<channel*>			_list_chan;//list des 10 (nombre recommandé) chan où l'user est ou peut être
 		bool						_away;
 		std::string					_away_msg;
 		// unsigned int				_idle_time;//temps en sec depuis la dernière activité. S'utilise avec un compteur (?)
@@ -51,7 +51,7 @@ class user{
 		void							setLvl(int l);
 		int const &						getLvl() const;
 		//set de _list_chan est remplace par 
-		// std::list<channel>* const &	getList_chan() const;//en attente de channel.hpp
+		std::list<channel*> const &		getList_chan() const;//en attente de channel.hpp
 		void							setAway(bool a);
 		bool const &					getAway() const;
 		void							setAway_msg(std::string amsg);

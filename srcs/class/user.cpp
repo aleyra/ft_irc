@@ -76,9 +76,9 @@ void	user::setLvl(int l){//on s'assure que le lvl est entre 0 et 2
 
 int const	&user::getLvl() const{return (this->_lvl);}
 
-// std::list<channel>* const &	user::getList_chan() const{
-// 	return (this->_list_chan);
-// }
+std::list<channel*> const &	user::getList_chan() const{
+	return (this->_list_chan);
+}
 
 void	user::setAway(bool a){this->_away = a;}
 

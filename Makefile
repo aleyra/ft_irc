@@ -10,11 +10,12 @@ PATH_LOG	=	logs
 
 # List of sources
 SRCS_CMDS		= 	whois.cpp whowas.cpp
+SRCS_CLASS		= 	channel.cpp user.cpp
 SRCS			=	$(addprefix $(PATH_SRC)/cmds/, $(CMDS)) \
 					$(addprefix $(PATH_SRC)/, )  main.cpp #add files à la racine
 
 OBJS		=	$(addprefix $(PATH_OBJ)/, $(notdir $(SRCS:.c=.o)))
-INCS		=	$(PATH_INC)/error_msg.hpp
+INCS		=	$(PATH_INC)/channel.hpp numeric_reply.hpp user.hpp
 
 # Commands of compilation
 COMP		=	c++
