@@ -32,10 +32,12 @@ user	&user::operator=(user const &src){
 	this->_truename = src._truename;
 	this->_history_nick = src._history_nick;
 	this->_lvl = src._lvl;
-	// this->_chanop = src._chqnop;
-	// for (int i = 0; i < 10; i++){
-	// 	this->_list_chan[i] = src._list_chan[i];
-	// }
+	// this->_chanop = src._chanop;
+	if (!this->_list_chan.empty())
+		this->_list_chan.clear();
+	for (int i = 0; i < src._list_chan.size(); ++i){
+		this->_list_chan.push_back(src._list_chan[i]);
+	}
 	this->_away = src._away;
 	this->_away_msg = src._away_msg;
 	// this->_idle_time = src._idle_time;
@@ -76,7 +78,7 @@ void	user::setLvl(int l){//on s'assure que le lvl est entre 0 et 2
 
 int const	&user::getLvl() const{return (this->_lvl);}
 
-std::list<channel*> const &	user::getList_chan() const{
+std::vector<channel*> const &	user::getList_chan() const{
 	return (this->_list_chan);
 }
 
@@ -153,7 +155,7 @@ void	user::addList_chan(channel* nc){
 	this->_list_chan.push_back(nc);
 }
 void	user::rmList_chan(channel* c){
-	std::list<channel*>::iterator f = std::find(this->_list_chan.begin(),
+	std::vector<channel*>::iterator f = std::find(this->_list_chan.begin(),
 			this->_list_chan.end(), c);
 		if (f == this->_list_chan.end())
 			this->_list_chan.erase(f);
