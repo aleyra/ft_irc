@@ -11,7 +11,8 @@ PATH_LOG	=	logs
 # List of sources
 SRCS_CMDS		= 	whois.cpp whowas.cpp
 SRCS_CLASS		= 	channel.cpp user.cpp
-SRCS			=	$(addprefix $(PATH_SRC)/cmds/, $(CMDS)) \
+SRCS			=	$(addprefix $(PATH_SRC)/cmds/, $(SRCS_CMDS)) \
+					$(addprefix $(PATH_SRC)/cmds/, $(SRCS_CLASS)) \
 					$(addprefix $(PATH_SRC)/, )  main.cpp #add files à la racine
 
 OBJS		=	$(addprefix $(PATH_OBJ)/, $(notdir $(SRCS:.c=.o)))
