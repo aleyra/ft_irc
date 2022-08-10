@@ -38,19 +38,17 @@ int whowas(std::vector<std::string> params, server* srv){
 	std::cout << usr->getNick() << "@" << usr << srv->host << "*:"
 		<< usr->getTruename() << std::endl;//RPL_WHOISUSER
 	std::cout << usr->getNick() << ":";//RPL_WHOISCHANNELS
-	for (std::list<channel*>::iterator it = usr->getList_chan.begin();
-			it != usr->getList_chan.end(); ++it){
-		if (it != usr->getList_chan.begin() && it + 1 != NULL)
+	std::vector<channel*> &list_chan = usr->getList_chan;
+
+	for (int i = 0; i < list_chan.size(); ++i){
+		if (i == 0 && i != list_chan.size() - 1)
 			std::cout << " ";
-		if (usr->chan[i] == NULL)//ce n'est pas un channel où est le usr
-			i = 10;
-		else{
-			//if it's a moderated channel and usr is allowed to speak
-				std::cout << "+";
-			/*else*/ if (usr->getLvl() > 0)//est un operateur du chan???
-				std::cout << "@" ;//a verif
-			std::cout << usr->chan[i];
-		}
+		if (list_chan[i]->getIsMod() == true && list_chan[i]./*ici*/)//if it's a moderated channel and usr is allowed to speak
+			std::cout << "+";
+		/*else*/ if (usr->getLvl() > 0)//est un operateur du chan???
+			std::cout << "@" ;//a verif
+		std::cout << list_chan[i].name;
+		
 	}
 	std::endl;
 	std::cout << usr->getNick() << ": " << usr->idle_time << "seconds idle"
