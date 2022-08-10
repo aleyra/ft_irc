@@ -1,23 +1,31 @@
 #include "user.hpp"
+#include <list>
+#include <map>
 
+#pragma region constructors destructor
 user::user(){
 	this->_away = false;
-	this->_idle_time = 0;
+	// this->_idle_time = 0;
 }
 
-user::user(user const &src){
-	*this = src;
-}
+user::user(user const &src){*this = src;}
 
 user::user(std::string usr_name){
 	this->_username = usr_name;
+	this->_away = false;//? je suis pas sure de : a quoi correspond usr_name dans la class usr
+	this->_username = usr_name;//? idem
+	this->_truename = usr_name;//? idem
+	this->_lvl = 0;
 	this->_away = false;
-	this->_idle_time = 0;
+	this->setLast_activity();
+	this->_isop = false;
+	// this->_idle_time = 0;
 }
 
-user::~user(){
-}
+user::~user(){}
+#pragma endregion constructors destrcutor
 
+#pragma region overload d'operateurs
 user	&user::operator=(user const &src){
 	this->_nick = src._nick;
 	this->_username = src._username;
@@ -30,33 +38,31 @@ user	&user::operator=(user const &src){
 	// }
 	this->_away = src._away;
 	this->_away_msg = src._away_msg;
-	this->_idle_time = src._idle_time;
+	// this->_idle_time = src._idle_time;
+	this->_last_activity = src._last_activity;
+	this->_password = src._password;
+	this->_isop = src._isop;
 	return (*this);
 }
+#pragma endregion overload d'operateurs
 
+#pragma region getters and setters
 void	user::setNick(std::string n){
+	if (!this->_nick.empty()){
+		this->addHistory_nick(this->_nick);
+	}
 	this->_nick = n;
 }
 
-std::string const	&user::getNick() const{
-	return (this->_nick);
-}
+std::string const	&user::getNick() const{return (this->_nick);}
 
-void	user::setUsername(std::string un){
-	this->_username = un;
-}
+void	user::setUsername(std::string un){this->_username = un;}
 
-std::string const	&user::getUsername() const{
-	return (this->_username);
-}
+std::string const	&user::getUsername() const{return (this->_username);}
 
-void	user::setTruename(std::string tn){
-	this->_truename = tn;
-}
+void	user::setTruename(std::string tn){this->_truename = tn;}
 
-std::string const	&user::getTruename() const{
-	return (this->_truename);
-}
+std::string const	&user::getTruename() const{return (this->_truename);}
 
 std::list<std::string> const	&user::getHistory_nick() const{
 	return (this->_history_nick);
@@ -68,33 +74,25 @@ void	user::setLvl(int l){//on s'assure que le lvl est entre 0 et 2
 	this->_lvl = l;
 }
 
-int const	&user::getLvl() const{
-	return (this->_lvl);
-}
+int const	&user::getLvl() const{return (this->_lvl);}
 
-void	user::setAway(bool a){
-	this->_away = a;
-}
+// std::list<channel>* const &	user::getList_chan() const{
+// 	return (this->_list_chan);
+// }
 
-bool const	&user::getAway() const{
-	return (this->_away);
-}
+void	user::setAway(bool a){this->_away = a;}
 
-void	user::setAway_msg(std::string amsg){
-	this->_away_msg = amsg;
-}
+bool const	&user::getAway() const{return (this->_away);}
 
-std::string const	&user::getAway_msg() const{
-	return (this->_away_msg);
-}
+void	user::setAway_msg(std::string amsg){this->_away_msg = amsg;}
 
-unsigned int const	&user::getIdle_time() const{
-	return (this->_idle_time);
-}
+std::string const	&user::getAway_msg() const{return (this->_away_msg);}
 
-void	user::setLast_activity(){
-	this->_last_activity = std::time(nullptr);
-}
+// unsigned int const	&user::getIdle_time() const{
+// 	return (this->_idle_time);
+// }
+
+void	user::setLast_activity(){this->_last_activity = std::time(nullptr);}
 
 std::time_t const	&user::getLast_activity() const{
 	return (this->_last_activity);
@@ -105,10 +103,15 @@ void	user::setPassword(std::string pwd){
 	this->_password = pwd;
 }
 
-std::string const	&user::getPassword() const{
-	return (this->_password);
-}
+std::string const	&user::getPassword() const{return (this->_password);}
 
+void	user::setIsop(bool b){this->_isop = b;}
+
+bool const	&user::getIsop() const{return (this->_isop);}
+
+#pragma endregion getters and setters
+
+#pragma region other member functions
 void	user::addHistory_nick(std::string	old_nick){
 	this->_history_nick.push_front(old_nick);
 }
@@ -117,14 +120,14 @@ void	user::clearHistory_nick(){
 	this->_history_nick.clear();
 }
 
-void	user::idle_counter(){//a faire
-	//c'est un compteur en sec depuis la derniere activite du user
-	this->_idle_time = 30;//
-}
+// void	user::idle_counter(){//a faire
+// 	//c'est un compteur en sec depuis la derniere activite du user
+// 	this->_idle_time = 30;//
+// }
 
-void	user::resetIdle_counter(){
-	this->_idle_time = 0;
-}
+// void	user::resetIdle_counter(){
+// 	this->_idle_time = 0;
+// }
 
 bool	user::find_in_history_nick(std::string s){
 	std::list<std::string>	list = this->_history_nick;
@@ -137,7 +140,7 @@ bool	user::find_in_history_nick(std::string s){
 bool	user::test_password(std::string s){
 	if (s == this->getPassword())
 		return (true);
-	std::cout << "Mot de Passe incorrect\n";
+	std::cout << "Mot de Passe incorrect" << std::endl;
 	return (false);
 }
 
@@ -145,3 +148,19 @@ std::time_t	user::check_Idle_time(){
 	std::time_t now = std::time(nullptr);
 	return (now - this->getLast_activity());
 }
+
+#pragma endregion other member functions
+
+#pragma region non-member functions
+user*	searchUser(std::string mask){
+	user*	usr;
+	std::list<std::map<int, class user> > usr_list;//a changer // recup la liste des user notee ici usr_list
+	for (std::list<std::map<int, class user> >::iterator it = usr_list.begin(); it != usr_list.end(); it++){
+		usr = &(it->at);//?????
+		if (usr->getNick().compare(mask) == 0)			
+			return usr;
+	}
+	return NULL;
+}
+
+#pragma endregion non-member functions
