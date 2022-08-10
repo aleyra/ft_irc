@@ -27,9 +27,9 @@ int WhoisCmd(/*list of params = usr.mask*/, server srv){
 				}
 			}
 			std::cout << std::endl;
-			std::cout << usr.getNick() << ": " << usr.idle_time << "seconds idle\n";//RPL_WHOISIDLE
+			std::cout << usr.getNick() << ": " << usr.idle_time << "seconds idle" << std::endl;//RPL_WHOISIDLE
 			if (/*is an irc op*/)//RPL_WHOISOPERATOR
-				std::cout << usr.getNick() << "is an IRC operator\n";
+				std::cout << usr.getNick() << "is an IRC operator" << std::endl;
 		}
 		else
 			numeric_reply(ERR_NOSUCHNICK, /*param de WHOIS*/);

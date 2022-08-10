@@ -12,16 +12,16 @@
 int	error_msg(int err, user usr){
 	switch (err){
 	case ERR_ERRONEUSNICKNAME:
-		std::cout << usr.getNick() << ":Erroneus nickname\n";//weird
+		std::cout << usr.getNick() << ":Erroneus nickname" << std::endl;//weird
 		break;
 	case ERR_NICKNAMEINUSE:
-		std::cout << usr.getNick() << ":Nickname is already in use\n";
+		std::cout << usr.getNick() << ":Nickname is already in use" << std::endl;
 		break;
 	case ERR_NICKCOLLISION:
-		std::cout << usr.getNick() << ":Nickname collision KILL\n";
+		std::cout << usr.getNick() << ":Nickname collision KILL" << std::endl;
 		break;
 	case ERR_NOLOGIN:
-		std::cout << usr << ":User not logged in\n";
+		std::cout << usr << ":User not logged in" << std::endl;
 		break;
 	// case RPL_AWAY:
 	// 	std::cout << usr.getNick() << ":" << usr.getAway_msg() << std::endl;
@@ -35,16 +35,16 @@ int	error_msg(int err, user usr){
 int	error_msg(int err, server srv){
 	switch (err){
 	case ERR_NOSUCHSERVER:
-		std::cout << srv.name << ":No such serve\n";
+		std::cout << srv.name << ":No such serve" << std::endl;
 		break;
 	case ERR_NOTOPLEVEL:
-		std::cout << srv.mask << ":No toplevel domain specified\n";
+		std::cout << srv.mask << ":No toplevel domain specified" << std::endl;
 		break;
 	case ERR_WILDTOPLEVEL:
-		std::cout << srv.mask << ":Wildcard in toplevel domain\n";
+		std::cout << srv.mask << ":Wildcard in toplevel domain" << std::endl;
 		break;
 	case ERR_NOADMININFO:
-		std::cout << srv << ":No administrative info available\n";
+		std::cout << srv << ":No administrative info available" << std::endl;
 		break;
 	default:
 		break;
@@ -55,37 +55,37 @@ int	error_msg(int err, server srv){
 int	error_msg(int err, channel chan){
 	switch (err){
 	case ERR_NOSUCHCHANNEL:
-		std::cout << chan.name << ":No such channel\n";
+		std::cout << chan.name << ":No such channel" << std::endl;
 		break;
 	case ERR_CANNOTSENDTOCHAN:
-		std::cout << chan.name << ":Cannot send to channel\n";
+		std::cout << chan.name << ":Cannot send to channel" << std::endl;
 		break;
 	case ERR_TOOMANYCHANNELS:
-		std::cout << chan.name << ":You have joined too many channels\n";
+		std::cout << chan.name << ":You have joined too many channels" << std::endl;
 		break;
 	case ERR_WASNOSUCHNICK:
-		std::cout << chan.name << ":There was no such nickname\n";
+		std::cout << chan.name << ":There was no such nickname" << std::endl;
 		break;
 	case ERR_NOTONCHANNEL:
-		std::cout << chan << ":You're not on that channel\n";
+		std::cout << chan << ":You're not on that channel" << std::endl;
 		break;
 	case ERR_KEYSET:
-		std::cout << chan << ":Channel key already set\n";
+		std::cout << chan << ":Channel key already set" << std::endl;
 		break;
 	case ERR_CHANNELISFULL:
-		std::cout << chan << ":Cannot join channel (+l)\n";
+		std::cout << chan << ":Cannot join channel (+l)" << std::endl;
 		break;
 	case ERR_INVITEONLYCHAN:
-		std::cout << chan << ":Cannot join channel (+i)\n";
+		std::cout << chan << ":Cannot join channel (+i)" << std::endl;
 		break;
 	case ERR_BANNEDFROMCHAN:
-		std::cout << chan << ":Cannot join channel (+b)\n";
+		std::cout << chan << ":Cannot join channel (+b)" << std::endl;
 		break;
 	case ERR_BADCHANNELKEY:
-		std::cout << chan << ":Cannot join channel (+k)\n";
+		std::cout << chan << ":Cannot join channel (+k)" << std::endl;
 		break;
 	case ERR_CHANOPRIVSNEEDED:
-		std::cout << chan << ":You're not channel operator\n";
+		std::cout << chan << ":You're not channel operator" << std::endl;
 		break;
 	default:
 		break;
@@ -96,22 +96,22 @@ int	error_msg(int err, channel chan){
 int	error_msg(int err, std::string s){//s for cmd, operation, charactere, string
 	switch (err){
 	case ERR_NOSUCHNICK:
-		std::cout << s << ":No such nick/channel\n";
+		std::cout << s << ":No such nick/channel" << std::endl;
 		break;
 	case ERR_TOOMANYTARGETS:
-		std::cout << s << ":Duplicate recipients. No message delivered\n";
+		std::cout << s << ":Duplicate recipients. No message delivered" << std::endl;
 		break;
 	case ERR_NORECIPIENT:
-		std::cout << ":No recipient given (" << s << ")\n";
+		std::cout << ":No recipient given (" << s << ")" << std::endl;
 		break;
 	case ERR_UNKNOWNCOMMAND:
-		std::cout << s << ":Unknown command\n";
+		std::cout << s << ":Unknown command" << std::endl;
 		break;
 	case ERR_NEEDMOREPARAMS:
-		std::cout << s << ":Not enough parameters\n";
+		std::cout << s << ":Not enough parameters" << std::endl;
 		break;
 	case ERR_UNKNOWNMODE:
-		std::cout << s << ":is unknown mode char to me\n";
+		std::cout << s << ":is unknown mode char to me" << std::endl;
 		break;
 	// case RPL_ISON://to be used with a 'for' for each nick in the cmd ISON separate by a ' ' et a '\n' right after the 'for'
 	// 	if (is_user(s) == TRUE) std::cout << s;
@@ -125,58 +125,58 @@ int	error_msg(int err, std::string s){//s for cmd, operation, charactere, string
 int	error_msg(int err){
 	switch (err){
 	case ERR_NOORIGIN:
-		std::cout << ":No origin specified\n";
+		std::cout << ":No origin specified" << std::endl;
 		break;
 	case ERR_NOTEXTTOSEND:
-		std::cout << ":No text to send\n";
+		std::cout << ":No text to send" << std::endl;
 		break;
 	case ERR_NOMOTD:
-		std::cout << ":MOTD File is missing\n";
+		std::cout << ":MOTD File is missing" << std::endl;
 		break;
 	case ERR_NONICKNAMEGIVEN:
-		std::cout << ":No nickname given\n";
+		std::cout << ":No nickname given" << std::endl;
 		break;
 	case ERR_SUMMONDISABLED:
-		std::cout << ":SUMMON has been disabled\n";
+		std::cout << ":SUMMON has been disabled" << std::endl;
 		break;
 	case ERR_USERSDISABLED:
-		std::cout << ":USERS has been disabled\n";
+		std::cout << ":USERS has been disabled" << std::endl;
 		break;
 	case ERR_NOTREGISTERED:
-		std::cout << ":You have not registered\n";
+		std::cout << ":You have not registered" << std::endl;
 		break;
 	case ERR_ALREADYREGISTRED:
-		std::cout << ":You may not reregister\n";
+		std::cout << ":You may not reregister" << std::endl;
 		break;
 	case ERR_NOPERMFORHOST:
-		std::cout << ":Your host isn't among the privileged\n";
+		std::cout << ":Your host isn't among the privileged" << std::endl;
 		break;
 	case ERR_PASSWDMISMATCH:
-		std::cout << ":Password incorrect\n";
+		std::cout << ":Password incorrect" << std::endl;
 		break;
 	case ERR_YOUREBANNEDCREEP:
-		std::cout << ":You are banned from this server\n";
+		std::cout << ":You are banned from this server" << std::endl;
 		break;
 	case ERR_NOPRIVILEGES:
-		std::cout << ":Permission Denied- You're not an IRC operator\n";
+		std::cout << ":Permission Denied- You're not an IRC operator" << std::endl;
 		break;
 	case ERR_CANTKILLSERVER:
-		std::cout << ":You cant kill a server!\n";
+		std::cout << ":You cant kill a server!" << std::endl;
 		break;
 	case ERR_NOOPERHOST:
-		std::cout << ":No O-lines for your host\n";
+		std::cout << ":No O-lines for your host" << std::endl;
 		break;
 	case ERR_UMODEUNKNOWNFLAG:
-		std::cout << ":Unknown MODE flag\n";
+		std::cout << ":Unknown MODE flag" << std::endl;
 		break;
 	case ERR_USERSDONTMATCH:
-		std::cout << ":Cant change mode for other users\n";
+		std::cout << ":Cant change mode for other users" << std::endl;
 		break;
 	// case RPL_UNAWAY:
-	// 	std::cout << ":You are no longer marqued as being away\n";
+	// 	std::cout << ":You are no longer marqued as being away" << std::endl;
 	// 	break;
 	// case RPL_NOWAWAY:
-	// 	std::cout << ":You have been marked as being away\n";
+	// 	std::cout << ":You have been marked as being away" << std::endl;
 	// 	break;
 	default:
 		break;
@@ -198,10 +198,10 @@ int	error_msg(int err, std::string s/*, file f*/){
 int	error_msg(int err, user usr, channel chan){
 	switch (err){
 	case ERR_USERNOTINCHANNEL:
-		std::cout << usr.getNick() << " " << chan << ":They aren't on that channel\n";
+		std::cout << usr.getNick() << " " << chan << ":They aren't on that channel" << std::endl;
 		break;
 	case ERR_USERONCHANNEL:
-		std::cout << usr << " " << chan << ":is already on channel\n";
+		std::cout << usr << " " << chan << ":is already on channel" << std::endl;
 		break;
 	default:
 		break;
