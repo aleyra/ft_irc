@@ -76,12 +76,12 @@ class user{
 	#pragma endregion other member functions
 };
 
-bool	operator==(user const & lhs, user const & rhs){return (lhs.getId() == rhs.getId());}
-bool	operator!=(user const & lhs, user const & rhs){return (lhs.getId() != rhs.getId());}
-bool	operator>(user const & lhs, user const & rhs){return (lhs.getId() > rhs.getId());}
-bool	operator>=(user const & lhs, user const & rhs){return (lhs.getId() >= rhs.getId());}
-bool	operator<(user const & lhs, user const & rhs){return (lhs.getId() < rhs.getId());}
-bool	operator<=(user const & lhs, user const & rhs){return (lhs.getId() <= rhs.getId());}
+bool	operator==(user const & lhs, user const & rhs);
+bool	operator!=(user const & lhs, user const & rhs);
+bool	operator>(user const & lhs, user const & rhs);
+bool	operator>=(user const & lhs, user const & rhs);
+bool	operator<(user const & lhs, user const & rhs);
+bool	operator<=(user const & lhs, user const & rhs);
 
 user*	searchUser(std::string mask);
 
