@@ -12,10 +12,10 @@ PATH_LOG        =	logs
 # List of sources
 SRCS_CMDS		=	away.cpp pass.cpp whois.cpp nick.cpp who.cpp whowas.cpp
 SRCS_CLASS		=	Server.cpp channel.cpp user.cpp
-SRCS_TOOLS		=	error_msg.cpp params.cpp
+SRCS_TOOLS		=	numeric_reply.cpp params.cpp
 SRCS 			=	$(addprefix $(PATH_SRC)/cmds/, $(SRCS_CMDS)) \
 					$(addprefix $(PATH_SRC)/class/, $(SRCS_CLASS)) \
-					$(addprefix $(PATH_SRC)/tools/, $(SRCS_CLASS)) \
+					$(addprefix $(PATH_SRC)/tools/, $(SRCS_TOOLS)) \
 					$(addprefix $(PATH_SRC)/, )  main.cpp #add files à la racine
 
 OBJS			=	$(addprefix $(PATH_OBJ)/, $(notdir $(SRCS:.cpp=.o)))
@@ -52,6 +52,18 @@ $(NAME):	$(OBJS)
 $(PATH_OBJ)/%.o : $(PATH_SRC)/*/%.cpp  $(INCS) | $(PATH_OBJ)
 		$(COMP) $(COMP_FLAG) $(COMP_ADD) -c $< -o $@
 		@ echo "$(_INFO) Compilation of $*"
+
+# $(PATH_OBJ)/%.o : $(PATH_SRC)/cmds/%.cpp  $(INCS) | $(PATH_OBJ)
+# 		$(COMP) $(COMP_FLAG) $(COMP_ADD) -c $< -o $@
+# 		@ echo "$(_INFO) Compilation of $*"
+
+# $(PATH_OBJ)/%.o : $(PATH_SRC)/class/%.cpp  $(INCS) | $(PATH_OBJ)
+# 		$(COMP) $(COMP_FLAG) $(COMP_ADD) -c $< -o $@
+# 		@ echo "$(_INFO) Compilation of $*"
+
+# $(PATH_OBJ)/%.o : $(PATH_SRC)/tools/%.cpp  $(INCS) | $(PATH_OBJ)
+# 		$(COMP) $(COMP_FLAG) $(COMP_ADD) -c $< -o $@
+# 		@ echo "$(_INFO) Compilation of $*"
 
 $(PATH_OBJ)/%.o : $(PATH_SRC)/%.cpp  $(INCS)
 		$(COMP) $(COMP_FLAG) $(COMP_ADD) -c $< -o $@
