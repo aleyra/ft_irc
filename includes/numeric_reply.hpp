@@ -182,7 +182,7 @@ enum numeric_reply : int {//order by cmds which are order by abc.
 	RPL_WHOWASUSER = 314,
 	// RPL_WHOISSERVER,
 	RPL_ENDOFWHOWAS = 369,
-//other //found while coding error_msg
+//other //found while coding numeric_reply
 	ERR_UNKNOWNCOMMAND = -421,
 	ERR_NOMOTD = -422,
 	ERR_NOADMININFO = -423,

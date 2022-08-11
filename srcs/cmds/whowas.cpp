@@ -31,7 +31,7 @@
 // 				//RPL_WHOISACTUALLY
 // 				std::cout << srv->client << " " << usr[i]->getNick() << " " << srv->host << " :is actually using host" << std::endl;
 // 			}
-// 			std::cout << srv->client << " " << usr[i]->getNick() << " " << srv << " :" << srv->info << std::endl;//RPL_WHOISSERVER
+// 			std::cout << srv->client << " " << usr[i]->getNick() << " " << /*srv <<*/ " :" << srv->info << std::endl;//RPL_WHOISSERVER
 // 		}
 // 	}
 // 	else
@@ -43,7 +43,7 @@
 // 				//RPL_WHOISACTUALLY
 // 				std::cout << srv->client << " " << usr[i]->getNick() << " " << srv->host << " :is actually using host" << std::endl;
 // 			}
-// 			std::cout << srv->client << " " << usr[i]->getNick() << " " << srv << " :" << srv->info << std::endl;//RPL_WHOISSERVER
+// 			std::cout << srv->client << " " << usr[i]->getNick() << " " << /*srv <<*/ " :" << srv->info << std::endl;//RPL_WHOISSERVER
 // 		}
 // 	return (numeric_reply(RPL_ENDOFWHOWAS, srv));
 // }
