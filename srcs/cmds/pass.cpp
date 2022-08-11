@@ -1,1 +1,6 @@
-#include "user.hpp"//en attendant un .hpp qui inclu user.hpp
+#include "cmds.hpp"
+
+int	pass(){
+	
+	return (EXIT_SUCCESS);
+}

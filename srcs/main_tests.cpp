@@ -1,4 +1,4 @@
-#include "user.hpp"
+#include "cmds.hpp"
 
 int main(){
 	#pragma region test de la class user	
@@ -46,6 +46,13 @@ int main(){
 	// std::cout << "--------------" << std::endl;
 
 	#pragma endregion test de la class user
+
+	#pragma region params
+	// std::string s("je tente un truc");
+	// std::vector<std::string> v = params(s);
+	// std::cout << v[1] << std::endl;
+
+	#pragma endregion params
 
 
 	return (0);

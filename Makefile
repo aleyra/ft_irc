@@ -1,37 +1,79 @@
-CC = c++
+.PHONY: all clean fclean re bonus
+# Name of file
+NAME			=	ircserv
 
-NAME := ircserv
+# Name directory
+PATH_INC		=	includes
+PATH_SRC        =	srcs
+PATH_OBJ        =	objs
+PATH_LOG        =	logs
 
-CPPFLAGS := -Wall -Wextra -Werror -std=c++98
 
-SRCS := main.cpp Server.cpp
+# List of sources
+SRCS_CMDS		=	away.cpp pass.cpp whois.cpp nick.cpp who.cpp whowas.cpp
+SRCS_CLASS		=	Server.cpp channel.cpp user.cpp
+SRCS_TOOLS		=	numeric_reply.cpp params.cpp
+SRCS 			=	$(addprefix $(PATH_SRC)/cmds/, $(SRCS_CMDS)) \
+					$(addprefix $(PATH_SRC)/class/, $(SRCS_CLASS)) \
+					$(addprefix $(PATH_SRC)/tools/, $(SRCS_TOOLS)) \
+					$(addprefix $(PATH_SRC)/, )  main.cpp #add files à la racine
 
-OBJS := ${SRCS:.cpp=.o}
+OBJS			=	$(addprefix $(PATH_OBJ)/, $(notdir $(SRCS:.cpp=.o)))
+ALL_INCS		=	channel.hpp cmds.hpp Server.hpp tools.hpp user.hpp
+INCS			=	$(addprefix $(PATH_INC)/, $(ALL_INCS))
 
-OBJDIR := $(addprefix objs/, $(OBJS))
+# Commands of compilation
+COMP			=	c++
+COMP_FLAG		=	-Wall -Wextra -Werror -std=c++98 -g3
+COMP_ADD		=	-I $(PATH_INC)
 
-INCLUDES := Server.hpp
+# Others Command
+RM				=	/bin/rm
 
-INCDIR := $(addprefix includes/, $(INCLUDES))
+# Color Code and template code
+_YELLOW			=	\033[38;5;184m
+_GREEN			=	\033[38;5;46m
+_RESET			=	\033[0m
+_INFO			=	[$(_YELLOW)INFO$(_RESET)]
+_SUCCESS		=	[$(_GREEN)SUCCESS$(_RESET)]
 
-all : $(NAME)
 
-$(NAME) : $(OBJDIR)
-	echo "\x1b[34m $1[Compiling $(NAME)]\x1b[0m"
-	$(CC) $(OBJDIR) -o $(NAME) $(CPPFLAGS)
-	echo "\x1b[34m $1[Done]\x1b[0m"
+all:	$(NAME)
+		@ echo "$(_SUCCESS) Compilation done"
 
-objs/%.o : srcs/%.cpp $(INCDIR) Makefile
-	mkdir -p objs
-	$(CC) -c $< -I includes $(CPPFLAGS) -o $@
+bonus : all
 
-clean :
-	$(RM) $(OBJDIR)
+$(PATH_OBJ):
+		mkdir -p $@
 
-fclean : clean
-	$(RM) $(NAME) 
+$(NAME):	$(OBJS)
+		$(COMP) $(COMP_FLAG) $(OBJS) -o $(NAME)
 
-re : fclean all
+$(PATH_OBJ)/%.o : $(PATH_SRC)/*/%.cpp  $(INCS) | $(PATH_OBJ)
+		$(COMP) $(COMP_FLAG) $(COMP_ADD) -c $< -o $@
+		@ echo "$(_INFO) Compilation of $*"
 
-.PHONY : all clean fclean re
-.SILENT:
+# $(PATH_OBJ)/%.o : $(PATH_SRC)/cmds/%.cpp  $(INCS) | $(PATH_OBJ)
+# 		$(COMP) $(COMP_FLAG) $(COMP_ADD) -c $< -o $@
+# 		@ echo "$(_INFO) Compilation of $*"
+
+# $(PATH_OBJ)/%.o : $(PATH_SRC)/class/%.cpp  $(INCS) | $(PATH_OBJ)
+# 		$(COMP) $(COMP_FLAG) $(COMP_ADD) -c $< -o $@
+# 		@ echo "$(_INFO) Compilation of $*"
+
+# $(PATH_OBJ)/%.o : $(PATH_SRC)/tools/%.cpp  $(INCS) | $(PATH_OBJ)
+# 		$(COMP) $(COMP_FLAG) $(COMP_ADD) -c $< -o $@
+# 		@ echo "$(_INFO) Compilation of $*"
+
+$(PATH_OBJ)/%.o : $(PATH_SRC)/%.cpp  $(INCS)
+		$(COMP) $(COMP_FLAG) $(COMP_ADD) -c $< -o $@
+		@ echo "$(_INFO) Compilation of $*"
+
+clean:
+		@ $(RM) -rf $(PATH_OBJ)
+		@ echo "$(_INFO) Deleted files and directory"
+
+fclean: clean
+		@ $(RM) -rf $(NAME)
+
+re: fclean all

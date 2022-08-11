@@ -28,7 +28,7 @@ user::~user(){
 }
 #pragma endregion constructors destrcutor
 
-#pragma region overload d'operateurs
+#pragma region overload d operateurs
 user	&user::operator=(user const &src){
 	this->_nick = src._nick;
 	this->_username = src._username;
@@ -37,7 +37,7 @@ user	&user::operator=(user const &src){
 	this->_lvl = src._lvl;
 	if (!this->_list_chan.empty())
 		this->_list_chan.clear();
-	for (int i = 0; i < src._list_chan.size(); ++i){
+	for (size_t i = 0; i < src._list_chan.size(); ++i){
 		this->_list_chan.push_back(src._list_chan[i]);
 	}
 	this->_away = src._away;
@@ -47,7 +47,7 @@ user	&user::operator=(user const &src){
 	this->_isop = src._isop;
 	return (*this);
 }
-#pragma endregion overload d'operateurs
+#pragma endregion overload d operateurs
 
 #pragma region getters and setters
 void	user::setNick(std::string n){
@@ -167,7 +167,7 @@ user*	searchUser(std::string mask){
 	user*	usr;
 	std::map<int, user*> usr_list;//a changer // recup la liste des user notee ici usr_list
 	for (std::map<int, user*>::iterator it = usr_list.begin(); it != usr_list.end(); it++){
-		usr = *it;
+		usr = it->second;
 		if (usr->getNick().compare(mask) == 0)			
 			return usr;
 	}

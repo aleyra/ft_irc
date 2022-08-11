@@ -8,6 +8,8 @@
 #include <map>
 #include "user.hpp"
 
+class user;
+
 class channel{
 	private:
 		std::string				_name;
@@ -24,17 +26,17 @@ class channel{
 		~channel();
 	#pragma region constructors destructor
 
-	#pragma region overload d'operateurs
+	#pragma region overload d operateurs
 	private:
 		channel&	operator=(channel const &src);//merci de mettre a jour cette fct quand vous ajoutez des attributs
-	#pragma endregion overload d'operateurs
+	#pragma endregion overload d operateurs
 
 	#pragma region getters and setters
 	public:
 		void							setName(std::string n);
 		std::string const &				getName() const;
 		//pas de setter pour founder
-		user const &					getFounder() const;
+		user *					getFounder() const;
 		void							setIsMod(bool b);
 		bool const &					getIsMod() const;
 		//pas de setter pour _usr_list, voir addUsr_list et rmUsr_list
