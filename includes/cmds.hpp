@@ -5,6 +5,6 @@
 #include <cstdlib>
 
 
-int	away(std::string txt, user*	usr, server* srv);
-int	nick(std::vector<std::string> params, user* usr, server* srv);
-int whowas(std::vector<std::string> params, server* srv);
+int	away(std::string txt, user*	usr, Server* srv);
+int	nick(std::vector<std::string> params, user* usr, Server* srv);
+int whowas(std::vector<std::string> params, Server* srv);

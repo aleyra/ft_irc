@@ -2,4 +2,5 @@
 
 int	pass(){
 	
+	return (EXIT_SUCCESS);
 }

@@ -1,11 +1,11 @@
 #include "cmds.hpp"
 
-int	nick(std::vector<std::string> params, user* usr, server* srv){
+int	nick(std::vector<std::string> params, user* usr, Server* srv){
 	//ERR_RESTRICTED ":Your connection is restricted!"
 	/*Sent by the server to a user upon connection to indicate the restricted
 		nature of the connection (user mode "+r").*/
 	if (params.size() == 0)
-		return (numeric_reply(ERR_NEEDMOREPARAMS, "nick", srv));
+		return (error_msg(ERR_NEEDMOREPARAMS, "nick", srv));
 	//pas de precision sur comment gerer quand plus de 1 param
 
 	std::string nick(params[0]);
@@ -31,7 +31,7 @@ int	nick(std::vector<std::string> params, user* usr, server* srv){
 		return (ERR_ERRONEUSNICKNAME);
 	}
 	if (nick.compare(usr->getNick()) == 0)
-		return (numeric_reply(ERR_NICKNAMEINUSE, usr, srv));
+		return (error_msg(ERR_NICKNAMEINUSE, usr, srv));
 	//ERR_UNAVAILRESOURCE "<nick/channel> :Nick/channel is temporarily unavailable"
 	/*Returned by a server to a user trying to change nickname when the desired 
 		nickname is blocked by the nick delay mechanism.*/

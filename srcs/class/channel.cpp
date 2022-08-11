@@ -35,7 +35,7 @@ channel&	channel::operator=(channel const &src){
 
 	std::string const &	channel::getName() const{return this->_name;}
 
-	user const &	channel::getFounder() const{return this->_founder;}
+	user *	channel::getFounder() const{return this->_founder;}
 
 	void	channel::setIsMod(bool b){this->_isMod = b;}
 
@@ -51,10 +51,9 @@ channel&	channel::operator=(channel const &src){
 	void	channel::addUsr_list(user* nu){this->_usr_list[nu] = 0;}
 
 	void	channel::rmUsr_list(user* u){
-		std::list<user*>::iterator f = std::find(this->_usr_list.begin(),
-			this->_usr_list.end(), u);
+		std::map<user*, int>::iterator f = this->_usr_list.find(u);
 		if (f == this->_usr_list.end())
-			this->_usr_list.erase(nu);
+			this->_usr_list.erase(u);
 	}
 
 #pragma endregion other member functions

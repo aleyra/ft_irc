@@ -36,7 +36,7 @@ class channel{
 		void							setName(std::string n);
 		std::string const &				getName() const;
 		//pas de setter pour founder
-		user const &					getFounder() const;
+		user *					getFounder() const;
 		void							setIsMod(bool b);
 		bool const &					getIsMod() const;
 		//pas de setter pour _usr_list, voir addUsr_list et rmUsr_list
