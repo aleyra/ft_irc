@@ -1,7 +1,6 @@
 #ifndef NUM_RPL_H
 # define NUM_RPL_H
 # include <iostream>
-# include "user.hpp"//en attendant un .hpp qui inclu user.hpp
 
 typedef enum numeric_reply : int {//order by cmds which are order by abc.
 //NB : every error-type comment is because it already listed upper in the list
@@ -79,6 +78,7 @@ typedef enum numeric_reply : int {//order by cmds which are order by abc.
 	ERR_NICKNAMEINUSE = -433, 
 	ERR_NICKCOLLISION = -436,
 	ERR_ERRONEUSNICKNAME = -432,
+	ERR_UNAVAILRESOURCE = -437,
 //for OPER
 	// ERR_NEEDMOREPARAMS,
 	ERR_NOOPERHOST = -491,
@@ -169,6 +169,8 @@ typedef enum numeric_reply : int {//order by cmds which are order by abc.
 	RPL_WHOISUSER = 311,
 	RPL_WHOISCHANNELS = 319,
 	RPL_WHOISSERVER = 312,
+	RPL_WHOISACTUALLY = 338,
+	RPL_WHOISHOST = 378
 	// RPL_AWAY,
 	RPL_WHOISOPERATOR = 313,
 	RPL_WHOISIDLE = 317,
@@ -193,17 +195,5 @@ typedef enum numeric_reply : int {//order by cmds which are order by abc.
 	RPL_NONE = 300,
 
 };
-
-class user;//a faire
-class server;//a faire
-class channel;//a faire
-int	error_msg(int err, user* usr);
-int	error_msg(int err, server* srv);
-int	error_msg(int err, channel* chan);
-int	error_msg(int err, std::string s);//s for cmd, operation, charactere
-int	error_msg(int err);
-int	error_msg(int err, std::string s/*, file f*/);
-int	error_msg(int err, user* usr, channel* chan);
-// int	error_msg(int err, user usr, server srv);
 
 #endif
