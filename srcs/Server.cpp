@@ -6,47 +6,59 @@
 /*   By: tlafay <tlafay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 13:48:49 by tlafay            #+#    #+#             */
-/*   Updated: 2022/08/10 15:42:46 by tlafay           ###   ########.fr       */
+/*   Updated: 2022/08/11 14:07:53 by tlafay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 
-Server::Server()
-{
-	std::cout << "Default constructor called" << std::endl;
-}
+Server::Server() {}
 
 /**
- *	Args:
+ * The constructor that should be used. It will setup sockets
+ * to receive further connections.
+ * 
+ * Args:
  *		port: The port to listen to
  *		pass: The password to access the server
  **/
 
-Server::Server(char *port, char *pass)
+Server::Server(std::string port, std::string pass)
 {
 	(void)pass;
-	struct addrinfo hints;
-	struct addrinfo *res;
 
-	memset(&hints, 0, sizeof hints);
-	hints.ai_family = AF_UNSPEC; 
-	hints.ai_socktype = SOCK_STREAM;
-	hints.ai_flags = AI_PASSIVE;
-	getaddrinfo("127.0.0.1", port, &hints, &res);
-	freeaddrinfo(res);
-	_sockfd = socket(res->ai_family, res->ai_socktype, res->ai_protocol);
-	if (_sockfd == -1) {
+	for (int i = 0; i < MAX_CLIENTS; ++i)
+	{
+		_client_sockets[i] = 0;
+	}
+
+	int	opt = 1;
+	_main_socket = socket(AF_INET , SOCK_STREAM , 0);
+	if (_main_socket == -1)
+	{
 		std::cout << "Failed to create socket. errno: " << errno << std::endl;
+		exit(EXIT_FAILURE);
+	}
+
+	if( setsockopt(_main_socket, SOL_SOCKET, SO_REUSEADDR, (char *)&opt,
+		sizeof(opt)) < 0 )
+	{
+		std::cout << "Setsockopt failed. errno: " << errno << std::endl;
 		exit(EXIT_FAILURE);
 	}
 
 	_sockaddr.sin_family = AF_INET;
 	_sockaddr.sin_addr.s_addr = INADDR_ANY;
-	_sockaddr.sin_port = htons(atoi(port)); // htons is necessary to convert a number to
-	                                 // network byte order
-	if (bind(_sockfd, (struct sockaddr*)&_sockaddr, sizeof(_sockaddr)) < 0) {
+	_sockaddr.sin_port = htons(atoi(port.c_str()));
+	if (bind(_main_socket, (struct sockaddr*)&_sockaddr, sizeof(_sockaddr)) < 0)
+	{
 		std::cout << "Failed to bind to port. errno: " << errno << std::endl;
+		exit(EXIT_FAILURE);
+	}
+
+	if (listen(_main_socket, 3) < 0)
+	{
+		std::cout << "Failed to listen on socket. errno: " << errno << std::endl;
 		exit(EXIT_FAILURE);
 	}
 }
@@ -58,7 +70,7 @@ Server::Server(const Server &other)
 
 Server::~Server()
 {
-	close(_sockfd);
+	close(_main_socket);
 }
 
 
@@ -68,15 +80,13 @@ Server::~Server()
 
 void	Server::connection_test()
 {
-	if (listen(_sockfd, 10) < 0) {
-		std::cout << "Failed to listen on socket. errno: " << errno << std::endl;
-		exit(EXIT_FAILURE);
-	}
 
   // Grab a connection from the queue
 	size_t addrlen = sizeof(sockaddr);
-	int connection = accept(_sockfd, (struct sockaddr*)&_sockaddr, (socklen_t*)&addrlen);
-	if (connection < 0) {
+	int connection = accept(_main_socket,
+		(struct sockaddr*)&_sockaddr, (socklen_t*)&addrlen);
+	if (connection < 0)
+	{
 		std::cout << "Failed to grab connection. errno: " << errno << std::endl;
 		exit(EXIT_FAILURE);
 	}
@@ -89,10 +99,67 @@ void	Server::connection_test()
 
   // Send a message to the connection
 	std::string response = "Good talking to you\n";
-	send(connection, response.c_str(), response.size(), 0);
+	send(response, connection);
 
   // Close the connections
 	close(connection);
+}
+
+/**
+* 
+* Sends a message to a client
+* 
+* Args:
+* 	msg: The message to send
+* 	client_fd: The fd of the corresponding client
+* 
+* ** Notes **
+* 
+**/
+
+
+void	Server::send(std::string msg, int client_fd)
+{
+	if(::send(client_fd, msg.c_str(), msg.size(), 0) != static_cast<long>(msg.size()))
+	{
+		std::cout << "Couldn't send message. errno: " << errno << std::endl;
+	}
+}
+
+/**
+ * Used to receive a message
+ * 
+ * Notes : I need to make a kind of gnl to fully read messages, plus
+ * 	I should probably create a map instead of a vector to return the
+ * 	index of the socket.
+ **/
+
+std::vector<std::string>	Server::receive()
+{
+	int sd;
+	char	buffer[1024];
+	int	valread;
+	std::vector<std::string> v;
+
+	for (int i = 0; i < MAX_CLIENTS; i++) 
+	{
+		sd = _client_sockets[i];
+
+		if (FD_ISSET( sd , &readfds))
+		{
+			if ((valread = read( sd , buffer, 1024)))
+			{
+				buffer[valread] = '\0';
+				v.push_back(buffer);
+			}
+		}
+		else
+		{
+			close(sd);
+			_client_sockets[i] = 0;
+		}
+	}
+	return (v);
 }
 
 void	Server::operator=(const Server &other)
