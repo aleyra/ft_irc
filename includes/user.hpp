@@ -76,7 +76,12 @@ class user{
 	#pragma endregion other member functions
 };
 
-//comparatifs
+bool	operator==(user const & lhs, user const & rhs);
+bool	operator!=(user const & lhs, user const & rhs);
+bool	operator>(user const & lhs, user const & rhs);
+bool	operator>=(user const & lhs, user const & rhs);
+bool	operator<(user const & lhs, user const & rhs);
+bool	operator<=(user const & lhs, user const & rhs);
 
 user*	searchUser(std::string mask);
 

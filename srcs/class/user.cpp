@@ -156,7 +156,12 @@ void	user::rmList_chan(channel* c){
 
 #pragma region non-member functions
 
-//comparatifs
+bool	operator==(user const & lhs, user const & rhs){return (lhs.getId() == rhs.getId());}
+bool	operator!=(user const & lhs, user const & rhs){return (lhs.getId() != rhs.getId());}
+bool	operator>(user const & lhs, user const & rhs){return (lhs.getId() > rhs.getId());}
+bool	operator>=(user const & lhs, user const & rhs){return (lhs.getId() >= rhs.getId());}
+bool	operator<(user const & lhs, user const & rhs){return (lhs.getId() < rhs.getId());}
+bool	operator<=(user const & lhs, user const & rhs){return (lhs.getId() <= rhs.getId());}
 
 user*	searchUser(std::string mask){
 	user*	usr;

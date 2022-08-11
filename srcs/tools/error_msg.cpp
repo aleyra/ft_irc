@@ -1,11 +1,11 @@
-#include "numeric_reply.hpp"
+#include "tools.hpp"
 //usr = user // don't know more...
 //chan = channel // don't know more... maybe canal's id ?
 //srv->name = server's name
 //srv->mask = server's mask
-	//srv->host = host's server
+//srv->host = host's server
 //srv = server //don't know more...
-	//srv->info = server's info
+//srv->info = server's info
 
 int	error_msg(int err, user* usr, server *srv){
 	switch (err){
@@ -24,26 +24,6 @@ int	error_msg(int err, user* usr, server *srv){
 	// case RPL_AWAY:
 	// 	std::cout << srv->client << " " << usr->getNick() << ":" << usr->getAway_msg() << std::endl;
 	// 	break;	
-	default:
-		break;
-	}
-	return (err);
-}
-
-int	error_msg(int err, server* srv){
-	switch (err){
-	case ERR_NOSUCHSERVER:
-		std::cout << srv->client << " " << srv->name << ":No such serve" << std::endl;
-		break;
-	case ERR_NOTOPLEVEL:
-		std::cout << srv->client << " " << srv->mask << ":No toplevel domain specified" << std::endl;
-		break;
-	case ERR_WILDTOPLEVEL:
-		std::cout << srv->client << " " << srv->mask << ":Wildcard in toplevel domain" << std::endl;
-		break;
-	case ERR_NOADMININFO:
-		std::cout << srv->client << " " << srv << ":No administrative info available" << std::endl;
-		break;
 	default:
 		break;
 	}
@@ -109,10 +89,8 @@ int	error_msg(int err, std::string s, server* srv){//s for cmd, operation, chara
 		std::cout << srv->client << " " << s << ":Not enough parameters" << std::endl;
 		break;
 	case ERR_UNKNOWNMODE:
-		std::cout << srv->client << " " s << ":is unknown mode char to me" << std::endl;
+		std::cout << srv->client << " " << s << ":is unknown mode char to me" << std::endl;
 		break;
-	case RPL_ENDOFWHOWAS:
-		std::cout << srv->client << ":End of WHOWAS" << std::endl;
 	default:
 		break;
 	}
@@ -121,6 +99,19 @@ int	error_msg(int err, std::string s, server* srv){//s for cmd, operation, chara
 
 int	error_msg(int err, server* srv){
 	switch (err){
+	case ERR_NOSUCHSERVER:
+		std::cout << srv->client << " " << srv->name << ":No such serve" << std::endl;
+		break;
+	case ERR_NOTOPLEVEL:
+		std::cout << srv->client << " " << srv->mask << ":No toplevel domain specified" << std::endl;
+		break;
+	case ERR_WILDTOPLEVEL:
+		std::cout << srv->client << " " << srv->mask << ":Wildcard in toplevel domain" << std::endl;
+		break;
+	case ERR_NOADMININFO:
+		std::cout << srv->client << " " << srv << ":No administrative info available" << std::endl;
+		break;
+	//cases without specific info about server needed
 	case ERR_NOORIGIN:
 		std::cout << srv->client << ":No origin specified" << std::endl;
 		break;
@@ -169,12 +160,18 @@ int	error_msg(int err, server* srv){
 	case ERR_USERSDONTMATCH:
 		std::cout << srv->client << ":Cant change mode for other users" << std::endl;
 		break;
-	// case RPL_UNAWAY:
-	// 	std::cout << srv->client << ":You are no longer marqued as being away" << std::endl;
-	// 	break;
-	// case RPL_NOWAWAY:
-	// 	std::cout << srv->client << ":You have been marked as being away" << std::endl;
-	// 	break;
+	case RPL_ENDOFWHOWAS:
+		std::cout << srv->client << ":End of WHOWAS" << std::endl;
+		break;
+	case ERR_WASNOSUCHNICK:
+		std::cout << srv->client << " :There was no such nickname" << std::endl;
+		break;
+	case RPL_UNAWAY:
+		std::cout << srv->client << ":You are no longer marqued as being away" << std::endl;
+		break;
+	case RPL_NOWAWAY:
+		std::cout << srv->client << ":You have been marked as being away" << std::endl;
+		break;
 	default:
 		break;
 	}
