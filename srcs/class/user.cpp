@@ -4,7 +4,7 @@
 
 #pragma region constructors destructor
 user::user(){
-	this->_away = false;
+	this->_isaway = false;
 	// this->_idle_time = 0;
 }
 
@@ -12,14 +12,15 @@ user::user(user const &src){*this = src;}
 
 user::user(std::string usr_name, unsigned int id){
 	this->_username = usr_name;
-	this->_away = false;//? je suis pas sure de : a quoi correspond usr_name dans la class usr
+	this->_isaway = false;//? je suis pas sure de : a quoi correspond usr_name dans la class usr
 	this->_username = usr_name;//? idem
 	this->_truename = usr_name;//? idem
 	this->_lvl = 0;
-	this->_away = false;
+	this->_isaway = false;
 	this->setLast_activity();
 	this->_isop = false;
 	this->_id = id;
+	this->_mode = 0;
 	// this->_idle_time = 0;
 }
 
@@ -40,7 +41,7 @@ user	&user::operator=(user const &src){
 	for (size_t i = 0; i < src._list_chan.size(); ++i){
 		this->_list_chan.push_back(src._list_chan[i]);
 	}
-	this->_away = src._away;
+	this->_isaway = src._isaway;
 	this->_away_msg = src._away_msg;
 	this->_last_activity = src._last_activity;
 	this->_password = src._password;
@@ -83,11 +84,11 @@ std::vector<channel*> const &	user::getList_chan() const{
 	return (this->_list_chan);
 }
 
-void	user::setAway(bool a){this->_away = a;}
+void	user::setIsaway(bool a){this->_isaway = a;}
 
-bool const	&user::getAway() const{return (this->_away);}
+bool const	&user::getIsaway() const{return (this->_isaway);}
 
-void	user::setAway_msg(std::string amsg){this->_away_msg = amsg;}
+void	user::setIsaway_msg(std::string amsg){this->_away_msg = amsg;}
 
 std::string const	&user::getAway_msg() const{return (this->_away_msg);}
 
@@ -110,6 +111,22 @@ void	user::setIsop(bool b){this->_isop = b;}
 bool const	&user::getIsop() const{return (this->_isop);}
 
 unsigned int const &	user::getId() const{return this->_id;}
+
+void	user::setMode(char c){
+	this->_mode = c;
+}
+
+char const &	user::getMode() const{
+	return (this->_mode);
+}
+
+void	user::setIsonline(bool b){
+	this->_isonline = b;
+}
+
+bool const &	user::getIsonline() const{
+	return (this->_isonline);
+}
 
 #pragma endregion getters and setters
 
@@ -152,6 +169,7 @@ void	user::rmList_chan(channel* c){
 			this->_list_chan.erase(f);
 }
 
+
 #pragma endregion other member functions
 
 #pragma region non-member functions
@@ -172,6 +190,12 @@ user*	searchUser(std::string mask){
 			return usr;
 	}
 	return NULL;
+}
+
+char	display_isaway(user* usr){
+	if (usr->getIsaway() == true)
+		return 'G';
+	return 'H';
 }
 
 #pragma endregion non-member functions

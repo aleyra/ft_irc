@@ -94,6 +94,9 @@ int	numeric_reply(int err, std::string s, Server* srv){//s for cmd, operation, c
 	case ERR_UNKNOWNMODE:
 		std::cout << /*srv->client <<*/ " " << s << ":is unknown mode char to me" << std::endl;
 		break;
+	case RPL_ENDOFWHO:
+		std::cout << s << " :End of WHO list" << std::endl;
+		break;
 	default:
 		break;
 	}
@@ -215,7 +218,7 @@ int	numeric_reply(int err, user* usr, channel* chan, Server* srv){
 // 		if (usr->getLvl() == 2) std::cout << "operator";
 // 		else std::cout << "non operator";
 // 		std::cout << "] = <";
-// 		if (usr->getAway() == TRUE) std::cout << usr->getAway_msg();
+// 		if (usr->getIsaway() == TRUE) std::cout << usr->getAway_msg();
 // 		std::cout << ">" << srv->host;
 // 		break;
 // 	case RPL_WHOISUSER:

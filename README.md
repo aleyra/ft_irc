@@ -4,6 +4,7 @@
 	<ul> https://modern.ircdocs.horse/</ul>
 	<ul>http://www.codingbison.com/c/c-sockets-introduction.html</ul>
 	<ul>https://www.fluentcpp.com/2017/04/21/how-to-split-a-string-in-c/</ul>
+	<ul>https://www.unrealircd.org/docs/User_modes</ul>
 </p>
 <p>Mon travail
 <ul> mon so.notion avec un debrousaillage (j'ai besoin de vos mail pour vous inviter) https://www.notion.so/RFC-1459-Franc-ais-3d787c459ef14c849fa3ece854073952</ul>
