@@ -7,6 +7,8 @@
 # include <ctime>
 # include "channel.hpp"
 
+class channel;
+
 class user{
 	private:
 		std::string					_nick;
@@ -32,10 +34,10 @@ class user{
 	#pragma endregion constructors destrcutor
 
 
-	#pragma region overload d'operateurs
+	#pragma region overload d operateurs
 	private:
 		user	&operator=(user const &src);//merci de mettre a jour cette fct quand vous ajoutez des attributs
-	#pragma endregion overload d'operateurs
+	#pragma endregion overload d operateurs
 
 	#pragma region getters and setters
 	public:
@@ -50,12 +52,11 @@ class user{
 		void							setLvl(int l);
 		int const &						getLvl() const;
 		//set de _list_chan est remplace par addList_chan et rmList_chan
-		std::vector<channel*> const &		getList_chan() const;//en attente de channel.hpp
+		std::vector<channel*> const &	getList_chan() const;//en attente de channel.hpp
 		void							setAway(bool a);
 		bool const &					getAway() const;
 		void							setAway_msg(std::string amsg);
 		std::string const &				getAway_msg() const;
-		//set de _idle_time est remplacé par idle_counter dans other member function
 		void							setLast_activity();//a utiliser des que l'user entre en ligne
 		std::time_t const &				getLast_activity() const;
 		void							setPassword(std::string pwd);//pour l'instant c'est une fonction nulle sans securte sur le pwd

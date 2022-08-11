@@ -1,6 +1,6 @@
 #include "tools.hpp"
 #include "user.hpp"
-// #include "server.hpp"
+// #include "Server.hpp"
 #include "channel.hpp"
 #include <cstdlib>
 

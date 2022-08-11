@@ -2,7 +2,7 @@
 # define NUM_RPL_H
 # include <iostream>
 
-typedef enum numeric_reply : int {//order by cmds which are order by abc.
+enum numeric_reply : int {//order by cmds which are order by abc.
 //NB : every error-type comment is because it already listed upper in the list
 //and numbers are corresponding to point 6 of doc fr
 //for ADMIN
@@ -170,7 +170,7 @@ typedef enum numeric_reply : int {//order by cmds which are order by abc.
 	RPL_WHOISCHANNELS = 319,
 	RPL_WHOISSERVER = 312,
 	RPL_WHOISACTUALLY = 338,
-	RPL_WHOISHOST = 378
+	RPL_WHOISHOST = 378,
 	// RPL_AWAY,
 	RPL_WHOISOPERATOR = 313,
 	RPL_WHOISIDLE = 317,
@@ -187,7 +187,7 @@ typedef enum numeric_reply : int {//order by cmds which are order by abc.
 	ERR_NOMOTD = -422,
 	ERR_NOADMININFO = -423,
 	ERR_USERNOTINCHANNEL = -441,
-	ERR_NOLOGIN = -444,
+	// ERR_NOLOGIN = -444,
 	ERR_NOTREGISTERED = -451,
 	ERR_NOPERMFORHOST = -463,
 	ERR_PASSWDMISMATCH = -464,

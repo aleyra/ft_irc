@@ -1,63 +1,67 @@
 .PHONY: all clean fclean re bonus
 # Name of file
-NAME		=	servirc
+NAME			=	ircserv
 
 # Name directory
-PATH_INC	=	includes
-PATH_SRC	=	srcs
-PATH_OBJ	=	objs
-PATH_LOG	=	logs
+PATH_INC		=	includes
+PATH_SRC        =	srcs
+PATH_OBJ        =	objs
+PATH_LOG        =	logs
+
 
 # List of sources
-SRCS_CMDS		= 	whois.cpp whowas.cpp
-SRCS_CLASS		= 	channel.cpp user.cpp
-SRCS			=	$(addprefix $(PATH_SRC)/cmds/, $(SRCS_CMDS)) \
-					$(addprefix $(PATH_SRC)/cmds/, $(SRCS_CLASS)) \
+SRCS_CMDS		=	away.cpp pass.cpp whois.cpp nick.cpp who.cpp whowas.cpp
+SRCS_CLASS		=	Server.cpp channel.cpp user.cpp
+SRCS_TOOLS		=	error_msg.cpp params.cpp
+SRCS 			=	$(addprefix $(PATH_SRC)/cmds/, $(SRCS_CMDS)) \
+					$(addprefix $(PATH_SRC)/class/, $(SRCS_CLASS)) \
+					$(addprefix $(PATH_SRC)/tools/, $(SRCS_CLASS)) \
 					$(addprefix $(PATH_SRC)/, )  main.cpp #add files à la racine
 
-OBJS		=	$(addprefix $(PATH_OBJ)/, $(notdir $(SRCS:.c=.o)))
-INCS		=	$(PATH_INC)/channel.hpp numeric_reply.hpp user.hpp
+OBJS			=	$(addprefix $(PATH_OBJ)/, $(notdir $(SRCS:.cpp=.o)))
+ALL_INCS		=	channel.hpp cmds.hpp Server.hpp tools.hpp user.hpp
+INCS			=	$(addprefix $(PATH_INC)/, $(ALL_INCS))
 
 # Commands of compilation
-COMP		=	c++
-COMP_FLAG	=	-Wall -Wextra -Werror
-COMP_ADD	=	-I$(PATH_INC) 
+COMP			=	c++
+COMP_FLAG		=	-Wall -Wextra -Werror -std=c++98 -g3
+COMP_ADD		=	-I $(PATH_INC)
 
 # Others Command
-RM			=	/bin/rm
+RM				=	/bin/rm
 
 # Color Code and template code
-_YELLOW		=	\033[38;5;184m
-_GREEN		=	\033[38;5;46m
-_RESET		=	\033[0m
-_INFO		=	[$(_YELLOW)INFO$(_RESET)]
-_SUCCESS	=	[$(_GREEN)SUCCESS$(_RESET)]
+_YELLOW			=	\033[38;5;184m
+_GREEN			=	\033[38;5;46m
+_RESET			=	\033[0m
+_INFO			=	[$(_YELLOW)INFO$(_RESET)]
+_SUCCESS		=	[$(_GREEN)SUCCESS$(_RESET)]
 
-# Functions
-all:	init $(NAME)
-	@ echo "$(_SUCCESS) Compilation done"
 
-init:
-	 $(shell mkdir -p $(PATH_OBJ))
+all:	$(NAME)
+		@ echo "$(_SUCCESS) Compilation done"
 
-bonus :	all
+bonus : all
 
-$(NAME): 	$(OBJS) $(LIBFT)
-			$(CC) $(COMP_FLAG) $(OBJS) $(RL_FLAG) $(LIBFT) -o $(NAME)
+$(PATH_OBJ):
+		mkdir -p $@
 
-$(PATH_OBJ)/%.o : $(PATH_SRC)/*/%.cpp  $(INCS)
-	@ $(COMP) $(COMP_FLAG) $(COMP_ADD) -c $< -o $@
-	@ echo "$(_INFO) Compilation of $*"
+$(NAME):	$(OBJS)
+		$(COMP) $(COMP_FLAG) $(OBJS) -o $(NAME)
 
-$(PATH_OBJ)/%.o : $(PATH_SRC)/%.c  $(INCS)
-	@ $(COMP) $(COMP_FLAG) $(COMP_ADD) -c $< -o $@
-	@ echo "$(_INFO) Compilation of $*"
+$(PATH_OBJ)/%.o : $(PATH_SRC)/*/%.cpp  $(INCS) | $(PATH_OBJ)
+		$(COMP) $(COMP_FLAG) $(COMP_ADD) -c $< -o $@
+		@ echo "$(_INFO) Compilation of $*"
+
+$(PATH_OBJ)/%.o : $(PATH_SRC)/%.cpp  $(INCS)
+		$(COMP) $(COMP_FLAG) $(COMP_ADD) -c $< -o $@
+		@ echo "$(_INFO) Compilation of $*"
 
 clean:
-	@ $(RM) -rf $(PATH_OBJ)
-	echo "$(_INFO) Deleted files and directory"
+		@ $(RM) -rf $(PATH_OBJ)
+		@ echo "$(_INFO) Deleted files and directory"
 
 fclean: clean
-	@ $(RM) -rf $(NAME)
+		@ $(RM) -rf $(NAME)
 
 re: fclean all

@@ -7,7 +7,7 @@
 //srv = server //don't know more...
 //srv->info = server's info
 
-int	error_msg(int err, user* usr, server *srv){
+int	error_msg(int err, user* usr, Server *srv){
 	switch (err){
 	case ERR_ERRONEUSNICKNAME:
 		std::cout << srv->client << " " << usr->getNick() << ":Erroneus nickname" << std::endl;//weird
@@ -30,7 +30,7 @@ int	error_msg(int err, user* usr, server *srv){
 	return (err);
 }
 
-int	error_msg(int err, channel* chan, server* srv){
+int	error_msg(int err, channel* chan, Server* srv){
 	switch (err){
 	case ERR_NOSUCHCHANNEL:
 		std::cout << srv->client << " " << chan->getName() << ":No such channel" << std::endl;
@@ -71,7 +71,7 @@ int	error_msg(int err, channel* chan, server* srv){
 	return (err);
 }
 
-int	error_msg(int err, std::string s, server* srv){//s for cmd, operation, charactere, string
+int	error_msg(int err, std::string s, Server* srv){//s for cmd, operation, charactere, string
 	switch (err){
 	case ERR_NOSUCHNICK:
 		std::cout << srv->client << " " << s << ":No such nick/channel" << std::endl;
@@ -97,7 +97,7 @@ int	error_msg(int err, std::string s, server* srv){//s for cmd, operation, chara
 	return (err);
 }
 
-int	error_msg(int err, server* srv){
+int	error_msg(int err, Server* srv){
 	switch (err){
 	case ERR_NOSUCHSERVER:
 		std::cout << srv->client << " " << srv->name << ":No such serve" << std::endl;
@@ -178,7 +178,7 @@ int	error_msg(int err, server* srv){
 	return (err);
 }
 
-int	error_msg(int err, std::string s/*, file f*/, server* srv){
+int	error_msg(int err, std::string s/*, file f*/, Server* srv){
 	switch (err){
 	case ERR_FILEERROR:
 		std::cout << srv->client << ":File error doing "<< s << " on " /*<< f.name */<< std::endl;
@@ -189,7 +189,7 @@ int	error_msg(int err, std::string s/*, file f*/, server* srv){
 	return (err);
 }
 
-int	error_msg(int err, user* usr, channel* chan, server* srv){
+int	error_msg(int err, user* usr, channel* chan, Server* srv){
 	switch (err){
 	case ERR_USERNOTINCHANNEL:
 		std::cout << srv->client << " " << usr->getNick() << " " << chan << ":They aren't on that channel" << std::endl;
@@ -203,7 +203,7 @@ int	error_msg(int err, user* usr, channel* chan, server* srv){
 	return (err);
 }
 
-// int	error_msg(int err, user* usr, server* srv){
+// int	error_msg(int err, user* usr, Server* srv){
 // 	switch (err){
 // 	case RPL_USERHOST://to be used with a 'for' for each nick in the cmd USERHOST separate by a ' ' et a '\n' right after the 'for'
 // 		std::cout << srv->client << " " << usr->getNick() << "[";
