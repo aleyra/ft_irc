@@ -138,7 +138,7 @@ int	numeric_reply(int err, Server* srv){
 		std::cout << /*srv->client <<*/ ":You have not registered" << std::endl;
 		break;
 	case ERR_ALREADYREGISTRED:
-		std::cout << /*srv->client <<*/ ":You may not reregister" << std::endl;
+		std::cout << /*srv->client <<*/ ":Unauthorized command (already registered)" << std::endl;
 		break;
 	case ERR_NOPERMFORHOST:
 		std::cout << /*srv->client <<*/ ":Your host isn't among the privileged" << std::endl;

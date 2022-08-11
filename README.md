@@ -1,5 +1,5 @@
 <p>Some sources
-	<ul>in english : https://datatracker.ietf.org/doc/html/rfc2812#section-1</ul>
+	<ul>in english : https://datatracker.ietf.org/doc/html/rfc2812</ul>
 	<ul>in french : http://abcdrfc.free.fr/rfc-vf/rfc1459.html</ul>
 	<ul> https://modern.ircdocs.horse/</ul>
 	<ul>http://www.codingbison.com/c/c-sockets-introduction.html</ul>
