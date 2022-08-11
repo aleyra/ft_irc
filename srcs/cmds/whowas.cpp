@@ -1,63 +1,49 @@
-#include "user.hpp"//en attendant un .hpp qui inclu user.hpp
-#include "numeric_reply.hpp"
-#include <cstdlib>
-
-//srv->host =
-//usr->chan[10] = il faut un tableau de channel dans lequel le usr est 
-//usr->idle_time = time since last activity in seconds
-
-std::vector<std::string>	whowasParam(std::string s){
-	std::istringstream iss(s);
-	std::vector<std::string> results(std::istream_iterator<std::string>{iss},
-                                 std::istream_iterator<std::string>());
-	return (results);
-}
+#include "cmds.hpp"
 
 int whowas(std::vector<std::string> params, server* srv){
 	if (params.empty())
-		return (numeric_reply(ERR_NONICKNAMEGIVEN, srv));
+		return (numeric_reply(ERR_NEEDMOREPARAMS, "whowas", srv));//ou return (numeric_reply(ERR_NONICKNAMEGIVEN, srv));
 
 	//transform params to a string and eventually an int
 	if (params.size() > 2)
 		return (EXIT_FAILURE);
-	std::string	mask = *(params[0]);
+	std::string	mask = params[0];
 	int			count = 0;
 	if (params.size() == 2)
 		count = std::atoi(params[1].c_str());
 
 	//from string to user*
-	user*		usr = findInAllUser(mask);//chercher un nickname correspondant dans la liste des user OFFLINE ou ONLINE old nick
+	std::vector<user*>		usr = findInAllUser(mask);//chercher un nickname correspondant dans la liste des user OFFLINE ou ONLINE old nick
 	
 	//if no such mask
-	if (usr == NULL){
-		numeric_reply(ERR_NOSUCHNICK, mask);
+	if (usr[0] == NULL){
+		numeric_reply(ERR_WASNOSUCHNICK, mask);
 		return (numeric_reply(RPL_ENDOFWHOWAS, srv));
 	}
 	
 	//else
-	std::cout << usr->getNick() << "@" << usr << srv->host << "*:"
-		<< usr->getTruename() << std::endl;//RPL_WHOISUSER
-	std::cout << usr->getNick() << ":";//RPL_WHOISCHANNELS
-	std::vector<channel*> &list_chan = usr->getList_chan;
-
-	if (count == 0){
-		for (int i = 0; i < list_chan.size(); ++i){
-			if (i == 0 && i != list_chan.size() - 1)
-				std::cout << " ";
-			if (list_chan[i]->getUsr_list[usr] == 4)//est un operateur du chan
-				std::cout << "@" ;//a verif
-			else if (list_chan[i]->getIsMod() == true && list_chan[i]->getUsr_list[usr] >= 1)//if it's a moderated channel and usr is allowed to speak
-				std::cout << "+";
-			std::cout << list_chan[i]->getName();
+	if (count <= 0){
+		for (int i = 0; i < usr.size(); ++i){
+			//RPL_WHOWASUSER
+			std::cout << srv->client << " " << mask << " " << usr[i]->getUsername() << " "
+				<< srv->host << " * :" << usr[i]->getTruename() << std::endl;
+			if (isOnline(usr[i]) == true){//verifie si un usr is ONLINE ou OFFLINE
+				//RPL_WHOISACTUALLY
+				std::cout << srv->client << " " << usr[i]->getNick() << " " << srv->host << " :is actually using host" << std::endl;
+			}
+			std::cout << srv->client << " " << usr[i]->getNick() << " " << srv << " :" << srv->info << std::endl;//RPL_WHOISSERVER
 		}
 	}
 	else
-	std::endl;
-	std::cout << usr->getNick() << ": " << usr->check_Idle_time() << "seconds idle"
-		<< std::endl;//RPL_WHOISIDLE
-	if (usr->getLvl == 2)//RPL_WHOISOPERATOR
-		std::cout << usr->getNick() << "is an IRC operator" << std::endl;
-	//autre chose ?
-	
+		for (int i = 0; i < usr.size() && i < count; ++i){
+			//RPL_WHOWASUSER
+			std::cout << srv->client << " " << mask << " " << usr[i]->getUsername() << " "
+				<< srv->host << " * :" << usr[i]->getTruename() << std::endl;
+			if (isOnline(usr[i]) == true){//verifie si un usr is ONLINE ou OFFLINE
+				//RPL_WHOISACTUALLY
+				std::cout << srv->client << " " << usr[i]->getNick() << " " << srv->host << " :is actually using host" << std::endl;
+			}
+			std::cout << srv->client << " " << usr[i]->getNick() << " " << srv << " :" << srv->info << std::endl;//RPL_WHOISSERVER
+		}
 	return (numeric_reply(RPL_ENDOFWHOWAS, srv));
 }
