@@ -4,7 +4,7 @@
 #pragma region constructors destructor
 channel::channel(){}
 
-channel::channel(channel const & src){*this = src}
+channel::channel(channel const & src){*this = src;}
 
 channel::channel(std::string name, user* founder){
 	this->_name = name;
@@ -19,15 +19,16 @@ channel::~channel(){
 
 #pragma endregion constructors destructor
 
-#pragma region overload d'operateurs
+#pragma region overload d operateurs
 channel&	channel::operator=(channel const &src){
 	this->_name = src._name;
 	this->_founder = src._founder;
 	this->_isMod = src._isMod;
 	this->_usr_list = src._usr_list;
+	return *this;
 }
 
-#pragma endregion overload d'operateurs
+#pragma endregion overload d operateurs
 
 #pragma region getters and setters
 	void	channel::setName(std::string n){this->_name = n;}

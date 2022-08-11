@@ -8,6 +8,8 @@
 #include <map>
 #include "user.hpp"
 
+class user;
+
 class channel{
 	private:
 		std::string				_name;
@@ -24,10 +26,10 @@ class channel{
 		~channel();
 	#pragma region constructors destructor
 
-	#pragma region overload d'operateurs
+	#pragma region overload d operateurs
 	private:
 		channel&	operator=(channel const &src);//merci de mettre a jour cette fct quand vous ajoutez des attributs
-	#pragma endregion overload d'operateurs
+	#pragma endregion overload d operateurs
 
 	#pragma region getters and setters
 	public:
