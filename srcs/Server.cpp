@@ -6,7 +6,7 @@
 /*   By: tlafay <tlafay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 13:48:49 by tlafay            #+#    #+#             */
-/*   Updated: 2022/08/11 14:07:53 by tlafay           ###   ########.fr       */
+/*   Updated: 2022/08/11 16:37:54 by tlafay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,22 @@
 Server::Server() {}
 
 /**
- * The constructor that should be used. It will setup sockets
- * to receive further connections.
+ * Description:
+ * 	The constructor that should be used. It will setup sockets
+ * 	to receive further connections.
  * 
  * Args:
- *		port: The port to listen to
- *		pass: The password to access the server
+ *		port: The port to listen to.
+ *		pass: The password to access the server.
+ * 
+ * Return:
+ * 	N/A.
+ * 
+ * Notes:
+ * 	** Notes **
  **/
 
-Server::Server(std::string port, std::string pass)
+Server::Server(const std::string &port, const std::string &pass)
 {
 	(void)pass;
 
@@ -32,7 +39,7 @@ Server::Server(std::string port, std::string pass)
 		_client_sockets[i] = 0;
 	}
 
-	int	opt = 1;
+	int	opt = true;
 	_main_socket = socket(AF_INET , SOCK_STREAM , 0);
 	if (_main_socket == -1)
 	{
@@ -47,10 +54,10 @@ Server::Server(std::string port, std::string pass)
 		exit(EXIT_FAILURE);
 	}
 
-	_sockaddr.sin_family = AF_INET;
-	_sockaddr.sin_addr.s_addr = INADDR_ANY;
-	_sockaddr.sin_port = htons(atoi(port.c_str()));
-	if (bind(_main_socket, (struct sockaddr*)&_sockaddr, sizeof(_sockaddr)) < 0)
+	_address.sin_family = AF_INET;
+	_address.sin_addr.s_addr = INADDR_ANY;
+	_address.sin_port = htons(atoi(port.c_str()));
+	if (bind(_main_socket, (struct sockaddr*)&_address, sizeof(_address)) < 0)
 	{
 		std::cout << "Failed to bind to port. errno: " << errno << std::endl;
 		exit(EXIT_FAILURE);
@@ -75,50 +82,47 @@ Server::~Server()
 
 
 /**
- * This is just a useless test for now
+ * This is just a useless test for now.
  **/
 
 void	Server::connection_test()
 {
-
-  // Grab a connection from the queue
 	size_t addrlen = sizeof(sockaddr);
 	int connection = accept(_main_socket,
-		(struct sockaddr*)&_sockaddr, (socklen_t*)&addrlen);
+		(struct sockaddr*)&_address, (socklen_t*)&addrlen);
 	if (connection < 0)
 	{
 		std::cout << "Failed to grab connection. errno: " << errno << std::endl;
 		exit(EXIT_FAILURE);
 	}
 
-  // Read from the connection
 	char buffer[100];
 	size_t bytesRead = read(connection, buffer, 100);
 	(void)bytesRead;
 	std::cout << "The message was: " << buffer;
 
-  // Send a message to the connection
 	std::string response = "Good talking to you\n";
 	send(response, connection);
-
-  // Close the connections
 	close(connection);
 }
 
 /**
-* 
-* Sends a message to a client
+* Description:
+* 	Sends a message to a client.
 * 
 * Args:
-* 	msg: The message to send
-* 	client_fd: The fd of the corresponding client
+* 	msg: The message to send.
+* 	client_fd: The fd of the corresponding client.
 * 
-* ** Notes **
+* Return:
+* 	None.
 * 
+* Notes:
+* 	** Notes **
 **/
 
 
-void	Server::send(std::string msg, int client_fd)
+void	Server::send(const std::string &msg, const int &client_fd)
 {
 	if(::send(client_fd, msg.c_str(), msg.size(), 0) != static_cast<long>(msg.size()))
 	{
@@ -127,39 +131,128 @@ void	Server::send(std::string msg, int client_fd)
 }
 
 /**
- * Used to receive a message
- * 
- * Notes : I need to make a kind of gnl to fully read messages, plus
- * 	I should probably create a map instead of a vector to return the
- * 	index of the socket.
- **/
+* Description:
+* 	Receive the messages from all clients.
+* 
+* Args:
+* 	None.
+* 
+* Return:
+* 	Returns a vector of strings containing all the messages.
+* 
+* Notes:
+* 	The read is not complete for now (1024 chars), and I'm gonna
+* 	return a map of the client associated with it's message instead
+* 	of just the raw messages.
+**/
 
-std::vector<std::string>	Server::receive()
+#include <cstdlib>
+
+std::vector<std::string>	Server::receive(fd_set &readfds)
 {
-	int sd;
+	int		sd;
 	char	buffer[1024];
-	int	valread;
-	std::vector<std::string> v;
+	int		valread;
+	
+	std::vector<std::string>	v;
 
 	for (int i = 0; i < MAX_CLIENTS; i++) 
 	{
 		sd = _client_sockets[i];
 
-		if (FD_ISSET( sd , &readfds))
+		if (FD_ISSET(sd, &readfds))
 		{
-			if ((valread = read( sd , buffer, 1024)))
+			valread = read(sd, buffer, 1024);
+			if (valread != 0)
 			{
 				buffer[valread] = '\0';
 				v.push_back(buffer);
 			}
-		}
-		else
-		{
-			close(sd);
-			_client_sockets[i] = 0;
+			else
+			{
+				close(sd);
+				_client_sockets[i] = 0;
+			}
 		}
 	}
 	return (v);
+}
+
+/**
+* Description:
+* 	Adds a new connection to the server. Can be called at every
+* 	occurence of the main loop.
+* 
+* Args:
+* 	readfds: A fd_set of all sockets connected.
+* 
+* Return:
+* 	None.
+* 
+* Notes:
+* 	Exits if accept fails.
+**/
+
+
+void	Server::add_connection(fd_set &readfds)
+{
+	if (!FD_ISSET(_main_socket, &readfds))
+		return;
+
+	std::size_t addrlen = sizeof(_address);
+	int new_socket = accept(_main_socket,
+		(struct sockaddr *)&_address, (socklen_t*)&addrlen);
+	if (new_socket < 0)
+	{
+		std::cout << "Accept failed. errno: " << errno << std::endl;
+		exit(EXIT_FAILURE);
+	}
+
+	for (int i = 0; i < MAX_CLIENTS; i++)
+	{
+		if(_client_sockets[i] == 0)
+		{
+			_client_sockets[i] = new_socket;
+			break;
+		}
+	}
+}
+
+/**
+* Description:
+* 	Init the select function to accept multiple connections
+* 
+* Args:
+* 	readfds: A fd_set of all sockets connected.
+* 
+* Return:
+* 	None
+* 
+* Notes:
+* 	** Notes **
+**/
+
+
+void	Server::select(fd_set &readfds)
+{
+	FD_ZERO(&readfds);
+	FD_SET(_main_socket, &readfds);
+	
+	int max_sd = _main_socket;
+	for (int i = 0 ; i < MAX_CLIENTS ; i++)
+	{
+		int sd = _client_sockets[i];
+		if(sd > 0)
+			FD_SET( sd , &readfds);
+		if(sd > max_sd)
+			max_sd = sd;
+	}
+
+	int activity = ::select( max_sd + 1 , &readfds , NULL , NULL , NULL);
+	if ((activity < 0) && (errno != EINTR))
+	{
+		std::cout << "Select failed: " << errno << std::endl;
+	}
 }
 
 void	Server::operator=(const Server &other)

@@ -6,7 +6,7 @@
 /*   By: tlafay <tlafay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 13:50:36 by tlafay            #+#    #+#             */
-/*   Updated: 2022/08/11 11:01:42 by tlafay           ###   ########.fr       */
+/*   Updated: 2022/08/11 16:38:27 by tlafay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,29 +21,31 @@
 #include <iostream>
 #include <unistd.h>
 #include <vector>
+#include <arpa/inet.h>
 
-#define MAX_CLIENTS 4000
+#define MAX_CLIENTS 30
 
 class Server
 {
 	public:
-		Server();
-		Server(std::string port, std::string pass);
+		Server(const std::string &port, const std::string &pass);
 		Server(const Server &f);
 		~Server();
 
-		void	connection_test();
-		void	send(std::string msg, int client_fd);
-		std::vector<std::string>	receive();
+		void						connection_test();
+		void						send(const std::string &msg, const int &client_fd);
+		std::vector<std::string>	receive(fd_set &readfds);
+		void						add_connection(fd_set &readfds);
+		void						select(fd_set &readfds);
 
 		void	operator=(const Server &f);
 		
 	private:
 		int			_main_socket;
 		int			_client_sockets[MAX_CLIENTS];
-		fd_set		readfds;
-		sockaddr_in _sockaddr;
+		sockaddr_in _address;
 
+		Server();
 };
 
 #endif
