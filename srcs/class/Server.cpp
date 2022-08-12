@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lburnet <lburnet@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: tlafay <tlafay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 13:48:49 by tlafay            #+#    #+#             */
-/*   Updated: 2022/08/11 14:40:51 by lburnet          ###   ########lyon.fr   */
+/*   Updated: 2022/08/12 14:36:46 by tlafay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,12 @@ Server::Server() {}
  * 	** Notes **
  **/
 
-Server::Server(const std::string &port, const std::string &pass)
+Server::Server(const std::string &port, const std::string &pass): _current_id(0)
 {
 	(void)pass;
 
 	for (int i = 0; i < MAX_CLIENTS; ++i)
-	{
 		_client_sockets[i] = 0;
-	}
 
 	int	opt = true;
 	_main_socket = socket(AF_INET , SOCK_STREAM , 0);
@@ -59,6 +57,7 @@ Server::Server(const std::string &port, const std::string &pass)
 	_address.sin_port = htons(atoi(port.c_str()));
 	if (bind(_main_socket, (struct sockaddr*)&_address, sizeof(_address)) < 0)
 	{
+		// Port is unavaible
 		std::cout << "Failed to bind to port. errno: " << errno << std::endl;
 		exit(EXIT_FAILURE);
 	}
@@ -121,13 +120,10 @@ void	Server::connection_test()
 * 	** Notes **
 **/
 
-
 void	Server::send(const std::string &msg, const int &client_fd)
 {
 	if(::send(client_fd, msg.c_str(), msg.size(), 0) != static_cast<long>(msg.size()))
-	{
 		std::cout << "Couldn't send message. errno: " << errno << std::endl;
-	}
 }
 
 /**
@@ -141,32 +137,32 @@ void	Server::send(const std::string &msg, const int &client_fd)
 * 	Returns a vector of strings containing all the messages.
 * 
 * Notes:
-* 	The read is not complete for now (1024 chars), and I'm gonna
-* 	return a map of the client associated with it's message instead
-* 	of just the raw messages.
+* 	The return should be a map, associocating an id with a buffer.
 **/
-
-#include <cstdlib>
 
 std::vector<std::string>	Server::receive(fd_set &readfds)
 {
 	int		sd;
-	char	buffer[1024];
-	int		valread;
+	char	*buffer = NULL;
+	size_t	valread;
 	
 	std::vector<std::string>	v;
 
 	for (int i = 0; i < MAX_CLIENTS; i++) 
 	{
+		valread = 0;
 		sd = _client_sockets[i];
 
 		if (FD_ISSET(sd, &readfds))
 		{
-			valread = read(sd, buffer, 1024);
-			if (valread != 0)
+			fcntl(sd, F_SETFL, O_NONBLOCK);
+			FILE* fp = fdopen(sd, "r");
+			getline(&buffer, &valread, fp);
+			if (valread > 1)
 			{
-				buffer[valread] = '\0';
 				v.push_back(buffer);
+				send(buffer, sd);
+				free(buffer);
 			}
 			else
 			{
@@ -193,7 +189,6 @@ std::vector<std::string>	Server::receive(fd_set &readfds)
 * 	Exits if accept fails.
 **/
 
-
 void	Server::add_connection(fd_set &readfds)
 {
 	if (!FD_ISSET(_main_socket, &readfds))
@@ -216,22 +211,22 @@ void	Server::add_connection(fd_set &readfds)
 			break;
 		}
 	}
+	_current_id++;
 }
 
 /**
 * Description:
-* 	Init the select function to accept multiple connections
+* 	Init the select function to accept multiple connections.
 * 
 * Args:
 * 	readfds: A fd_set of all sockets connected.
 * 
 * Return:
-* 	None
+* 	None.
 * 
 * Notes:
 * 	** Notes **
 **/
-
 
 void	Server::select(fd_set &readfds)
 {
@@ -243,16 +238,14 @@ void	Server::select(fd_set &readfds)
 	{
 		int sd = _client_sockets[i];
 		if(sd > 0)
-			FD_SET( sd , &readfds);
+			FD_SET(sd, &readfds);
 		if(sd > max_sd)
 			max_sd = sd;
 	}
 
-	int activity = ::select( max_sd + 1 , &readfds , NULL , NULL , NULL);
+	int activity = ::select(max_sd + 1, &readfds, NULL, NULL, NULL);
 	if ((activity < 0) && (errno != EINTR))
-	{
 		std::cout << "Select failed: " << errno << std::endl;
-	}
 }
 
 void	Server::operator=(const Server &other)
