@@ -2,7 +2,7 @@
 #include <list>
 #include <map>
 
-#pragma region constructors destructor
+// #pragma region constructors destructor
 user::user(){
 	this->_isaway = false;
 	// this->_idle_time = 0;
@@ -27,9 +27,9 @@ user::user(std::string usr_name, unsigned int id){
 user::~user(){
 	this->_history_nick.clear();
 }
-#pragma endregion constructors destrcutor
+// #pragma endregion constructors destrcutor
 
-#pragma region overload d operateurs
+// #pragma region overload d operateurs
 user	&user::operator=(user const &src){
 	this->_nick = src._nick;
 	this->_username = src._username;
@@ -48,9 +48,9 @@ user	&user::operator=(user const &src){
 	this->_isop = src._isop;
 	return (*this);
 }
-#pragma endregion overload d operateurs
+// #pragma endregion overload d operateurs
 
-#pragma region getters and setters
+// #pragma region getters and setters
 void	user::setNick(std::string n){
 	if (!this->_nick.empty()){
 		this->addHistory_nick(this->_nick);
@@ -93,7 +93,7 @@ void	user::setIsaway_msg(std::string amsg){this->_away_msg = amsg;}
 std::string const	&user::getAway_msg() const{return (this->_away_msg);}
 
 
-void	user::setLast_activity(){this->_last_activity = std::time(nullptr);}
+void	user::setLast_activity(){this->_last_activity = std::time(NULL);}
 
 std::time_t const	&user::getLast_activity() const{
 	return (this->_last_activity);
@@ -128,9 +128,9 @@ bool const &	user::getIsonline() const{
 	return (this->_isonline);
 }
 
-#pragma endregion getters and setters
+// #pragma endregion getters and setters
 
-#pragma region other member functions
+// #pragma region other member functions
 void	user::addHistory_nick(std::string	old_nick){
 	this->_history_nick.push_front(old_nick);
 }
@@ -155,7 +155,7 @@ bool	user::test_password(std::string s){
 }
 
 std::time_t	user::check_Idle_time(){
-	std::time_t now = std::time(nullptr);
+	std::time_t now = std::time(NULL);
 	return (now - this->getLast_activity());
 }
 
@@ -170,9 +170,9 @@ void	user::rmList_chan(channel* c){
 }
 
 
-#pragma endregion other member functions
+// #pragma endregion other member functions
 
-#pragma region non-member functions
+// #pragma region non-member functions
 
 bool	operator==(user const & lhs, user const & rhs){return (lhs.getId() == rhs.getId());}
 bool	operator!=(user const & lhs, user const & rhs){return (lhs.getId() != rhs.getId());}
@@ -198,4 +198,4 @@ char	display_isaway(user* usr){
 	return 'H';
 }
 
-#pragma endregion non-member functions
+// #pragma endregion non-member functions

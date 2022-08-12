@@ -26,22 +26,22 @@ class user{
 		char						_mode;
 		bool						_isonline;
 	
-	#pragma region constructors destructor
+	// #pragma region constructors destructor
 	private:
 		user();
 		user(user const &src);
 	public:
 		user(std::string usr_name, unsigned int id);
 		~user();//a ne pas mettre en private ^^"
-	#pragma endregion constructors destrcutor
+	// #pragma endregion constructors destrcutor
 
 
-	#pragma region overload d operateurs
+	// #pragma region overload d operateurs
 	private:
 		user	&operator=(user const &src);//merci de mettre a jour cette fct quand vous ajoutez des attributs
-	#pragma endregion overload d operateurs
+	// #pragma endregion overload d operateurs
 
-	#pragma region getters and setters
+	// #pragma region getters and setters
 	public:
 		void							setNick(std::string n);
 		std::string const &				getNick() const;
@@ -70,8 +70,8 @@ class user{
 		char const &					getMode() const;
 		void							setIsonline(bool b);
 		bool const &					getIsonline() const;
-	#pragma endregion getters and setters
-	#pragma region other member functions
+	// #pragma endregion getters and setters
+	// #pragma region other member functions
 	public:	
 		void		addHistory_nick(std::string	old_nick);//push_front de _history_nick
 		void		clearHistory_nick();//clear de _history_nick
@@ -80,7 +80,7 @@ class user{
 		std::time_t	check_Idle_time();//donne le temps en secondes depuis _last_activity
 		void		addList_chan(channel* nc);//le plus recent est a la fin
 		void		rmList_chan(channel* c);
-	#pragma endregion other member functions
+	// #pragma endregion other member functions
 };
 
 bool	operator==(user const & lhs, user const & rhs);

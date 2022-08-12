@@ -1,7 +1,7 @@
 #include "channel.hpp"
 #include <list>
 
-#pragma region constructors destructor
+// #pragma region constructors destructor
 channel::channel(){}
 
 channel::channel(channel const & src){*this = src;}
@@ -17,9 +17,9 @@ channel::~channel(){
 	this->_usr_list.clear();
 }
 
-#pragma endregion constructors destructor
+// #pragma endregion constructors destructor
 
-#pragma region overload d operateurs
+// #pragma region overload d operateurs
 channel&	channel::operator=(channel const &src){
 	this->_name = src._name;
 	this->_founder = src._founder;
@@ -28,9 +28,9 @@ channel&	channel::operator=(channel const &src){
 	return *this;
 }
 
-#pragma endregion overload d operateurs
+// #pragma endregion overload d operateurs
 
-#pragma region getters and setters
+// #pragma region getters and setters
 	void	channel::setName(std::string n){this->_name = n;}
 
 	std::string const &	channel::getName() const{return this->_name;}
@@ -45,9 +45,9 @@ channel&	channel::operator=(channel const &src){
 		return this->_usr_list;
 	}
 
-#pragma endregion getters and setters
+// #pragma endregion getters and setters
 
-#pragma region other member functions
+// #pragma region other member functions
 	void	channel::addUsr_list(user* nu){this->_usr_list[nu] = 0;}
 
 	void	channel::rmUsr_list(user* u){
@@ -56,4 +56,4 @@ channel&	channel::operator=(channel const &src){
 			this->_usr_list.erase(u);
 	}
 
-#pragma endregion other member functions
+// #pragma endregion other member functions

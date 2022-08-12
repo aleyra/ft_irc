@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lburnet <lburnet@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: lucille <lucille@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 13:50:36 by tlafay            #+#    #+#             */
-/*   Updated: 2022/08/11 14:40:51 by lburnet          ###   ########lyon.fr   */
+/*   Updated: 2022/08/12 15:38:46 by lucille          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include <iostream>
 #include <unistd.h>
 #include <vector>
+#include <cerrno>
 
 #define MAX_CLIENTS 4000
 
