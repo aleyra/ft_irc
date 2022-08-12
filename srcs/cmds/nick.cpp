@@ -5,7 +5,7 @@ int	nick(std::vector<std::string> params, user* usr, Server* srv){
 	/*Sent by the server to a user upon connection to indicate the restricted
 		nature of the connection (user mode "+r").*/
 	if (params.size() == 0)
-		return (numeric_reply(ERR_NEEDMOREPARAMS, "nick", srv));
+		return (numeric_reply(ERR_NEEDMOREPARAMS, "NICK", srv));
 	//pas de precision sur comment gerer quand plus de 1 param
 
 	std::string nick(params[0]);
