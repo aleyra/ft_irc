@@ -6,7 +6,7 @@
 /*   By: tlafay <tlafay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 13:48:49 by tlafay            #+#    #+#             */
-/*   Updated: 2022/08/12 14:36:46 by tlafay           ###   ########.fr       */
+/*   Updated: 2022/08/12 14:51:22 by tlafay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,33 +76,8 @@ Server::Server(const Server &other)
 
 Server::~Server()
 {
+	// Don't leak fds
 	close(_main_socket);
-}
-
-
-/**
- * This is just a useless test for now.
- **/
-
-void	Server::connection_test()
-{
-	size_t addrlen = sizeof(sockaddr);
-	int connection = accept(_main_socket,
-		(struct sockaddr*)&_address, (socklen_t*)&addrlen);
-	if (connection < 0)
-	{
-		std::cout << "Failed to grab connection. errno: " << errno << std::endl;
-		exit(EXIT_FAILURE);
-	}
-
-	char buffer[100];
-	size_t bytesRead = read(connection, buffer, 100);
-	(void)bytesRead;
-	std::cout << "The message was: " << buffer;
-
-	std::string response = "Good talking to you\n";
-	send(response, connection);
-	close(connection);
 }
 
 /**
