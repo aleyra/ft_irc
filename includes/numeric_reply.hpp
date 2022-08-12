@@ -2,7 +2,7 @@
 # define NUM_RPL_H
 # include <iostream>
 
-enum numeric_reply : int {//err are set negative for dev
+enum numeric_reply{//err are set negative for dev
 	RPL_STATSLINKINFO = 211,
 	RPL_STATSCOMMANDS = 212,
 	RPL_STATSCLINE = 213,
