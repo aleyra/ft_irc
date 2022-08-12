@@ -140,7 +140,7 @@ int	numeric_reply(int err, Server* srv){
 	case ERR_NOTREGISTERED:
 		std::cout << /*srv->client <<*/ ":You have not registered" << std::endl;
 		break;
-	case ERR_ALREADYREGISTRED:
+	case ERR_ALREADYREGISTERED:
 		std::cout << /*srv->client <<*/ ":Unauthorized command (already registered)" << std::endl;
 		break;
 	case ERR_NOPERMFORHOST:
