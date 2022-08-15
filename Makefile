@@ -12,7 +12,7 @@ PATH_LOG        =	logs
 # List of sources
 SRCS_CMDS		=	away.cpp pass.cpp whois.cpp nick.cpp who.cpp whowas.cpp
 SRCS_CLASS		=	Server.cpp channel.cpp user.cpp
-SRCS_TOOLS		=	numeric_reply.cpp params.cpp
+SRCS_TOOLS		=	numeric_reply.cpp params.cpp handle_commands.cpp
 SRCS 			=	$(addprefix $(PATH_SRC)/cmds/, $(SRCS_CMDS)) \
 					$(addprefix $(PATH_SRC)/class/, $(SRCS_CLASS)) \
 					$(addprefix $(PATH_SRC)/tools/, $(SRCS_TOOLS)) \

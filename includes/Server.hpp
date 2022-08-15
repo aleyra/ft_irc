@@ -6,7 +6,7 @@
 /*   By: tlafay <tlafay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 13:50:36 by tlafay            #+#    #+#             */
-/*   Updated: 2022/08/15 10:22:36 by tlafay           ###   ########.fr       */
+/*   Updated: 2022/08/15 14:20:37 by tlafay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,12 @@ class Server
 
 		std::size_t const	&get_current_id() const;
 
-		void						send(const std::string &msg, const int &client_fd);
-		std::vector<std::string>	receive(fd_set &readfds);
-		void						add_connection(fd_set &readfds);
+		void						send(const std::string &msg, const std::size_t &id);
+		std::map<int, std::string>	receive(fd_set &readfds);
+		user						*add_connection(fd_set &readfds);
 		void						select(fd_set &readfds);
 		void						rm_useless();
+		void						disconnect(const std::size_t &id);
 
 		void	operator=(const Server &f);
 		
@@ -54,7 +55,10 @@ class Server
 		sockaddr_in _address;
 		std::size_t	_current_id;
 
+		void	check_port_range(const std::string &port);
+
 		Server();
 };
+
 
 #endif

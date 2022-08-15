@@ -1,16 +1,5 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tlafay <tlafay@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/27 11:25:23 by tlafay            #+#    #+#             */
-/*   Updated: 2022/08/15 11:15:10 by tlafay           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "Server.hpp"
+#include "tools.hpp"
 
 int main(int argc, char **argv)
 {
@@ -21,16 +10,23 @@ int main(int argc, char **argv)
 	}
 
 	Server server(argv[1], argv[2]);
-	fd_set readfds;	
+	fd_set readfds;
+	std::vector<user *> users;
+	std::map<int, std::string> buffers;
 	while (true)
 	{
-		server.rm_useless();
 		server.select(readfds);
-		server.add_connection(readfds);
-		std::vector<std::string> v = server.receive(readfds);
-		for (std::vector<std::string>::iterator it = v.begin(); it != v.end(); ++it)
-		{
-			std::cout << *it;
-		}
+		user *tmp = server.add_connection(readfds);
+		if (tmp)
+			users.push_back(tmp);
+		std::map<int, std::string> msg = server.receive(readfds);
+		handle_commands(msg, buffers);
+		// for (std::map<int, std::string>::iterator it = msg.begin(); it != msg.end(); ++it)
+		// 	std::cout << it->first << "=>" << it->second;
+		server.rm_useless();
+	}
+	for (std::vector<user *>::iterator it = users.begin(); it != users.end(); ++it)
+	{
+		delete *it;
 	}
 }

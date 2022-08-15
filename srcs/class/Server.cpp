@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Server.cpp                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tlafay <tlafay@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/10 13:48:49 by tlafay            #+#    #+#             */
-/*   Updated: 2022/08/15 11:27:04 by tlafay           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "Server.hpp"
 
 Server::Server() {}
@@ -36,6 +24,7 @@ Server::Server(const std::string &port, const std::string &pass):
 {
 	(void)pass;
 
+	check_port_range(port);
 	int	opt = true;
 	_main_socket = socket(AF_INET , SOCK_STREAM , 0);
 	if (_main_socket == -1)
@@ -53,7 +42,7 @@ Server::Server(const std::string &port, const std::string &pass):
 
 	_address.sin_family = AF_INET;
 	_address.sin_addr.s_addr = INADDR_ANY;
-	_address.sin_port = htons(atoi(port.c_str()));
+	_address.sin_port = htons(std::atoi(port.c_str()));
 	if (bind(_main_socket, (struct sockaddr*)&_address, sizeof(_address)) < 0)
 	{
 		// Port is unavaible
@@ -114,9 +103,12 @@ std::size_t const	&Server::get_current_id() const
 * 	** Notes **
 **/
 
-void	Server::send(const std::string &msg, const int &client_fd)
+void	Server::send(const std::string &msg, const std::size_t &id)
 {
-	if(::send(client_fd, msg.c_str(), msg.size(), 0) != static_cast<long>(msg.size()))
+	if (_users.find(id) == _users.end())
+		return;
+
+	if(::send(_users[id], msg.c_str(), msg.size(), 0) != static_cast<long>(msg.size()))
 		std::cout << "Couldn't send message. errno: " << errno << std::endl;
 }
 
@@ -134,13 +126,13 @@ void	Server::send(const std::string &msg, const int &client_fd)
 * 	The return should be a map, associocating an id with a buffer.
 **/
 
-std::vector<std::string>	Server::receive(fd_set &readfds)
+std::map<int, std::string>	Server::receive(fd_set &readfds)
 {
 	int		sd;
 	char	*buffer = NULL;
 	size_t	valread;
 	
-	std::vector<std::string>	v;
+	std::map<int, std::string>	m;
 
 	for (std::map<int, int>::iterator it = _users.begin(); it != _users.end(); ++it) 
 	{
@@ -153,7 +145,7 @@ std::vector<std::string>	Server::receive(fd_set &readfds)
 			FILE* fp = fdopen(sd, "r");
 			getline(&buffer, &valread, fp);
 			if (valread > 1)
-				v.push_back(buffer);
+				m[it->first] = buffer;
 			else
 			{
 				close(sd);
@@ -162,7 +154,7 @@ std::vector<std::string>	Server::receive(fd_set &readfds)
 			free(buffer);
 		}
 	}
-	return (v);
+	return (m);
 }
 
 /**
@@ -180,10 +172,10 @@ std::vector<std::string>	Server::receive(fd_set &readfds)
 * 	Exits if accept fails.
 **/
 
-void	Server::add_connection(fd_set &readfds)
+user	*Server::add_connection(fd_set &readfds)
 {
 	if (!FD_ISSET(_main_socket, &readfds))
-		return;
+		return NULL;
 
 	std::size_t addrlen = sizeof(_address);
 	int new_socket = accept(_main_socket,
@@ -193,9 +185,10 @@ void	Server::add_connection(fd_set &readfds)
 		std::cout << "Accept failed. errno: " << errno << std::endl;
 		exit(EXIT_FAILURE);
 	}
-
+	user *usr = new user("Bob", _current_id);
 	_users[_current_id] = new_socket;
 	_current_id++;
+	return (usr);
 }
 
 /**
@@ -232,6 +225,21 @@ void	Server::select(fd_set &readfds)
 		std::cout << "Select failed: " << errno << std::endl;
 }
 
+/**
+* Description:
+* 	Remove useless ids (connection over).
+* 
+* Args:
+* 	None.
+* 
+* Return:
+* 	None.
+* 
+* Notes:
+* 	** Notes **
+**/
+
+
 void	Server::rm_useless()
 {
 	if (_users.size() <= 1)
@@ -243,8 +251,56 @@ void	Server::rm_useless()
 	}
 }
 
+/**
+* Description:
+* 	Disconnect a user from the server.
+* 
+* Args:
+* 	id: The id of the user.
+* 
+* Return:
+* 	None.
+* 
+* Notes:
+* 	** Notes **
+**/
+
+
+void	Server::disconnect(const std::size_t &id)
+{
+	close(_users[id]);
+	_users[id] = 0;
+}
+
 void	Server::operator=(const Server &other)
 {
 	std::cout << "Copy assignment operator called" << std::endl;
 	(void)other;
+}
+
+/**
+* Description:
+* 	Check if given port is valid.
+* 
+* Args:
+* 	port: The port number.
+* 
+* Return:
+* 	None
+* 
+* Notes:
+* 	Ports in the range 0-1023 are theoratically
+* 	usable. However, they should be reserved for
+* 	Unix services.
+**/
+
+
+void	Server::check_port_range(const std::string &port)
+{
+	int iport = std::atoi(port.c_str());
+	if (iport < 1024 || iport > 65535)
+	{
+		std::cout << "The given port is invalid\nAllowed: 1024 - 65535" << std::endl;
+		exit(EXIT_FAILURE);
+	}
 }
