@@ -6,7 +6,7 @@
 /*   By: tlafay <tlafay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 13:48:49 by tlafay            #+#    #+#             */
-/*   Updated: 2022/08/12 14:51:22 by tlafay           ###   ########.fr       */
+/*   Updated: 2022/08/15 11:27:04 by tlafay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,11 @@ Server::Server() {}
  * 	** Notes **
  **/
 
-Server::Server(const std::string &port, const std::string &pass): _current_id(0)
+Server::Server(const std::string &port, const std::string &pass):
+	_users(std::map<int, int>()),
+	_current_id(0)
 {
 	(void)pass;
-
-	for (int i = 0; i < MAX_CLIENTS; ++i)
-		_client_sockets[i] = 0;
 
 	int	opt = true;
 	_main_socket = socket(AF_INET , SOCK_STREAM , 0);
@@ -82,6 +81,26 @@ Server::~Server()
 
 /**
 * Description:
+* 	Returns the current id available for user creation.
+* 
+* Args:
+* 	None.
+* 
+* Return:
+* 	The current id.
+* 
+* Notes:
+* 	** Notes **
+**/
+
+
+std::size_t const	&Server::get_current_id() const
+{
+	return (_current_id);
+}
+
+/**
+* Description:
 * 	Sends a message to a client.
 * 
 * Args:
@@ -106,7 +125,7 @@ void	Server::send(const std::string &msg, const int &client_fd)
 * 	Receive the messages from all clients.
 * 
 * Args:
-* 	None.
+* 	readfds: A fd_set of all sockets connected.
 * 
 * Return:
 * 	Returns a vector of strings containing all the messages.
@@ -123,10 +142,10 @@ std::vector<std::string>	Server::receive(fd_set &readfds)
 	
 	std::vector<std::string>	v;
 
-	for (int i = 0; i < MAX_CLIENTS; i++) 
+	for (std::map<int, int>::iterator it = _users.begin(); it != _users.end(); ++it) 
 	{
 		valread = 0;
-		sd = _client_sockets[i];
+		sd = it->second;
 
 		if (FD_ISSET(sd, &readfds))
 		{
@@ -134,16 +153,13 @@ std::vector<std::string>	Server::receive(fd_set &readfds)
 			FILE* fp = fdopen(sd, "r");
 			getline(&buffer, &valread, fp);
 			if (valread > 1)
-			{
 				v.push_back(buffer);
-				send(buffer, sd);
-				free(buffer);
-			}
 			else
 			{
 				close(sd);
-				_client_sockets[i] = 0;
+				it->second = 0;
 			}
+			free(buffer);
 		}
 	}
 	return (v);
@@ -178,14 +194,7 @@ void	Server::add_connection(fd_set &readfds)
 		exit(EXIT_FAILURE);
 	}
 
-	for (int i = 0; i < MAX_CLIENTS; i++)
-	{
-		if(_client_sockets[i] == 0)
-		{
-			_client_sockets[i] = new_socket;
-			break;
-		}
-	}
+	_users[_current_id] = new_socket;
 	_current_id++;
 }
 
@@ -209,9 +218,9 @@ void	Server::select(fd_set &readfds)
 	FD_SET(_main_socket, &readfds);
 	
 	int max_sd = _main_socket;
-	for (int i = 0 ; i < MAX_CLIENTS ; i++)
+	for (std::map<int, int>::iterator it = _users.begin(); it != _users.end(); ++it)
 	{
-		int sd = _client_sockets[i];
+		int sd = it->second;
 		if(sd > 0)
 			FD_SET(sd, &readfds);
 		if(sd > max_sd)
@@ -221,6 +230,17 @@ void	Server::select(fd_set &readfds)
 	int activity = ::select(max_sd + 1, &readfds, NULL, NULL, NULL);
 	if ((activity < 0) && (errno != EINTR))
 		std::cout << "Select failed: " << errno << std::endl;
+}
+
+void	Server::rm_useless()
+{
+	if (_users.size() <= 1)
+		return ;
+	for (std::map<int, int>::iterator it = _users.begin(); it != _users.end(); ++it)
+	{
+		if (it->second == 0)
+			_users.erase(it->first);
+	}
 }
 
 void	Server::operator=(const Server &other)

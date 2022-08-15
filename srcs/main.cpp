@@ -6,7 +6,7 @@
 /*   By: tlafay <tlafay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 11:25:23 by tlafay            #+#    #+#             */
-/*   Updated: 2022/08/12 14:07:25 by tlafay           ###   ########.fr       */
+/*   Updated: 2022/08/15 11:15:10 by tlafay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int main(int argc, char **argv)
 	fd_set readfds;	
 	while (true)
 	{
+		server.rm_useless();
 		server.select(readfds);
 		server.add_connection(readfds);
 		std::vector<std::string> v = server.receive(readfds);

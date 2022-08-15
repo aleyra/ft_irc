@@ -6,7 +6,7 @@
 /*   By: tlafay <tlafay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 13:50:36 by tlafay            #+#    #+#             */
-/*   Updated: 2022/08/12 14:51:29 by tlafay           ###   ########.fr       */
+/*   Updated: 2022/08/15 10:22:36 by tlafay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include <iostream>
 #include <unistd.h>
 #include <vector>
+#include <map>
 #include <string>
 #include <fcntl.h>
 
@@ -35,24 +36,21 @@ class Server
 		Server(const Server &f);
 		~Server();
 
+		std::size_t const	&get_current_id() const;
+
 		void						send(const std::string &msg, const int &client_fd);
 		std::vector<std::string>	receive(fd_set &readfds);
 		void						add_connection(fd_set &readfds);
 		void						select(fd_set &readfds);
+		void						rm_useless();
 
 		void	operator=(const Server &f);
 		
 	private:
 
-		// A map of users, with a socket associated.
-		// If user is NULL, the socket is unused.
-		std::map<int, user *> users;
-		int			_main_socket;
-
-		// This variable will probably be deprecated in favor
-		// of the user map.
-		int			_client_sockets[MAX_CLIENTS];
-
+		// A map of ids, with a socket associated.
+		std::map<int, int>	_users;
+		int					_main_socket;
 		sockaddr_in _address;
 		std::size_t	_current_id;
 
