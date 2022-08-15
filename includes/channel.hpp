@@ -50,3 +50,5 @@ class channel{
 		void	change_lvl_usr(user* u, int lvl);
 	// #pragma endregion other member functions
 };
+
+channel*	searchChannelByName(std::string mask, std::vector<channel*> chan_vec);

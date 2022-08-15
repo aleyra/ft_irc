@@ -159,7 +159,7 @@ std::time_t	user::check_Idle_time(){
 	return (now - this->getLast_activity());
 }
 
-void	user::addList_chan(channel* nc){
+void	user::addList_chan(channel* nc){//gerer que max 10
 	this->_list_chan.push_back(nc);
 }
 void	user::rmList_chan(channel* c){
@@ -181,13 +181,10 @@ bool	operator>=(user const & lhs, user const & rhs){return (lhs.getId() >= rhs.g
 bool	operator<(user const & lhs, user const & rhs){return (lhs.getId() < rhs.getId());}
 bool	operator<=(user const & lhs, user const & rhs){return (lhs.getId() <= rhs.getId());}
 
-user*	searchUser(std::string mask){
-	user*	usr;
-	std::map<int, user*> usr_list;//a changer // recup la liste des user notee ici usr_list
-	for (std::map<int, user*>::iterator it = usr_list.begin(); it != usr_list.end(); it++){
-		usr = it->second;
-		if (usr->getNick().compare(mask) == 0)			
-			return usr;
+user*	searchUserByNick(std::string mask, std::vector<user*> usr_vec){
+	for (size_t i = 0; i < usr_vec.size(); ++i){
+		if (usr_vec[i]->getNick().compare(mask) == 0)
+			return usr_vec[i];
 	}
 	return NULL;
 }
@@ -197,5 +194,16 @@ char	display_isaway(user* usr){
 		return 'G';
 	return 'H';
 }
+
+bool	has1channelInCommon(user* u1, user* u2){
+	std::vector<channel*> list_chan1 = u1->getList_chan();
+	std::vector<channel*> list_chan2 = u2->getList_chan();
+	for (size_t i = 0; i < list_chan1.size(); ++i){
+		if (searchChannelByName(list_chan1[i]->getName(), list_chan2) != NULL)
+			return true;
+	}
+	return false;
+}
+
 
 // #pragma endregion non-member functions

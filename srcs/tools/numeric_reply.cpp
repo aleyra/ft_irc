@@ -22,9 +22,6 @@ int	numeric_reply(int err, user* usr, Server* srv){
 	case ERR_NOLOGIN:
 		std::cout << /*srv->client <<*/ " " << usr << ":User not logged in" << std::endl;
 		break;
-	// case RPL_AWAY:
-	// 	std::cout << /*srv->client <<*/ " " << usr->getNick() << ":" << usr->getAway_msg() << std::endl;
-	// 	break;	
 	default:
 		break;
 	}
@@ -96,6 +93,9 @@ int	numeric_reply(int err, std::string s, Server* srv){//s for cmd, operation, c
 		break;
 	case RPL_ENDOFWHO:
 		std::cout << s << " :End of WHO list" << std::endl;
+		break;
+	case ERR_UNAVAILRESOURCE:
+		std::cout << s << " :Nick/channel is temporarily unavailable" << std::endl;
 		break;
 	default:
 		break;
