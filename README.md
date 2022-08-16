@@ -47,8 +47,8 @@
 			<!-- <li>Requete basee sur les utilisateurs : WHO / WHOIS / WHOWAS</li> -->
 			<li>messages divers : 
 				KILL / 
-				PING / 
-				PONG / 
+				<strike>PING</strike> / 
+				<strike>PONG</strike> / 
 				ERROR 
 			</li>
 			<!-- <li>messages optionnels : AWAY / REHASH / RESTART / SUMMON (? la je suis pas sure) / USERS / WALLOPS / USERHOST / ISON</li> -->
