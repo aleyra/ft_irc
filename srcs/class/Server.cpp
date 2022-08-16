@@ -9,21 +9,19 @@ Server::Server() {}
  * 
  * Args:
  *		port: The port to listen to.
- *		pass: The password to access the server.
  * 
  * Return:
  * 	N/A.
  * 
  * Notes:
- * 	** Notes **
+ * 	The program might exit at multiple instances due to
+ * 	vital functions' failure.
  **/
 
-Server::Server(const std::string &port, const std::string &pass):
+Server::Server(const std::string &port):
 	_users(std::map<int, int>()),
 	_current_id(0)
 {
-	(void)pass;
-
 	check_port_range(port);
 	int	opt = true;
 	_main_socket = socket(AF_INET , SOCK_STREAM , 0);
@@ -118,6 +116,7 @@ void	Server::send(const std::string &msg, const std::size_t &id)
 * 
 * Args:
 * 	readfds: A fd_set of all sockets connected.
+* 	users: Set the user as offline if they disconnected.
 * 
 * Return:
 * 	Returns a vector of strings containing all the messages.
@@ -126,19 +125,15 @@ void	Server::send(const std::string &msg, const std::size_t &id)
 * 	The return should be a map, associocating an id with a buffer.
 **/
 
-std::map<int, std::string>	Server::receive(fd_set &readfds)
+std::map<int, std::string>	Server::receive(fd_set &readfds, std::map<int, user *> &users)
 {
-	int		sd;
 	char	*buffer = NULL;
-	size_t	valread;
-	
 	std::map<int, std::string>	m;
 
 	for (std::map<int, int>::iterator it = _users.begin(); it != _users.end(); ++it) 
 	{
-		valread = 0;
-		sd = it->second;
-
+		size_t valread = 0;
+		int sd = it->second;
 		if (FD_ISSET(sd, &readfds))
 		{
 			fcntl(sd, F_SETFL, O_NONBLOCK);
@@ -150,6 +145,7 @@ std::map<int, std::string>	Server::receive(fd_set &readfds)
 			{
 				close(sd);
 				it->second = 0;
+				users[it->first]->setIsonline(false);
 			}
 			free(buffer);
 		}
@@ -166,7 +162,7 @@ std::map<int, std::string>	Server::receive(fd_set &readfds)
 * 	readfds: A fd_set of all sockets connected.
 * 
 * Return:
-* 	None.
+* 	Returns a new user.
 * 
 * Notes:
 * 	Exits if accept fails.
@@ -185,7 +181,7 @@ user	*Server::add_connection(fd_set &readfds)
 		std::cout << "Accept failed. errno: " << errno << std::endl;
 		exit(EXIT_FAILURE);
 	}
-	user *usr = new user("Bob", _current_id);
+	user *usr = new user("", _current_id);
 	_users[_current_id] = new_socket;
 	_current_id++;
 	return (usr);
@@ -242,10 +238,10 @@ void	Server::select(fd_set &readfds)
 
 void	Server::rm_useless()
 {
-	if (_users.size() <= 1)
-		return ;
 	for (std::map<int, int>::iterator it = _users.begin(); it != _users.end(); ++it)
 	{
+		if (_users.size() <= 1)
+			return ;
 		if (it->second == 0)
 			_users.erase(it->first);
 	}
@@ -275,7 +271,10 @@ void	Server::disconnect(const std::size_t &id)
 void	Server::operator=(const Server &other)
 {
 	std::cout << "Copy assignment operator called" << std::endl;
-	(void)other;
+	_users = other._users;
+	_main_socket = other._main_socket;
+	_address = other._address;
+	_current_id = other._current_id;
 }
 
 /**
@@ -289,7 +288,7 @@ void	Server::operator=(const Server &other)
 * 	None
 * 
 * Notes:
-* 	Ports in the range 0-1023 are theoratically
+* 	Ports in the range 0-1023 are theoretically
 * 	usable. However, they should be reserved for
 * 	Unix services.
 **/

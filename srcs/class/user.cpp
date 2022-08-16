@@ -21,6 +21,7 @@ user::user(std::string usr_name, unsigned int id){
 	this->_isop = false;
 	this->_id = id;
 	this->_mode = 0;
+	this->_isonline = true;
 	// this->_idle_time = 0;
 }
 
