@@ -11,6 +11,7 @@ channel::channel(std::string name, user* founder){
 	this->_founder = founder;
 	this->_isMod = false;
 	this->_usr_list[founder] = 4;
+	this->_mode = 0;
 }
 
 channel::~channel(){
@@ -25,6 +26,7 @@ channel&	channel::operator=(channel const &src){
 	this->_founder = src._founder;
 	this->_isMod = src._isMod;
 	this->_usr_list = src._usr_list;
+	this->_mode = src._mode;
 	return *this;
 }
 
@@ -44,6 +46,15 @@ channel&	channel::operator=(channel const &src){
 	std::map<user*, int> const &	channel::getUsr_list() const{
 		return this->_usr_list;
 	}
+	
+	void	channel::setMode(char c){
+		this->_mode = c;
+	}
+
+	char const &	channel::getMode() const{
+		return this->_mode;
+	}
+
 
 // #pragma endregion getters and setters
 
