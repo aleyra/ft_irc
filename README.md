@@ -12,7 +12,7 @@
 <ul> Les tâches que j'ai relevé pour le moment :
 	<li>gerer l'authentification par nickname et username</li>
 	<li>gerer la creation/destruction de canaux</li>
-	<li>gerer 3 types d'utilisateur : basiques, operateur de canal, operateur irc (pencez a voir les points 	8.12.2 et 8.12.4 de la doc)</li>
+	<li>gerer 3 types d'utilisateur : basiques, operateur de canal, operateur irc (pencez a voir les points 8.12.2 et 8.12.4 de la doc)</li>
 	<li>gestions de differents types de messages, ie, envoyé :
 		<ul>
 			<li>a une liste</li>
@@ -39,7 +39,7 @@
 				INVITE / 
 				KICK
 			</li>
-			<!-- <li>Requetes et cmd serveur : VERSION / STATS / TIME / iNVITE / ADMIN (penser a voir 8.12.4 	de la doc) / INFO</li> -->
+			<!-- <li>Requetes et cmd serveur : VERSION / STATS / TIME / iNVITE / ADMIN (penser a voir 8.12.4 de la doc) / INFO</li> -->
 			<li>envoi de messages : 
 				PRIVMSG / 
 				NOTICE
@@ -51,7 +51,7 @@
 				PONG / 
 				ERROR 
 			</li>
-			<!-- <li>messages optionnels : AWAY / REHASH / RESTART / SUMMON (? la je suis pas sure) / USERS 	/ WALLOPS / USERHOST / ISON</li> -->
+			<!-- <li>messages optionnels : AWAY / REHASH / RESTART / SUMMON (? la je suis pas sure) / USERS / WALLOPS / USERHOST / ISON</li> -->
 		</ul>
 	</li>
 	<li>faire LE ficher de configuration</li>

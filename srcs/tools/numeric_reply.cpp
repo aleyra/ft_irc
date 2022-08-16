@@ -97,6 +97,8 @@ int	numeric_reply(int err, std::string s, Server* srv){//s for cmd, operation, c
 	case ERR_UNAVAILRESOURCE:
 		std::cout << s << " :Nick/channel is temporarily unavailable" << std::endl;
 		break;
+	case RPL_ENDOFNAMES://avec s comme param car le chan s peut de pas exister;
+		std::cout << /*srv->client <<*/ " " << s << " :End of NAMES list";
 	default:
 		break;
 	}
