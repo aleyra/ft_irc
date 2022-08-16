@@ -23,12 +23,12 @@
 <li>creer differentes cmds :
 	<ul>
 		<li>etablissement de connexion : PASS / NICK / USER / OPER / QUIT</li>
-		<li>operations sur un canal : JOIN / PART / MODE (pour mode, il y a plein d'options) / TOPiC / NAMES / LIST / INVITE / KICK</li>
-		<li>Requetes et cmd serveur : VERSION / STATS / TIME / iNVITE / ADMIN (penser a voir 8.12.4 de la doc) / INFO</li>
+		<li>operations sur un canal (a check avant de se lancer) : JOIN / PART / MODE (pour mode, il y a plein d'options) / TOPiC / NAMES / LIST / INVITE / KICK</li>
+		<!-- <li>Requetes et cmd serveur : VERSION / STATS / TIME / iNVITE / ADMIN (penser a voir 8.12.4 de la doc) / INFO</li> -->
 		<li>envoi de messages : PRIVMSG / NOTICE</li>
-		<li>Requete basee sur les utilisateurs : WHO / WHOIS / WHOWAS</li>
+		<!-- <li>Requete basee sur les utilisateurs : WHO / WHOIS / WHOWAS</li> -->
 		<li>messages divers : KiLL / PING / PONG / ERROR </li>
-		<li>messages optionnels : AWAY / REHASH / RESTART / SUMMON (? la je suis pas sure) / USERS / WALLOPS / USERHOST / ISON</li>
+		<!-- <li>messages optionnels : AWAY / REHASH / RESTART / SUMMON (? la je suis pas sure) / USERS / WALLOPS / USERHOST / ISON</li> -->
 	</ul>
 </li>
 <li>faire LE ficher de configuration</li>
