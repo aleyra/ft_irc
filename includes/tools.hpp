@@ -5,6 +5,9 @@
 # include "Server.hpp"
 # include "channel.hpp"
 # include "user.hpp"
+# include "cmds.hpp"
+# include <iostream>
+# include <map>
 # include <sstream>
 # include <iterator>
 
@@ -23,9 +26,11 @@ std::vector<std::string>	params(std::string s);
 std::vector<std::string>	paramsSeparedByComas(std::string txt);
 
 //in handle_commands.cpp
-void	make_full_command(std::map<int, std::string> &msg,
-	std::map<int, std::string> &buffers,
-	std::map<int, user *> users);
+void	make_full_command(std::map<unsigned int, std::string> &msg,
+	std::map<unsigned int, std::string> &buffers,
+	std::map<unsigned int, user *> &users,
+	std::vector<channel *> &channels,
+	Server &server);
 
 //in timeout.cpp
 void	timeout(std::map<unsigned int, user *> &users, Server &server);

@@ -27,7 +27,8 @@ class Server
 		std::size_t const	&get_current_id() const;
 
 		void						send(const std::string &msg, const std::size_t &id);
-		std::map<int, std::string>	receive(fd_set &readfds, std::map<int, user *> &users);
+		std::map<unsigned int, std::string>	receive(fd_set &readfds,
+			std::map<unsigned int, user *> &users);
 		user						*add_connection(fd_set &readfds);
 		void						select(fd_set &readfds);
 		void						rm_useless();
@@ -37,7 +38,7 @@ class Server
 		
 	private:
 		// A map of ids, with a socket associated.
-		std::map<int, int>	_users;
+		std::map<unsigned int, int>	_users;
 		// The socket that handles all connections.
 		int					_main_socket;
 		// A thing used to get addresses.
