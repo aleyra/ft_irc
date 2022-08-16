@@ -1,6 +1,6 @@
 #include "cmds.hpp"
 
-int	nick(std::vector<std::string> params, user& usr, std::map<int, user *>& users, Server& srv){
+int	nick(std::vector<std::string> params, user& usr, std::map<unsigned int, user *>& users, Server& srv){
 	if (params.size() == 0)
 		return (numeric_reply(ERR_NEEDMOREPARAMS, "NICK", srv));
 	//pas de precision sur comment gerer quand plus de 1 param ->ignorer

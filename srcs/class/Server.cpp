@@ -19,7 +19,7 @@ Server::Server() {}
  **/
 
 Server::Server(const std::string &port):
-	_users(std::map<int, int>()),
+	_users(std::map<unsigned int, int>()),
 	_current_id(0)
 {
 	check_port_range(port);
@@ -125,12 +125,14 @@ void	Server::send(const std::string &msg, const std::size_t &id)
 * 	The return should be a map, associocating an id with a buffer.
 **/
 
-std::map<int, std::string>	Server::receive(fd_set &readfds, std::map<int, user *> &users)
+std::map<unsigned int, std::string>	Server::receive(fd_set &readfds,
+	std::map<unsigned int, user *> &users)
 {
 	char	*buffer = NULL;
-	std::map<int, std::string>	m;
+	std::map<unsigned int, std::string>	m;
 
-	for (std::map<int, int>::iterator it = _users.begin(); it != _users.end(); ++it) 
+	for (std::map<unsigned int, int>::iterator it = _users.begin();
+		it != _users.end(); ++it) 
 	{
 		size_t valread = 0;
 		int sd = it->second;
@@ -207,7 +209,8 @@ void	Server::select(fd_set &readfds)
 	FD_SET(_main_socket, &readfds);
 	
 	int max_sd = _main_socket;
-	for (std::map<int, int>::iterator it = _users.begin(); it != _users.end(); ++it)
+	for (std::map<unsigned int, int>::iterator it = _users.begin();
+		it != _users.end(); ++it)
 	{
 		int sd = it->second;
 		if(sd > 0)
@@ -238,7 +241,8 @@ void	Server::select(fd_set &readfds)
 
 void	Server::rm_useless()
 {
-	for (std::map<int, int>::iterator it = _users.begin(); it != _users.end(); ++it)
+	for (std::map<unsigned int, int>::iterator it = _users.begin();
+		it != _users.end(); ++it)
 	{
 		if (_users.size() <= 1)
 			return ;

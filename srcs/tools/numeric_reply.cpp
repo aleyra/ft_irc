@@ -3,9 +3,8 @@
 //chan = channel // don't know more... maybe canal's id ?
 //srv->name = server's name
 //srv->mask = server's mask
-//srv->host = host's server
+//srv->host = host's server (always localhost)
 //srv = server //don't know more...
-//srv->info = server's info
 
 int	numeric_reply(int err, user* usr, Server& srv){
 	(void)srv;
@@ -109,7 +108,7 @@ int	numeric_reply(int err, Server& srv){
 	(void)srv;
 	switch (err){
 	case ERR_NOSUCHSERVER:
-		std::cout << /*srv->client <<*/ " " << /*srv->name <<*/ ":No such serve" << std::endl;
+		std::cout << /*srv->client <<*/ " " << /*srv->name <<*/ ":No such server" << std::endl;
 		break;
 	case ERR_NOTOPLEVEL:
 		std::cout << /*srv->client <<*/ " " << /*srv->mask <<*/ ":No toplevel domain specified" << std::endl;
@@ -214,27 +213,3 @@ int	numeric_reply(int err, user* usr, channel* chan, Server& srv){
 	}
 	return (err);
 }
-
-// int	numeric_reply(int err, user* usr, Server& srv){
-// 	switch (err){
-// 	case RPL_USERHOST://to be used with a 'for' for each nick in the cmd USERHOST separate by a ' ' et a '\n' right after the 'for'
-// 		std::cout << /*srv->client <<*/ " " << usr->getNick() << "[";
-// 		if (usr->getLvl() == 2) std::cout << "operator";
-// 		else std::cout << "non operator";
-// 		std::cout << "] = <";
-// 		if (usr->getIsaway() == TRUE) std::cout << usr->getAway_msg();
-// 		std::cout << ">" << srv->host;
-// 		break;
-// 	case RPL_WHOISUSER:
-// 		std::cout << /*srv->client <<*/ " " << usr->getNick() << " " << usr << srv->host << "*:" << usr->getTruename() << std::endl;
-// 		break;
-// 	case RPL_WHOISSERVER:
-// 		std::cout << /*srv->client <<*/ " " << usr->getNick() << " " << /*srv <<*/ ":" << srv->info << std::endl;
-// 		break;
-// 	}
-// return (err);
-// }
-
-// case /* constant-expression */:
-// 		/* code */
-// 		break;

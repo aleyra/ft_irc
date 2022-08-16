@@ -34,7 +34,7 @@ int	rpl_namreply(channel* chan, Server& srv){
 	return (RPL_NAMREPLY);
 }
 
-int	names(std::string params, std::vector<channel*> chan_vec, std::map<int, user *>& users, Server& srv){
+int	names(std::string params, std::vector<channel*> chan_vec, std::map<unsigned int, user *>& users, Server& srv){
 	channel*				chan = NULL;
 
 	//case no <channel> parameter is given
@@ -43,7 +43,7 @@ int	names(std::string params, std::vector<channel*> chan_vec, std::map<int, user
 			if (chan_vec[i]->getMode() != 's' && chan_vec[i]->getMode() != 'p')
 				rpl_namreply(chan_vec[i], srv);
 		}
-		for (std::map<int, user *>::iterator it = users.begin(); it != users.end(); ++it){
+		for (std::map<unsigned int, user *>::iterator it = users.begin(); it != users.end(); ++it){
 			if ((it->second->getMode() != 'i' && it->second->getList_chan().empty())
 				|| isIn1VisibleChannel(it->second) == false)
 			std::cout << it->second->getNick() << " ";

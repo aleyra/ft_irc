@@ -90,7 +90,7 @@ bool	operator>=(user const & lhs, user const & rhs);
 bool	operator<(user const & lhs, user const & rhs);
 bool	operator<=(user const & lhs, user const & rhs);
 
-user*	searchUserByNick(std::string mask, std::map<int, user *>& users);
+user*	searchUserByNick(std::string mask, std::map<unsigned int, user *>& users);
 char	display_isaway(user& usr);
 bool	has1channelInCommon(user& u1, user& u2);
 bool	isIn1VisibleChannel(user* u);

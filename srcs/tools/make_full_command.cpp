@@ -1,14 +1,39 @@
-#include <iostream>
-#include <map>
 #include "tools.hpp"
 
-void	exec_command(std::pair<int, std::string> &command)
+/**
+* Description:
+* 	Execute a command.
+* 
+* Args:
+* 	id: The id of the user executing.
+* 	command: The full command + args to execute.
+* 	users: The list of all users.
+* 	channels: The list of all channels.
+* 	server: The server to execute the command on.
+* 
+* Return:
+* 	None.
+* 
+* Notes:
+* 	The parsing is very simple, not tested that much.
+* 	A switch or function pointers could be used in case
+* 	the if/else become overwhelming.
+**/
+
+
+void	exec_command(const int &id, const std::string &command,
+	std::map<unsigned int, user *> &users,
+	std::vector<channel *> &channels,
+	Server &server)
 {
-	std::cout << command.second;
-	std::string firstWord = command.second.substr(0, command.second.find(" "));
-	std::string args = command.second.substr(command.second.find_first_of(" \t") + 1);
-	std::cout << "The first word is: " << firstWord << std::endl;
-	std::cout << "The args are: " << args << std::endl;
+	std::string firstWord = command.substr(0, command.find(" "));
+	std::string args = command.substr(command.find_first_of(" \t") + 1);
+	if (firstWord == "NICK")
+		nick(params(args), *users[id], users, server);
+	else if (firstWord == "NAMES")
+		names(args, channels, users, server);
+	else if (firstWord == "PING")
+		pong(params(args), *users[id], server);
 }
 
 /**
@@ -28,12 +53,14 @@ void	exec_command(std::pair<int, std::string> &command)
 * 	small amounts of data though.
 **/
 
-void	make_full_command(std::map<int, std::string> &msg,
-	std::map<int, std::string> &buffers,
-	std::map<int, user *> users)
+void	make_full_command(std::map<unsigned int, std::string> &msg,
+	std::map<unsigned int, std::string> &buffers,
+	std::map<unsigned int, user *> &users,
+	std::vector<channel *> &channels,
+	Server &server)
 {
-	(void)users;
-	for (std::map<int, std::string>::iterator it = msg.begin(); it != msg.end(); ++it)
+	for (std::map<unsigned int, std::string>::iterator it = msg.begin();
+		it != msg.end(); ++it)
 	{
 		buffers[it->first] += it->second;
 		if (users[it->first]->getIsonline())
@@ -42,9 +69,7 @@ void	make_full_command(std::map<int, std::string> &msg,
 			continue;
 		if (buffers[it->first].back() == '\n')
 		{
-			std::cout << it->first << "=>";
-			std::pair<int, std::string> pair(it->first, buffers[it->first]);
-			exec_command(pair);
+			exec_command(it->first, buffers[it->first], users, channels, server);
 			buffers[it->first].clear();
 		}
 	}

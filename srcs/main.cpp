@@ -12,23 +12,23 @@ int main(int argc, char **argv)
 
 	Server server(argv[1]);
 	fd_set readfds;
-	std::map<int, user *> users;
+	std::map<unsigned int, user *> users;
 	std::vector<channel *> channels;
-	std::map<int, std::string> buffers;
+	std::map<unsigned int, std::string> buffers;
 	while (true)
 	{
 		server.select(readfds);
 		user *tmp = server.add_connection(readfds);
 		if (tmp)
 			users[tmp->getId()] = tmp;
-		std::map<int, std::string> msg = server.receive(readfds, users);
+		std::map<unsigned int, std::string> msg = server.receive(readfds, users);
 		timeout(users, server);
-		make_full_command(msg, buffers, users);
+		make_full_command(msg, buffers, users, channels, server);
 		server.rm_useless();
 	}
 
-	// It's a "good practice" but useless since we never exit the loop.
-	for (std::map<int, user *>::iterator it = users.begin(); it != users.end(); ++it)
+	// It's a "good practice" but useless since we never exit the loop anyway.
+	for (std::map<unsigned int, user *>::iterator it = users.begin(); it != users.end(); ++it)
 	{
 		delete it->second;
 	}
