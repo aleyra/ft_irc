@@ -34,7 +34,7 @@
 				PART / 
 				MODE (pour mode, il y a plein d'options) / 
 				TOPiC / 
-				NAMES / 
+				<strike>NAMES</strike> / 
 				LIST / 
 				INVITE / 
 				KICK

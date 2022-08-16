@@ -3,7 +3,7 @@
 int	nick(std::vector<std::string> params, user& usr, std::map<int, user *>& users, Server& srv){
 	if (params.size() == 0)
 		return (numeric_reply(ERR_NEEDMOREPARAMS, "NICK", srv));
-	//pas de precision sur comment gerer quand plus de 1 param ->ignorer
+	//no indication on how to handle when there's more than 1 param -> ignored
 	if (usr.getMode() == 'r')
 		return (numeric_reply(ERR_RESTRICTED, srv));
 	std::string nick(params[0]);

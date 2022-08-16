@@ -1,16 +1,5 @@
 #include "cmds.hpp"
 
-std::vector<std::string>	names_params(std::string txt){
-	std::vector<std::string> 	v;
-	size_t						pos = txt.find(',');
-	while	(pos != std::string::npos){
-		txt.replace(pos, 1, " ");
-		pos = txt.find(',');
-	}
-	v = params(txt);
-	return v;
-}
-
 int	rpl_namreply(channel* chan, Server& srv){
 	// "<client> <symbol> <channel> :[prefix]<nick>{ [prefix]<nick>}"
 	(void) srv;//
@@ -53,7 +42,7 @@ int	names(std::string params, std::vector<channel*> chan_vec, std::map<int, user
 	}
 
 	//case we have a list of <channel> parameter is given
-	std::vector<std::string> v = names_params(params);
+	std::vector<std::string> v = paramsSeparedByComas(params);
 	for (size_t i = 0; i < v.size(); ++i){
 		chan = searchChannelByName(v[i], chan_vec);
 		if (chan !=  NULL)

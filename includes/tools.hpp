@@ -15,6 +15,7 @@ int	numeric_reply(int err, user* usr, channel* chan, Server& srv);
 
 //in params.cpp
 std::vector<std::string>	params(std::string s);
+std::vector<std::string>	paramsSeparedByComas(std::string txt);
 
 //in handle_commands.cpp
 void	handle_commands(std::map<int, std::string> &msg, std::map<int, std::string> &buffers);
