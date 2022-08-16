@@ -16,6 +16,8 @@ class channel{
 		user*					_founder;
 		bool					_isMod;//true si le chan est en mode moderate
 		std::map<user*, int>	_usr_list;//value de map = lvl acces. 0 = default, 1 = voice ok, 2 = halfop, 3 = protected, 4 = chan op
+		char					_mode;//https://datatracker.ietf.org/doc/html/rfc2811#section-4
+		std::string				_topic;
 
 	//#pragma region constructors destructor
 	private:
@@ -36,11 +38,15 @@ class channel{
 		void							setName(std::string n);
 		std::string const &				getName() const;
 		//pas de setter pour founder
-		user *					getFounder() const;
+		user *							getFounder() const;
 		void							setIsMod(bool b);
 		bool const &					getIsMod() const;
 		//pas de setter pour _usr_list, voir addUsr_list et rmUsr_list
-		std::map<user*, int> const &	getUsr_list() const;
+		std::map<user*, int> &			getUsr_list() ;
+		void							setMode(char c);
+		char const &					getMode() const;
+		void							setTopic(std::string t);
+		std::string	const &				getTopic() const;
 
 	// #pragma endregion getters and setters
 
@@ -51,4 +57,4 @@ class channel{
 	// #pragma endregion other member functions
 };
 
-channel*	searchChannelByName(std::string mask, std::vector<channel*> chan_vec);
+channel*	searchChannelByName(std::string mask, std::vector<channel*>& chan_vec);

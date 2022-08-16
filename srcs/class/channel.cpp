@@ -11,6 +11,7 @@ channel::channel(std::string name, user* founder){
 	this->_founder = founder;
 	this->_isMod = false;
 	this->_usr_list[founder] = 4;
+	this->_mode = 0;
 }
 
 channel::~channel(){
@@ -25,6 +26,7 @@ channel&	channel::operator=(channel const &src){
 	this->_founder = src._founder;
 	this->_isMod = src._isMod;
 	this->_usr_list = src._usr_list;
+	this->_mode = src._mode;
 	return *this;
 }
 
@@ -41,9 +43,26 @@ channel&	channel::operator=(channel const &src){
 
 	bool const &	channel::getIsMod() const{return this->_isMod;}
 
-	std::map<user*, int> const &	channel::getUsr_list() const{
+	std::map<user*, int> &	channel::getUsr_list() {
 		return this->_usr_list;
 	}
+	
+	void	channel::setMode(char c){
+		this->_mode = c;
+	}
+
+	char const &	channel::getMode() const{
+		return this->_mode;
+	}
+
+	void	channel::setTopic(std::string t){
+		this->_topic = t;
+	}
+
+	std::string	const &	channel::getTopic() const{
+		return this->_topic;
+	}
+
 
 // #pragma endregion getters and setters
 
@@ -58,7 +77,7 @@ channel&	channel::operator=(channel const &src){
 
 // #pragma endregion other member functions
 
-channel*	searchChannelByName(std::string mask, std::vector<channel*> chan_vec){
+channel*	searchChannelByName(std::string mask, std::vector<channel*>& chan_vec){
 	for (size_t i = 0; i < chan_vec.size(); ++i){
 		if (chan_vec[i]->getName().compare(mask) == 0)
 			return chan_vec[i];

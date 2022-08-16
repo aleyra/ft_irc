@@ -1,6 +1,6 @@
 #include "cmds.hpp"
 
-int	user_cmd(std::vector<std::string> params, user* usr, Server* srv){//<user> <mode> <unused> <realname>
+int	user_cmd(std::vector<std::string> params, user* usr, Server& srv){//<user> <mode> <unused> <realname>
 	if (params.size() < 4)
 		return (numeric_reply(ERR_NEEDMOREPARAMS, "USER",srv));
 	if (!usr->getTruename().empty())

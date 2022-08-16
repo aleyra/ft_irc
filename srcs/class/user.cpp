@@ -81,7 +81,7 @@ void	user::setLvl(int l){//on s'assure que le lvl est entre 0 et 2
 
 int const	&user::getLvl() const{return (this->_lvl);}
 
-std::vector<channel*> const &	user::getList_chan() const{
+std::vector<channel*>  &	user::getList_chan() {
 	return (this->_list_chan);
 }
 
@@ -133,7 +133,8 @@ bool const &	user::getIsonline() const{
 
 // #pragma region other member functions
 void	user::addHistory_nick(std::string	old_nick){
-	this->_history_nick.push_front(old_nick);
+	if (!old_nick.empty())
+		this->_history_nick.push_front(old_nick);
 }
 
 void	user::clearHistory_nick(){
@@ -182,28 +183,37 @@ bool	operator>=(user const & lhs, user const & rhs){return (lhs.getId() >= rhs.g
 bool	operator<(user const & lhs, user const & rhs){return (lhs.getId() < rhs.getId());}
 bool	operator<=(user const & lhs, user const & rhs){return (lhs.getId() <= rhs.getId());}
 
-user*	searchUserByNick(std::string mask, std::vector<user*> usr_vec){
-	for (size_t i = 0; i < usr_vec.size(); ++i){
-		if (usr_vec[i]->getNick().compare(mask) == 0)
-			return usr_vec[i];
+user*	searchUserByNick(std::string mask, std::map<int, user *>& users){
+	for (std::map<int, user *>::iterator it = users.begin(); it != users.end(); ++it){
+		if (it->second->getNick().compare(mask) == 0)
+			return it->second;
 	}
 	return NULL;
 }
 
-char	display_isaway(user* usr){
-	if (usr->getIsaway() == true)
+char	display_isaway(user& usr){
+	if (usr.getIsaway() == true)
 		return 'G';
 	return 'H';
 }
 
-bool	has1channelInCommon(user* u1, user* u2){
-	std::vector<channel*> list_chan1 = u1->getList_chan();
-	std::vector<channel*> list_chan2 = u2->getList_chan();
+bool	has1channelInCommon(user& u1, user& u2){
+	std::vector<channel*>&	list_chan1 = u1.getList_chan();
+	std::vector<channel*>&	list_chan2 = u2.getList_chan();
 	for (size_t i = 0; i < list_chan1.size(); ++i){
 		if (searchChannelByName(list_chan1[i]->getName(), list_chan2) != NULL)
 			return true;
 	}
 	return false;
+}
+
+bool	isIn1VisibleChannel(user* u){
+	std::vector<channel*>&	list_chan = u->getList_chan();
+	for (size_t i = 0; i < list_chan.size(); ++i){
+		if (list_chan[i]->getMode() != 's' && list_chan[i]->getMode() != 'p')//is visible
+			return true;
+	}
+	return (false);
 }
 
 

@@ -54,7 +54,7 @@ class user{
 		void							setLvl(int l);
 		int const &						getLvl() const;
 		//set de _list_chan est remplace par addList_chan et rmList_chan
-		std::vector<channel*> const &	getList_chan() const;//en attente de channel.hpp
+		std::vector<channel*>  &	getList_chan() ;//en attente de channel.hpp
 		void							setIsaway(bool a);
 		bool const &					getIsaway() const;
 		void							setIsaway_msg(std::string amsg);
@@ -90,7 +90,8 @@ bool	operator>=(user const & lhs, user const & rhs);
 bool	operator<(user const & lhs, user const & rhs);
 bool	operator<=(user const & lhs, user const & rhs);
 
-user*	searchUserByNick(std::string mask, std::vector<user*> usr_vec);
-char	display_isaway(user* usr);
-bool	has1channelInCommon(user* u1, user* u2);
+user*	searchUserByNick(std::string mask, std::map<int, user *>& users);
+char	display_isaway(user& usr);
+bool	has1channelInCommon(user& u1, user& u2);
+bool	isIn1VisibleChannel(user* u);
 
