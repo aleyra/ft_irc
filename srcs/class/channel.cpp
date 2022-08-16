@@ -84,3 +84,14 @@ channel*	searchChannelByName(std::string mask, std::vector<channel*>& chan_vec){
 	}
 	return NULL;
 }
+
+int	countVisibleUsers(channel* chan){
+	int						count = 0;
+	std::map<user*, int> &	usr_list = chan->getUsr_list();
+
+	for (std::map<user*, int>::iterator it = usr_list.begin(); it != usr_list.end(); ++it){
+		if (it->first->getMode() != 'i')
+			count++;
+	}
+	return count;
+}

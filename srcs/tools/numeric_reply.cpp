@@ -1,6 +1,6 @@
 #include "tools.hpp"
 //usr = user // don't know more...
-//chan = channel // don't know more... maybe canal's id ?
+//chan->getName() = channel // don't know more... maybe canal's id ?
 //srv->name = server's name
 //srv->mask = server's mask
 //srv->host = host's server
@@ -41,26 +41,28 @@ int	numeric_reply(int err, channel* chan, Server& srv){
 		std::cout << /*srv->client <<*/ " " << chan->getName() << ":There was no such nickname" << std::endl;
 		break;
 	case ERR_NOTONCHANNEL:
-		std::cout << /*srv->client <<*/ " " << chan << ":You're not on that channel" << std::endl;
+		std::cout << /*srv->client <<*/ " " << chan->getName() << ":You're not on that channel" << std::endl;
 		break;
 	case ERR_KEYSET:
-		std::cout << /*srv->client <<*/ " " << chan << ":Channel key already set" << std::endl;
+		std::cout << /*srv->client <<*/ " " << chan->getName() << ":Channel key already set" << std::endl;
 		break;
 	case ERR_CHANNELISFULL:
-		std::cout << /*srv->client <<*/ " " << chan << ":Cannot join channel (+l)" << std::endl;
+		std::cout << /*srv->client <<*/ " " << chan->getName() << ":Cannot join channel (+l)" << std::endl;
 		break;
 	case ERR_INVITEONLYCHAN:
-		std::cout << /*srv->client <<*/ " " << chan << ":Cannot join channel (+i)" << std::endl;
+		std::cout << /*srv->client <<*/ " " << chan->getName() << ":Cannot join channel (+i)" << std::endl;
 		break;
 	case ERR_BANNEDFROMCHAN:
-		std::cout << /*srv->client <<*/ " " << chan << ":Cannot join channel (+b)" << std::endl;
+		std::cout << /*srv->client <<*/ " " << chan->getName() << ":Cannot join channel (+b)" << std::endl;
 		break;
 	case ERR_BADCHANNELKEY:
-		std::cout << /*srv->client <<*/ " " << chan << ":Cannot join channel (+k)" << std::endl;
+		std::cout << /*srv->client <<*/ " " << chan->getName() << ":Cannot join channel (+k)" << std::endl;
 		break;
 	case ERR_CHANOPRIVSNEEDED:
-		std::cout << /*srv->client <<*/ " " << chan << ":You're not channel operator" << std::endl;
+		std::cout << /*srv->client <<*/ " " << chan->getName() << ":You're not channel operator" << std::endl;
 		break;
+	case RPL_LIST:
+		std::cout << /*srv->client <<*/ " " << chan->getName() << " " << countVisibleUsers(chan) << " :" << chan->getTopic() << std::endl;
 	default:
 		break;
 	}
@@ -97,7 +99,7 @@ int	numeric_reply(int err, std::string s, Server& srv){//s for cmd, operation, c
 	case ERR_NICKNAMEINUSE:
 		std::cout << /*srv->client <<*/ " " << s << ":Nickname is already in use" << std::endl;
 		break;
-	case RPL_ENDOFNAMES://avec s comme param car le chan s peut de pas exister;
+	case RPL_ENDOFNAMES://avec s comme param car le chan->getName() s peut de pas exister;
 		std::cout << /*srv->client <<*/ " " << s << " :End of NAMES list" << std::endl;
 	default:
 		break;
@@ -182,7 +184,9 @@ int	numeric_reply(int err, Server& srv){
 		std::cout << /*srv->client <<*/ ":You have been marked as being away" << std::endl;
 		break;
 	case ERR_RESTRICTED:
-		std::cout << ":Your connection is restricted!" <<std::endl;
+		std::cout << /*srv->client <<*/ ":Your connection is restricted!" << std::endl;
+	case RPL_LISTEND:
+		std::cout << /*srv->client <<*/ ":End of LIST" << std::endl;
 	default:
 		break;
 	}
@@ -204,10 +208,10 @@ int	numeric_reply(int err, user* usr, channel* chan, Server& srv){
 	(void)srv;
 	switch (err){
 	case ERR_USERNOTINCHANNEL:
-		std::cout << /*srv->client <<*/ " " << usr->getNick() << " " << chan << ":They aren't on that channel" << std::endl;
+		std::cout << /*srv->client <<*/ " " << usr->getNick() << " " << chan->getName() << ":They aren't on that channel" << std::endl;
 		break;
 	case ERR_USERONCHANNEL:
-		std::cout << /*srv->client <<*/ " " << usr << " " << chan << ":is already on channel" << std::endl;
+		std::cout << /*srv->client <<*/ " " << usr << " " << chan->getName() << ":is already on channel" << std::endl;
 		break;
 	default:
 		break;

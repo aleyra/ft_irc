@@ -58,3 +58,4 @@ class channel{
 };
 
 channel*	searchChannelByName(std::string mask, std::vector<channel*>& chan_vec);
+int			countVisibleUsers(channel* chan);

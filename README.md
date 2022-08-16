@@ -33,9 +33,9 @@
 				JOIN / 
 				PART / 
 				MODE (pour mode, il y a plein d'options) / 
-				TOPiC / 
+				TOPIC / 
 				<strike>NAMES</strike> / 
-				LIST / 
+				<strike>LIST</strike> / 
 				INVITE / 
 				KICK
 			</li>
@@ -46,7 +46,7 @@
 			</li>
 			<!-- <li>Requete basee sur les utilisateurs : WHO / WHOIS / WHOWAS</li> -->
 			<li>messages divers : 
-				KiLL / 
+				KILL / 
 				PING / 
 				PONG / 
 				ERROR 
