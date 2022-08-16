@@ -265,11 +265,14 @@ void	Server::rm_useless()
 * 	** Notes **
 **/
 
-
-void	Server::disconnect(const std::size_t &id)
+void	Server::disconnect(user &user)
 {
-	close(_users[id]);
-	_users[id] = 0;
+	if (user.getIsonline())
+	{
+		user.setIsonline(false);
+		close(_users[user.getId()]);
+		_users[user.getId()] = 0;
+	}
 }
 
 void	Server::operator=(const Server &other)

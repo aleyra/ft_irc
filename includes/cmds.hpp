@@ -15,7 +15,9 @@ int		nick(std::vector<std::string> params, user& usr,
 			std::map<unsigned int, user *>& users,Server& srv);
 int		pass(std::string psw, user* usr, Server& srv);
 int		user_cmd(std::vector<std::string> params, user* usr, Server& srv);
-void	pong(std::vector<std::string> params, user &user, Server &server);
 void	ping(std::vector<std::string> params, user &user, Server &server);
+void	pong(std::vector<std::string> params, user &user, Server &server);
+void	error(user &user, Server &server, const std::string &msg);
+void	quit(std::vector<std::string> params, user &user, Server &server);
 
 #endif

@@ -11,7 +11,7 @@
 # include <sstream>
 # include <iterator>
 
-# define TIMEOUT 500
+# define TIMEOUT 5
 
 //in err_msg.cpp
 int	numeric_reply(int err, user* usr, Server& srv);

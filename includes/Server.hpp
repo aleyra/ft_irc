@@ -32,7 +32,7 @@ class Server
 		user						*add_connection(fd_set &readfds);
 		void						select(fd_set &readfds);
 		void						rm_useless();
-		void						disconnect(const std::size_t &id);
+		void						disconnect(user &user);
 
 		void	operator=(const Server &f);
 		
