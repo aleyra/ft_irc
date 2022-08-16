@@ -1,63 +1,28 @@
 #include "cmds.hpp"
 
-// int	who(std::string name, Server* srv){
-// 	user*				usr;
-// 	// std::list<vector*>	list_chan;
-// 	if (name.empty()){
-// 		std::map<int, user*> usr_list;//a changer // recup la liste des user notee ici usr_list
-// 		for (std::map<int, user*>::iterator it = usr_list.begin();
-// 				 it != usr_list.end(); ++it){
-// 			usr = *it;
+//travail en cours
 
-// 		}
-// 	}
-// 	else {
-// 		usr = searchUser(name);
-// 		if (usr == NULL){
-// 			std::cout << "<client>" << " " << name <<" :End of WHO list" << std::endl;//RPl_ENDOFWHO//<client> a modifier
-// 			return RPL_ENDOFWHO;
-// 		}
-// 		std::cout << "<client>" << " ";
-// 		std::vector<channel*> &	list_chan = usr->getList_chan();
-// 		if (!list_chan.empty())
-// 			std::cout << list_chan.front()->getName();
-// 		else 
-// 			std::cout << "*";
-// 		std::cout << " " << usr->getUsername();
-// 		// std::cout << " " <<"<host>";//<host> a modifier //????qu'est-ce que le host ici ?
-// 		std:: cout << " " << srv->hostname;//<server>
-// 		std::cout << " " << usr->getNick() << " ";//<nick>//
-// 		if (usr->getAway() == true)//<flags>
-// 			std::cout << "G";//G for gone
-// 		else
-// 			std::cout << "H";//H for here
-// 		if (usr->getLvl() == 2)
-// 			std::cout <<"*";//means is en srv op
-// 		for (std::map<int, user*>::iterator it = usr_list.begin();
-// 				 it != usr_list.end(); ++it){
-// 			usr = *it;
-// 			//la suite ???? on est sur les flags
-// 		}
-// 		//:<hopcount> <realname> ;
-// 	}
-
-	
-// }
-
-// int	who(std::string name, char o, Server* srv){
-// 	if (o != 'o')
-// 		return EXIT_FAILURE;//chercher dans la doc comment reagir dans le cas ou l'option o n'est pas la bonne
-	
-// 	user*	usr;
-// 	if (name.empty()){
-// 		std::map<int, user*> usr_list;//a changer // recup la liste des user notee ici usr_list
-// 		for (std::map<int, user*>::iterator it = usr_list.begin(); it != usr_list.end(); it++){
-// 			usr = *it;	
-// 			if (usr->getIsop() == true){
-
+// int who(std::vector<std::string> params, Server* srv){
+// 	if (params.size() == 0){
+// 		/*In the absence of the <mask> parameter, all visible (users who aren't 
+// 			invisible (user mode +i) and who don't have a common channel with
+// 			the requesting client) are listed. */
+// 		/*list des user*/user*	usr;//?
+// 		for(debut de la liste, fin){//?
+// 			if (usr->getIsonline() == true && usr->getMode() != 'i'){
+// 				std::cout << usr->getList_chan()[0]->getName() << " "
+// 					<< usr->getNick() << " "//<user>//?
+// 					<< "<host>" << " "//a modifier "<host>"//?
+// 					// << srv << //<server> //?
+// 					<< usr->getNick() << " "//<nick> 
+// 					<< display_isaway(usr) << " ";//( "H" / "G" > ["*"] [ ( "@" / "+" ) ] :<hopcount> <real name>"
+// 					if (usr->getIsop() == true)
+// 						std::cout << "* ";
+// 					//a finir
 // 			}
-// 		}
+// 		}/**/
 // 	}
+	
 
-// 	return RPL_ENDOFWHO;
+// 	return (numeric_reply(RPL_ENDOFWHO, params[0], srv));
 // }

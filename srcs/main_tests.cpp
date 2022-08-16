@@ -21,12 +21,12 @@ int main(){
 	// // std::cout << "debut list = " << *list.begin() << std::endl;
 	// moi.setLvl(1);
 	// std::cout << "mon lvl = " << moi.getLvl() << std::endl;
-	// moi.setAway(true);
-	// if (moi.getAway() == true)
+	// moi.setIsaway(true);
+	// if (moi.getIsaway() == true)
 	// 	std::cout << "je suis absente" << std::endl;
 	// else
 	// 	std::cout << "je suis presente" << std::endl;
-	// moi.setAway_msg("pas la");
+	// moi.setIsaway_msg("pas la");
 	// std::cout << "mon amsg = " << moi.getAway_msg() << std::endl;
 	// moi.idle_counter();
 	// std::cout << "idle time = " << moi.getIdle_time() << std::endl;

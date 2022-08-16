@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Server.hpp                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tlafay <tlafay@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/10 13:50:36 by tlafay            #+#    #+#             */
-/*   Updated: 2022/08/15 14:20:37 by tlafay           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef SERVER_HPP
 # define SERVER_HPP
 
@@ -24,7 +12,7 @@
 #include <map>
 #include <string>
 #include <fcntl.h>
-
+#include <cerrno>
 #include "user.hpp"
 
 #define MAX_CLIENTS 4000

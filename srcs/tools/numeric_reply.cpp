@@ -94,6 +94,9 @@ int	numeric_reply(int err, std::string s, Server* srv){//s for cmd, operation, c
 	case ERR_UNKNOWNMODE:
 		std::cout << /*srv->client <<*/ " " << s << ":is unknown mode char to me" << std::endl;
 		break;
+	case RPL_ENDOFWHO:
+		std::cout << s << " :End of WHO list" << std::endl;
+		break;
 	default:
 		break;
 	}
@@ -137,8 +140,8 @@ int	numeric_reply(int err, Server* srv){
 	case ERR_NOTREGISTERED:
 		std::cout << /*srv->client <<*/ ":You have not registered" << std::endl;
 		break;
-	case ERR_ALREADYREGISTRED:
-		std::cout << /*srv->client <<*/ ":You may not reregister" << std::endl;
+	case ERR_ALREADYREGISTERED:
+		std::cout << /*srv->client <<*/ ":Unauthorized command (already registered)" << std::endl;
 		break;
 	case ERR_NOPERMFORHOST:
 		std::cout << /*srv->client <<*/ ":Your host isn't among the privileged" << std::endl;
@@ -215,7 +218,7 @@ int	numeric_reply(int err, user* usr, channel* chan, Server* srv){
 // 		if (usr->getLvl() == 2) std::cout << "operator";
 // 		else std::cout << "non operator";
 // 		std::cout << "] = <";
-// 		if (usr->getAway() == TRUE) std::cout << usr->getAway_msg();
+// 		if (usr->getIsaway() == TRUE) std::cout << usr->getAway_msg();
 // 		std::cout << ">" << srv->host;
 // 		break;
 // 	case RPL_WHOISUSER:
