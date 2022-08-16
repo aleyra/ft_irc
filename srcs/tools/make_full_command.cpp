@@ -30,9 +30,8 @@ void	exec_command(std::pair<int, std::string> &command)
 
 void	make_full_command(std::map<int, std::string> &msg,
 	std::map<int, std::string> &buffers,
-	std::map<int, user *> users)
+	std::map<unsigned int, user *> users)
 {
-	(void)users;
 	for (std::map<int, std::string>::iterator it = msg.begin(); it != msg.end(); ++it)
 	{
 		buffers[it->first] += it->second;

@@ -33,7 +33,7 @@
 				JOIN / 
 				PART / 
 				MODE (pour mode, il y a plein d'options) / 
-				TOPIC / 
+				<strike>TOPIC</strike> / 
 				<strike>NAMES</strike> / 
 				<strike>LIST</strike> / 
 				INVITE / 

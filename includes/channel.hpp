@@ -10,14 +10,22 @@
 
 class user;
 
+enum lvl_access_channel{
+	DEFAULT = 0,
+	VOICE_OK = 1,
+	HALFOP = 2,
+	PROTECTED = 3,
+	CHAN_OP = 4,
+};
+
 class channel{
 	private:
-		std::string				_name;
-		user*					_founder;
-		bool					_isMod;//true si le chan est en mode moderate
-		std::map<user*, int>	_usr_list;//value de map = lvl acces. 0 = default, 1 = voice ok, 2 = halfop, 3 = protected, 4 = chan op
-		char					_mode;//https://datatracker.ietf.org/doc/html/rfc2811#section-4
-		std::string				_topic;
+		std::string					_name;
+		user*						_founder;
+		bool						_isMod;//true si le chan est en mode moderate
+		std::map<unsigned int, int>	_usr_list;//key = id d'un user et value de map = lvl acces
+		char						_mode;//https://datatracker.ietf.org/doc/html/rfc2811#section-4
+		std::string					_topic;
 
 	//#pragma region constructors destructor
 	private:
@@ -42,7 +50,7 @@ class channel{
 		void							setIsMod(bool b);
 		bool const &					getIsMod() const;
 		//pas de setter pour _usr_list, voir addUsr_list et rmUsr_list
-		std::map<user*, int> &			getUsr_list() ;
+		std::map<unsigned int, int> &	getUsr_list() ;
 		void							setMode(char c);
 		char const &					getMode() const;
 		void							setTopic(std::string t);
@@ -58,4 +66,4 @@ class channel{
 };
 
 channel*	searchChannelByName(std::string mask, std::vector<channel*>& chan_vec);
-int			countVisibleUsers(channel* chan);
+int			countVisibleUsers(channel* chan, std::map<unsigned int, user *>& users);

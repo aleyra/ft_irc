@@ -28,6 +28,6 @@ void	make_full_command(std::map<int, std::string> &msg,
 	std::map<int, user *> users);
 
 //in timeout.cpp
-void	timeout(std::map<int, user *> &users, Server &server);
+void	timeout(std::map<unsigned int, user *> &users, Server &server);
 
 #endif

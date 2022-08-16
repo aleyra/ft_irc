@@ -10,7 +10,7 @@ channel::channel(std::string name, user* founder){
 	this->_name = name;
 	this->_founder = founder;
 	this->_isMod = false;
-	this->_usr_list[founder] = 4;
+	this->_usr_list[founder->getId()] = CHAN_OP;
 	this->_mode = 0;
 }
 
@@ -43,7 +43,7 @@ channel&	channel::operator=(channel const &src){
 
 	bool const &	channel::getIsMod() const{return this->_isMod;}
 
-	std::map<user*, int> &	channel::getUsr_list() {
+	std::map<unsigned int, int> &	channel::getUsr_list() {
 		return this->_usr_list;
 	}
 	
@@ -67,12 +67,12 @@ channel&	channel::operator=(channel const &src){
 // #pragma endregion getters and setters
 
 // #pragma region other member functions
-	void	channel::addUsr_list(user* nu){this->_usr_list[nu] = 0;}
+	void	channel::addUsr_list(user* nu){this->_usr_list[nu->getId()] = 0;}
 
 	void	channel::rmUsr_list(user* u){
-		std::map<user*, int>::iterator f = this->_usr_list.find(u);
+		std::map<unsigned int, int>::iterator f = this->_usr_list.find(u->getId());
 		if (f == this->_usr_list.end())
-			this->_usr_list.erase(u);
+			this->_usr_list.erase(u->getId());
 	}
 
 // #pragma endregion other member functions
@@ -85,12 +85,12 @@ channel*	searchChannelByName(std::string mask, std::vector<channel*>& chan_vec){
 	return NULL;
 }
 
-int	countVisibleUsers(channel* chan){
+int	countVisibleUsers(channel* chan, std::map<unsigned int, user *>& users){
 	int						count = 0;
-	std::map<user*, int> &	usr_list = chan->getUsr_list();
+	std::map<unsigned int, int> &	usr_list = chan->getUsr_list();
 
-	for (std::map<user*, int>::iterator it = usr_list.begin(); it != usr_list.end(); ++it){
-		if (it->first->getMode() != 'i')
+	for (std::map<unsigned int, int>::iterator it = usr_list.begin(); it != usr_list.end(); ++it){
+		if (searchUserByID(it->first, users)->getMode() != 'i')
 			count++;
 	}
 	return count;

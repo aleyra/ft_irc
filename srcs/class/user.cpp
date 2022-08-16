@@ -183,9 +183,17 @@ bool	operator>=(user const & lhs, user const & rhs){return (lhs.getId() >= rhs.g
 bool	operator<(user const & lhs, user const & rhs){return (lhs.getId() < rhs.getId());}
 bool	operator<=(user const & lhs, user const & rhs){return (lhs.getId() <= rhs.getId());}
 
-user*	searchUserByNick(std::string mask, std::map<int, user *>& users){
-	for (std::map<int, user *>::iterator it = users.begin(); it != users.end(); ++it){
+user*	searchUserByNick(std::string mask, std::map<unsigned int, user *>& users){
+	for (std::map<unsigned int, user *>::iterator it = users.begin(); it != users.end(); ++it){
 		if (it->second->getNick().compare(mask) == 0)
+			return it->second;
+	}
+	return NULL;
+}
+
+user*	searchUserByID(unsigned int id, std::map<unsigned int, user *>& users){
+	for (std::map<unsigned int, user *>::iterator it = users.begin(); it != users.end(); ++it){
+		if (it->second->getId() == id)
 			return it->second;
 	}
 	return NULL;

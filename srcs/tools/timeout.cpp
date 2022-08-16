@@ -1,8 +1,8 @@
 #include "tools.hpp"
 
-void	timeout(std::map<int, user *> &users, Server &server)
+void	timeout(std::map<unsigned int, user *> &users, Server &server)
 {
-	for (std::map<int, user *>::iterator it = users.begin(); it != users.end(); ++it)
+	for (std::map<unsigned int, user *>::iterator it = users.begin(); it != users.end(); ++it)
 		{
 			if (users[it->first]->getIsonline()
 				&& users[it->first]->check_Idle_time() > TIMEOUT)

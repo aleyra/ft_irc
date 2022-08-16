@@ -61,8 +61,14 @@ int	numeric_reply(int err, channel* chan, Server& srv){
 	case ERR_CHANOPRIVSNEEDED:
 		std::cout << /*srv->client <<*/ " " << chan->getName() << ":You're not channel operator" << std::endl;
 		break;
-	case RPL_LIST:
-		std::cout << /*srv->client <<*/ " " << chan->getName() << " " << countVisibleUsers(chan) << " :" << chan->getTopic() << std::endl;
+	case RPL_NOTOPIC:
+		std::cout << /*srv->client <<*/ " " << chan->getName() << " :No topic is set" << std::endl;
+		break;
+	case RPL_TOPIC:
+		std::cout << /*srv->client <<*/ " " << chan->getName() << " :" << chan->getTopic() << std::endl;
+		break;
+	case ERR_NOCHANMODES:
+		std::cout << /*srv->client <<*/ " " << chan->getName() << " :Channel doesn't support modes" << std::endl;
 	default:
 		break;
 	}

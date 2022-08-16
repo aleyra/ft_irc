@@ -12,7 +12,7 @@ int main(int argc, char **argv)
 
 	Server server(argv[1]);
 	fd_set readfds;
-	std::map<int, user *> users;
+	std::map<unsigned int, user *> users;
 	std::vector<channel *> channels;
 	std::map<int, std::string> buffers;
 	while (true)
