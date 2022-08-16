@@ -20,3 +20,6 @@ std::vector<std::string>	params(std::string s);
 void	handle_commands(std::map<int, std::string> &msg,
 	std::map<int, std::string> &buffers,
 	std::map<int, user *> users);
+
+//in timeout.cpp
+void	timeout(std::map<int, user *> &users, Server &server);

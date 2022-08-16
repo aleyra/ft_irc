@@ -1,14 +1,14 @@
 #include <iostream>
 #include <map>
-#include "user.hpp"
+#include "tools.hpp"
 
 void	exec_command(std::pair<int, std::string> &command)
 {
 	std::cout << command.second;
-	std::string firstWord = command.second.substr(0, command.second.find(" "));
-	std::string args = command.second.substr(command.second.find_first_of(" \t") + 1);
-	std::cout << "The first word is: " << firstWord << std::endl;
-	std::cout << "The args are: " << args << std::endl;
+	// std::string firstWord = command.second.substr(0, command.second.find(" "));
+	// std::string args = command.second.substr(command.second.find_first_of(" \t") + 1);
+	// std::cout << "The first word is: " << firstWord << std::endl;
+	// std::cout << "The args are: " << args << std::endl;
 }
 
 /**
@@ -37,6 +37,10 @@ void	handle_commands(std::map<int, std::string> &msg,
 	for (std::map<int, std::string>::iterator it = msg.begin(); it != msg.end(); ++it)
 	{
 		buffers[it->first] += it->second;
+		if (users[it->first]->getIsonline())
+			users[it->first]->setLast_activity();
+		else
+			continue;
 		if (buffers[it->first].back() == '\n')
 		{
 			std::cout << it->first << "=>";

@@ -116,6 +116,7 @@ void	Server::send(const std::string &msg, const std::size_t &id)
 * 
 * Args:
 * 	readfds: A fd_set of all sockets connected.
+* 	users: Set the user as offline if they disconnected.
 * 
 * Return:
 * 	Returns a vector of strings containing all the messages.
@@ -124,19 +125,15 @@ void	Server::send(const std::string &msg, const std::size_t &id)
 * 	The return should be a map, associocating an id with a buffer.
 **/
 
-std::map<int, std::string>	Server::receive(fd_set &readfds)
+std::map<int, std::string>	Server::receive(fd_set &readfds, std::map<int, user *> &users)
 {
-	int		sd;
 	char	*buffer = NULL;
-	size_t	valread;
-	
 	std::map<int, std::string>	m;
 
 	for (std::map<int, int>::iterator it = _users.begin(); it != _users.end(); ++it) 
 	{
-		valread = 0;
-		sd = it->second;
-
+		size_t valread = 0;
+		int sd = it->second;
 		if (FD_ISSET(sd, &readfds))
 		{
 			fcntl(sd, F_SETFL, O_NONBLOCK);
@@ -148,6 +145,7 @@ std::map<int, std::string>	Server::receive(fd_set &readfds)
 			{
 				close(sd);
 				it->second = 0;
+				users[it->first]->setIsonline(false);
 			}
 			free(buffer);
 		}
@@ -240,10 +238,10 @@ void	Server::select(fd_set &readfds)
 
 void	Server::rm_useless()
 {
-	if (_users.size() <= 1)
-		return ;
 	for (std::map<int, int>::iterator it = _users.begin(); it != _users.end(); ++it)
 	{
+		if (_users.size() <= 1)
+			return ;
 		if (it->second == 0)
 			_users.erase(it->first);
 	}
@@ -290,7 +288,7 @@ void	Server::operator=(const Server &other)
 * 	None
 * 
 * Notes:
-* 	Ports in the range 0-1023 are theoratically
+* 	Ports in the range 0-1023 are theoretically
 * 	usable. However, they should be reserved for
 * 	Unix services.
 **/

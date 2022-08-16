@@ -27,7 +27,7 @@ class Server
 		std::size_t const	&get_current_id() const;
 
 		void						send(const std::string &msg, const std::size_t &id);
-		std::map<int, std::string>	receive(fd_set &readfds);
+		std::map<int, std::string>	receive(fd_set &readfds, std::map<int, user *> &users);
 		user						*add_connection(fd_set &readfds);
 		void						select(fd_set &readfds);
 		void						rm_useless();

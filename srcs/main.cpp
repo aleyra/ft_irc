@@ -21,10 +21,13 @@ int main(int argc, char **argv)
 		user *tmp = server.add_connection(readfds);
 		if (tmp)
 			users[tmp->getId()] = tmp;
-		std::map<int, std::string> msg = server.receive(readfds);
+		std::map<int, std::string> msg = server.receive(readfds, users);
+		timeout(users, server);
 		handle_commands(msg, buffers, users);
 		server.rm_useless();
 	}
+
+	// It's a "good practice" but useless since we never exit the loop.
 	for (std::map<int, user *>::iterator it = users.begin(); it != users.end(); ++it)
 	{
 		delete it->second;

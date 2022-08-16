@@ -13,7 +13,7 @@ PATH_LOG        =	logs
 SRCS_CMDS		=	nick.cpp oper.cpp pass.cpp quit.cpp user_cmd.cpp 
 					
 SRCS_CLASS		=	Server.cpp channel.cpp user.cpp
-SRCS_TOOLS		=	numeric_reply.cpp params.cpp handle_commands.cpp
+SRCS_TOOLS		=	numeric_reply.cpp params.cpp handle_commands.cpp timeout.cpp
 SRCS 			=	$(addprefix $(PATH_SRC)/cmds/, $(SRCS_CMDS)) \
 					$(addprefix $(PATH_SRC)/class/, $(SRCS_CLASS)) \
 					$(addprefix $(PATH_SRC)/tools/, $(SRCS_TOOLS)) \
