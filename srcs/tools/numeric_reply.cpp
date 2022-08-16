@@ -7,14 +7,11 @@
 //srv = server //don't know more...
 //srv->info = server's info
 
-int	numeric_reply(int err, user* usr, Server* srv){
+int	numeric_reply(int err, user* usr, Server& srv){
 	(void)srv;
 	switch (err){
 	case ERR_ERRONEUSNICKNAME:
 		std::cout << /*srv->client <<*/ " " << usr->getNick() << ":Erroneus nickname" << std::endl;//weird
-		break;
-	case ERR_NICKNAMEINUSE:
-		std::cout << /*srv->client <<*/ " " << usr->getNick() << ":Nickname is already in use" << std::endl;
 		break;
 	case ERR_NICKCOLLISION:
 		std::cout << /*srv->client <<*/ " " << usr->getNick() << ":Nickname collision KILL" << std::endl;
@@ -28,7 +25,7 @@ int	numeric_reply(int err, user* usr, Server* srv){
 	return (err);
 }
 
-int	numeric_reply(int err, channel* chan, Server* srv){
+int	numeric_reply(int err, channel* chan, Server& srv){
 	(void)srv;
 	switch (err){
 	case ERR_NOSUCHCHANNEL:
@@ -70,7 +67,7 @@ int	numeric_reply(int err, channel* chan, Server* srv){
 	return (err);
 }
 
-int	numeric_reply(int err, std::string s, Server* srv){//s for cmd, operation, charactere, string
+int	numeric_reply(int err, std::string s, Server& srv){//s for cmd, operation, charactere, string
 	(void)srv;
 	switch (err){
 	case ERR_NOSUCHNICK:
@@ -97,15 +94,18 @@ int	numeric_reply(int err, std::string s, Server* srv){//s for cmd, operation, c
 	case ERR_UNAVAILRESOURCE:
 		std::cout << s << " :Nick/channel is temporarily unavailable" << std::endl;
 		break;
+	case ERR_NICKNAMEINUSE:
+		std::cout << /*srv->client <<*/ " " << s << ":Nickname is already in use" << std::endl;
+		break;
 	case RPL_ENDOFNAMES://avec s comme param car le chan s peut de pas exister;
-		std::cout << /*srv->client <<*/ " " << s << " :End of NAMES list";
+		std::cout << /*srv->client <<*/ " " << s << " :End of NAMES list" << std::endl;
 	default:
 		break;
 	}
 	return (err);
 }
 
-int	numeric_reply(int err, Server* srv){
+int	numeric_reply(int err, Server& srv){
 	(void)srv;
 	switch (err){
 	case ERR_NOSUCHSERVER:
@@ -181,13 +181,15 @@ int	numeric_reply(int err, Server* srv){
 	case RPL_NOWAWAY:
 		std::cout << /*srv->client <<*/ ":You have been marked as being away" << std::endl;
 		break;
+	case ERR_RESTRICTED:
+		std::cout << ":Your connection is restricted!" <<std::endl;
 	default:
 		break;
 	}
 	return (err);
 }
 
-// int	numeric_reply(int err, std::string s/*, file f*/, Server* srv){
+// int	numeric_reply(int err, std::string s/*, file f*/, Server& srv){
 // 	switch (err){
 // 	case ERR_FILEERROR:
 // 		std::cout << /*srv->client <<*/ ":File error doing "<< s << " on " /*<< f.name */<< std::endl;
@@ -198,7 +200,7 @@ int	numeric_reply(int err, Server* srv){
 // 	return (err);
 // }
 
-int	numeric_reply(int err, user* usr, channel* chan, Server* srv){
+int	numeric_reply(int err, user* usr, channel* chan, Server& srv){
 	(void)srv;
 	switch (err){
 	case ERR_USERNOTINCHANNEL:
@@ -213,7 +215,7 @@ int	numeric_reply(int err, user* usr, channel* chan, Server* srv){
 	return (err);
 }
 
-// int	numeric_reply(int err, user* usr, Server* srv){
+// int	numeric_reply(int err, user* usr, Server& srv){
 // 	switch (err){
 // 	case RPL_USERHOST://to be used with a 'for' for each nick in the cmd USERHOST separate by a ' ' et a '\n' right after the 'for'
 // 		std::cout << /*srv->client <<*/ " " << usr->getNick() << "[";

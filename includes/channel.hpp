@@ -41,7 +41,7 @@ class channel{
 		void							setIsMod(bool b);
 		bool const &					getIsMod() const;
 		//pas de setter pour _usr_list, voir addUsr_list et rmUsr_list
-		std::map<user*, int> const &	getUsr_list() const;
+		std::map<user*, int> &			getUsr_list() ;
 		void							setMode(char c);
 		char const &					getMode() const;
 
@@ -54,4 +54,4 @@ class channel{
 	// #pragma endregion other member functions
 };
 
-channel*	searchChannelByName(std::string mask, std::vector<channel*> chan_vec);
+channel*	searchChannelByName(std::string mask, std::vector<channel*>& chan_vec);

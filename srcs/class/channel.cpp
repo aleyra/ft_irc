@@ -43,7 +43,7 @@ channel&	channel::operator=(channel const &src){
 
 	bool const &	channel::getIsMod() const{return this->_isMod;}
 
-	std::map<user*, int> const &	channel::getUsr_list() const{
+	std::map<user*, int> &	channel::getUsr_list() {
 		return this->_usr_list;
 	}
 	
@@ -69,7 +69,7 @@ channel&	channel::operator=(channel const &src){
 
 // #pragma endregion other member functions
 
-channel*	searchChannelByName(std::string mask, std::vector<channel*> chan_vec){
+channel*	searchChannelByName(std::string mask, std::vector<channel*>& chan_vec){
 	for (size_t i = 0; i < chan_vec.size(); ++i){
 		if (chan_vec[i]->getName().compare(mask) == 0)
 			return chan_vec[i];
