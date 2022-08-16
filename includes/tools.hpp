@@ -1,9 +1,14 @@
-#include "numeric_reply.hpp"
-#include "Server.hpp"
-#include "channel.hpp"
-#include "user.hpp"
-#include <sstream>
-#include <iterator>
+#ifndef TOOLS_HPP
+# define TOOLS_HPP
+
+# include "numeric_reply.hpp"
+# include "Server.hpp"
+# include "channel.hpp"
+# include "user.hpp"
+# include <sstream>
+# include <iterator>
+
+# define TIMEOUT 500
 
 //in err_msg.cpp
 int	numeric_reply(int err, user* usr, Server* srv);
@@ -17,9 +22,11 @@ int	numeric_reply(int err, user* usr, channel* chan, Server* srv);
 std::vector<std::string>	params(std::string s);
 
 //in handle_commands.cpp
-void	handle_commands(std::map<int, std::string> &msg,
+void	make_full_command(std::map<int, std::string> &msg,
 	std::map<int, std::string> &buffers,
 	std::map<int, user *> users);
 
 //in timeout.cpp
 void	timeout(std::map<int, user *> &users, Server &server);
+
+#endif

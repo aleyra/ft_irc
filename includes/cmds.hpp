@@ -1,3 +1,6 @@
+#ifndef CMDS_HPP
+# define CMDS_HPP
+
 #include "tools.hpp"
 #include "user.hpp"
 #include "Server.hpp"
@@ -10,3 +13,5 @@
 int	nick(std::vector<std::string> params, user* usr, Server* srv);
 int	pass(std::string psw, user* usr, Server* srv);
 int	user_cmd(std::vector<std::string> params, user* usr, Server* srv);
+
+#endif
