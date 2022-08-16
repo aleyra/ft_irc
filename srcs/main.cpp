@@ -28,7 +28,7 @@ int main(int argc, char **argv)
 	}
 
 	// It's a "good practice" but useless since we never exit the loop.
-	for (std::map<int, user *>::iterator it = users.begin(); it != users.end(); ++it)
+	for (std::map<unsigned int, user *>::iterator it = users.begin(); it != users.end(); ++it)
 	{
 		delete it->second;
 	}
