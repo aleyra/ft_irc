@@ -1,16 +1,5 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lburnet <lburnet@student.42lyon.fr>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/27 11:25:23 by tlafay            #+#    #+#             */
-/*   Updated: 2022/08/11 14:40:51 by lburnet          ###   ########lyon.fr   */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "Server.hpp"
+#include "tools.hpp"
 
 int main(int argc, char **argv)
 {
@@ -19,11 +8,25 @@ int main(int argc, char **argv)
 		std::cout << "Usage: ./ircserv <port> <password>" << std::endl;
 		return (1);
 	}
+
 	Server server(argv[1], argv[2]);
-	
+	fd_set readfds;
+	std::vector<user *> users;
+	std::map<int, std::string> buffers;
 	while (true)
 	{
-		server.connection_test();
+		server.select(readfds);
+		user *tmp = server.add_connection(readfds);
+		if (tmp)
+			users.push_back(tmp);
+		std::map<int, std::string> msg = server.receive(readfds);
+		handle_commands(msg, buffers);
+		// for (std::map<int, std::string>::iterator it = msg.begin(); it != msg.end(); ++it)
+		// 	std::cout << it->first << "=>" << it->second;
+		server.rm_useless();
 	}
-	(void)argv;
+	for (std::vector<user *>::iterator it = users.begin(); it != users.end(); ++it)
+	{
+		delete *it;
+	}
 }

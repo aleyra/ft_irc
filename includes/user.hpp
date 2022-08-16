@@ -29,9 +29,9 @@ class user{
 	// #pragma region constructors destructor
 	private:
 		user();
-		user(user const &src);
 	public:
 		user(std::string usr_name, unsigned int id);
+		user(user const &src);
 		~user();//a ne pas mettre en private ^^"
 	// #pragma endregion constructors destrcutor
 

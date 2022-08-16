@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Server.hpp                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lucille <lucille@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/10 13:50:36 by tlafay            #+#    #+#             */
-/*   Updated: 2022/08/12 15:38:46 by lucille          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef SERVER_HPP
 # define SERVER_HPP
 
@@ -21,30 +9,44 @@
 #include <iostream>
 #include <unistd.h>
 #include <vector>
+#include <map>
+#include <string>
+#include <fcntl.h>
 #include <cerrno>
+#include "user.hpp"
 
 #define MAX_CLIENTS 4000
 
 class Server
 {
 	public:
-		Server();
-		Server(std::string port, std::string pass);
+		Server(const std::string &port, const std::string &pass);
 		Server(const Server &f);
 		~Server();
 
-		void	connection_test();
-		void	send(std::string msg, int client_fd);
-		std::vector<std::string>	receive();
+		std::size_t const	&get_current_id() const;
+
+		void						send(const std::string &msg, const std::size_t &id);
+		std::map<int, std::string>	receive(fd_set &readfds);
+		user						*add_connection(fd_set &readfds);
+		void						select(fd_set &readfds);
+		void						rm_useless();
+		void						disconnect(const std::size_t &id);
 
 		void	operator=(const Server &f);
 		
 	private:
-		int			_main_socket;
-		int			_client_sockets[MAX_CLIENTS];
-		fd_set		readfds;
-		sockaddr_in _sockaddr;
 
+		// A map of ids, with a socket associated.
+		std::map<int, int>	_users;
+		int					_main_socket;
+		sockaddr_in _address;
+		std::size_t	_current_id;
+
+		void	check_port_range(const std::string &port);
+
+		Server();
 };
+
 
 #endif
