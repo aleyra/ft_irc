@@ -20,7 +20,7 @@
 class Server
 {
 	public:
-		Server(const std::string &port, const std::string &pass);
+		Server(const std::string &port);
 		Server(const Server &f);
 		~Server();
 
@@ -36,12 +36,14 @@ class Server
 		void	operator=(const Server &f);
 		
 	private:
-
 		// A map of ids, with a socket associated.
 		std::map<int, int>	_users;
+		// The socket that handles all connections.
 		int					_main_socket;
-		sockaddr_in _address;
-		std::size_t	_current_id;
+		// A thing used to get addresses.
+		sockaddr_in 		_address;
+		// The id of the next user.
+		std::size_t			_current_id;
 
 		void	check_port_range(const std::string &port);
 

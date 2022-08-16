@@ -1,5 +1,6 @@
 #include "Server.hpp"
 #include "tools.hpp"
+#include "channel.hpp"
 
 int main(int argc, char **argv)
 {
@@ -9,24 +10,23 @@ int main(int argc, char **argv)
 		return (1);
 	}
 
-	Server server(argv[1], argv[2]);
+	Server server(argv[1]);
 	fd_set readfds;
-	std::vector<user *> users;
+	std::map<int, user *> users;
+	std::vector<channel *> channels;
 	std::map<int, std::string> buffers;
 	while (true)
 	{
 		server.select(readfds);
 		user *tmp = server.add_connection(readfds);
 		if (tmp)
-			users.push_back(tmp);
+			users[tmp->getId()] = tmp;
 		std::map<int, std::string> msg = server.receive(readfds);
-		handle_commands(msg, buffers);
-		// for (std::map<int, std::string>::iterator it = msg.begin(); it != msg.end(); ++it)
-		// 	std::cout << it->first << "=>" << it->second;
+		handle_commands(msg, buffers, users);
 		server.rm_useless();
 	}
-	for (std::vector<user *>::iterator it = users.begin(); it != users.end(); ++it)
+	for (std::map<int, user *>::iterator it = users.begin(); it != users.end(); ++it)
 	{
-		delete *it;
+		delete it->second;
 	}
 }

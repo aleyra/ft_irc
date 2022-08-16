@@ -17,4 +17,6 @@ int	numeric_reply(int err, user* usr, channel* chan, Server* srv);
 std::vector<std::string>	params(std::string s);
 
 //in handle_commands.cpp
-void	handle_commands(std::map<int, std::string> &msg, std::map<int, std::string> &buffers);
+void	handle_commands(std::map<int, std::string> &msg,
+	std::map<int, std::string> &buffers,
+	std::map<int, user *> users);

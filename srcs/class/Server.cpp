@@ -9,21 +9,19 @@ Server::Server() {}
  * 
  * Args:
  *		port: The port to listen to.
- *		pass: The password to access the server.
  * 
  * Return:
  * 	N/A.
  * 
  * Notes:
- * 	** Notes **
+ * 	The program might exit at multiple instances due to
+ * 	vital functions' failure.
  **/
 
-Server::Server(const std::string &port, const std::string &pass):
+Server::Server(const std::string &port):
 	_users(std::map<int, int>()),
 	_current_id(0)
 {
-	(void)pass;
-
 	check_port_range(port);
 	int	opt = true;
 	_main_socket = socket(AF_INET , SOCK_STREAM , 0);
@@ -166,7 +164,7 @@ std::map<int, std::string>	Server::receive(fd_set &readfds)
 * 	readfds: A fd_set of all sockets connected.
 * 
 * Return:
-* 	None.
+* 	Returns a new user.
 * 
 * Notes:
 * 	Exits if accept fails.
@@ -185,7 +183,7 @@ user	*Server::add_connection(fd_set &readfds)
 		std::cout << "Accept failed. errno: " << errno << std::endl;
 		exit(EXIT_FAILURE);
 	}
-	user *usr = new user("Bob", _current_id);
+	user *usr = new user("", _current_id);
 	_users[_current_id] = new_socket;
 	_current_id++;
 	return (usr);
@@ -275,7 +273,10 @@ void	Server::disconnect(const std::size_t &id)
 void	Server::operator=(const Server &other)
 {
 	std::cout << "Copy assignment operator called" << std::endl;
-	(void)other;
+	_users = other._users;
+	_main_socket = other._main_socket;
+	_address = other._address;
+	_current_id = other._current_id;
 }
 
 /**
