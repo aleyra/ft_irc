@@ -23,13 +23,17 @@ int	rpl_namreply(channel* chan, Server* srv){
 		std::cout << "=";
 	std::cout << chan->getName() << " :";//<channel> :
 	std::map<user*, int>&	usr_map = chan->getUsr_list();
-	for (std::map<user*, int>::iterator it = usr_map.begin(); it != usr_map.end(); ++it){
-
+	for (std::map<user*, int>::iterator it = usr_map.begin(); it != usr_map.end(); ++it){//[prefix]<nick>
+		if (it->second == 4)
+			std::cout << "@";
+		else if (chan->getIsMod() == true && it->second == 1)
+			std::cout << "+";
+		std::cout << it->first->getNick() << " ";
 	}
 	return (RPL_NAMREPLY);
 }
 
-int	names(std::string params, std::vector<channel*> chan_vec, std::vector<user*>, Server* srv){
+int	names(std::string params, std::vector<channel*> chan_vec, std::map<int, user *>& users, Server* srv){
 	/*If no <channel> parameter is given, a list of all channels and their
 	occupants is returned.  At the end of this list, a list of users who are
 	visible but either not on any channel or not on a visible channel are listed
@@ -48,6 +52,7 @@ int	names(std::string params, std::vector<channel*> chan_vec, std::vector<user*>
 			// 	//afficher quoi  de usr ?
 			// }
 		}
+		//lister les user qui sont dans aucun chan ou dans un chan invisible
 		return (numeric_reply(RPL_ENDOFNAMES, "", srv);
 	}
 

@@ -1,6 +1,6 @@
 #include "cmds.hpp"
 
-int	nick(std::vector<std::string> params, user* usr, std::vector<user*> usr_vec, Server* srv){
+int	nick(std::vector<std::string> params, user* usr, std::map<int, user *>& users, Server* srv){
 	//ERR_RESTRICTED ":Your connection is restricted!"
 	/*Sent by the server to a user upon connection to indicate the restricted
 		nature of the connection (user mode "+r").*/
@@ -32,7 +32,7 @@ int	nick(std::vector<std::string> params, user* usr, std::vector<user*> usr_vec,
 	}
 	if (nick.compare(usr->getNick()) == 0)
 		return (numeric_reply(ERR_NICKNAMEINUSE, usr, srv));
-	if (searchUserByNick(nick, usr_vec) != NULL)
+	if (searchUserByNick(nick, users) != NULL)
 		return (numeric_reply(ERR_UNAVAILRESOURCE, nick, srv));
 	usr->addHistory_nick(usr->getNick());
 	usr->setNick(nick);
