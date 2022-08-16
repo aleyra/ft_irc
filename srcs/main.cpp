@@ -23,7 +23,7 @@ int main(int argc, char **argv)
 			users[tmp->getId()] = tmp;
 		std::map<int, std::string> msg = server.receive(readfds, users);
 		timeout(users, server);
-		handle_commands(msg, buffers, users);
+		make_full_command(msg, buffers, users);
 		server.rm_useless();
 	}
 
