@@ -34,6 +34,7 @@ void	exec_command(const int &id, const std::string &command,
 		names(args, channels, users, server);
 	else if (firstWord == "PING")
 		pong(params(args), *users[id], server);
+
 }
 
 /**
