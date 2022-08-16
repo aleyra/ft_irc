@@ -12,7 +12,7 @@
 <ul> Les tâches que j'ai relevé pour le moment :
 	<li>gerer l'authentification par nickname et username</li>
 	<li>gerer la creation/destruction de canaux</li>
-	<li>gerer 3 types d'utilisateur : basiques, operateur de canal, operateur irc (pencez a voir les points 8.12.2 et 8.12.4 de la doc)</li>
+	<li>gerer 3 types d'utilisateur : basiques, operateur de canal, operateur irc <!-- (pensez a voir les points 8.12.2 et 8.12.4 de la doc) --></li>
 	<li>gestions de differents types de messages, ie, envoyé :
 		<ul>
 			<li>a une liste</li>
