@@ -17,6 +17,7 @@ class channel{
 		bool					_isMod;//true si le chan est en mode moderate
 		std::map<user*, int>	_usr_list;//value de map = lvl acces. 0 = default, 1 = voice ok, 2 = halfop, 3 = protected, 4 = chan op
 		char					_mode;//https://datatracker.ietf.org/doc/html/rfc2811#section-4
+		std::string				_topic;
 
 	//#pragma region constructors destructor
 	private:
@@ -44,6 +45,8 @@ class channel{
 		std::map<user*, int> &			getUsr_list() ;
 		void							setMode(char c);
 		char const &					getMode() const;
+		void							setTopic(std::string t);
+		std::string	const &				getTopic() const;
 
 	// #pragma endregion getters and setters
 

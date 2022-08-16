@@ -55,6 +55,14 @@ channel&	channel::operator=(channel const &src){
 		return this->_mode;
 	}
 
+	void	channel::setTopic(std::string t){
+		this->_topic = t;
+	}
+
+	std::string	const &	channel::getTopic() const{
+		return this->_topic;
+	}
+
 
 // #pragma endregion getters and setters
 
