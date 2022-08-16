@@ -22,7 +22,7 @@
 </li>
 <li>creer differentes cmds :
 	<ul>
-		<li>etablissement de connexion : <strike> PASS </strike>/ NICK / USER / OPER / QUIT</li>
+		<li>etablissement de connexion : <strike>PASS</strike> / <strike>NICK</strike> / <strike>USER</strike> / OPER / QUIT</li>
 		<li>operations sur un canal (a check avant de se lancer) : JOIN / PART / MODE (pour mode, il y a plein d'options) / TOPiC / NAMES / LIST / INVITE / KICK</li>
 		<!-- <li>Requetes et cmd serveur : VERSION / STATS / TIME / iNVITE / ADMIN (penser a voir 8.12.4 de la doc) / INFO</li> -->
 		<li>envoi de messages : PRIVMSG / NOTICE</li>
