@@ -44,9 +44,8 @@ void	exec_command(const int &id, const std::string &command,
 		list(args, users[id], channels, users, server);
 	else if (firstWord == "TOPIC")
 		topic(params(args), users[id], channels, server);
-
-
-
+	else if (firstWord == "MODE")
+		mode(params(args), users[id], channels, users, server);
 }
 
 /**
