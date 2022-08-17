@@ -77,7 +77,7 @@ int	numeric_reply(int err, user* askingOne, channel* chan, Server& srv){
 		case RPL_CHANNELMODEIS://"<client> <channel> <modestring> <mode arguments>..."
 			{
 				std::cout << /*srv->client <<*/ err << " " << askingOne->getNick() << " ";//<client>
-				std::cout << chan->getName() << " ";//<channel>
+				std::cout << chan->getName() << " +";//<channel>
 				std::string	mode = chan->getMode();//<modestring>
 				for (size_t i = 0; i < mode.size(); ++i){
 					std::cout << mode[i] << " ";

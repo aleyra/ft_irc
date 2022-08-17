@@ -22,21 +22,12 @@ int	mode_user(std::vector<std::string> params, user* askingOne,
 		}
 	}
 	switch (params[1][1]){
-		// case 'a'://a - user is flagged as away//pour le flag a, l'askingOne doit utiliser la commande AWAY
-		// 	return (EXIT_FAILURE);
-		// 	break;
 		case 'i':// i - marks a users as invisible
 			if (params[1][0] == '+')
 				usr->addMode('i');
 			else if (params[1][0] == '-')
 				usr->rmMode('i');
 			break;
-		// case 'w'://w - user receives wallops
-		// 	if (params[1][0] == '+')
-		// 		usr->addMode('w');
-		// 	else if (params[1][0] == '-')
-		// 		usr->rmMode('w');
-		// 	break;
 		case 'r'://r - restricted user connection
 			if (params[1][0] == '+')
 				usr->addMode('r');
@@ -48,13 +39,6 @@ int	mode_user(std::vector<std::string> params, user* askingOne,
 				usr->setIsop(false);
 			}
 			break;
-		// case 'O'://O - local operator flag
-		// 	if (params[1][0] == '-' && usr->getLvl() == SRV_OP){
-		// 		usr->setLvl(DEFAULT_USR);
-		// 		usr->rmMode('O');
-		// 		usr->setIsop(false);
-		// 	}
-		// 	break;
 		default:
 			return (numeric_reply(ERR_UMODEUNKNOWNFLAG, askingOne, srv));
 			break;
@@ -79,12 +63,12 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 	int								level_access = usr_list->at(usr_id);
 	if (usr_list->find(askingOne->getId()) == usr_list->end() || level_access != CHAN_OP)
 		return (numeric_reply(ERR_CHANOPRIVSNEEDED, askingOne, chan, srv));
-	
 	std::string	modestring = params[1];
 	size_t		i = 2;
 	int			count = 1;
 	std::string	tmp;
 	user*		usr = NULL;
+	// std::pair<unsigned int, int>	*p = NULL;
 	while (!modestring.empty() && count <= 3){
 		if (modestring.size() != 2){//les 2 premiers char seront toujours un signe et une lettre
 			if (modestring[0] != '+' && modestring[0] != '-'){
@@ -97,59 +81,40 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 			}
 		}
 		switch (modestring[2]){
-			// case 'O':// O - give "channel creator" status;
-			// 	{
-			// 		if (params.size() <= i + 1)//case there's no nick given to give "channel creator"
-			// 			return (EXIT_FAILURE);
-			// 		usr = searchUserByNick(params[i + 1], users);
-			// 		if (usr == NULL)//params[i + 1] ne correspond pas a un user
-			// 			return (EXIT_FAILURE);
-			// 		// if (modestring[0] == '+'){
-			// 		// 	chan->addMode('O');
-			// 		// }
-			// 		// else if (modestring[0] == '-'){
-			// 		// 	chan->rmMode('O');
-			// 		// }
-			// 	}
-			// 	break;
 			case 'o':// o - give/take channel operator privilege;
 				{
 					if (params.size() <= i + 1)//case there's no nick given to give "channel operator"
 						return (EXIT_FAILURE);
 					usr = searchUserByNick(params[i], users);
-					if (usr == NULL)//params[i + 1] ne correspond pas a un user
+					if (usr == NULL)//params[i] ne correspond pas a un user
 						return (EXIT_FAILURE);
-					if (usr_list->find(usr->getId()) == usr_list->end())//a check
+					if (usr_list->find(usr->getId()) == usr_list->end())
 						return (numeric_reply(ERR_USERNOTINCHANNEL, askingOne, usr, chan, srv));
-					// if (modestring[0] == '+'){
-					// 	chan->addMode('o');
-					// }
-					// else if (modestring[0] == '-'){
-					// 	chan->rmMode('o');
-					// }
+					usr_id = usr->getId();
+					if (modestring[0] == '+')
+						usr_list->at(usr_id) = CHAN_OP;
+					else if (modestring[0] == '-')
+						usr_list->at(usr_id) = DEFAULT;
 					i++;
 				}
 				break;
 			case 'v'://v - give/take the voice privilege;
 				{
-					if (modestring[0] == '+'){
-						chan->addMode('v');
-					}
-					else if (modestring[0] == '-'){
-						chan->rmMode('v');
-					}
+					if (params.size() <= i + 1)//case there's no nick given to give "the voice privilege"
+						return (EXIT_FAILURE);
+					usr = searchUserByNick(params[i], users);
+					if (usr == NULL)//params[i] ne correspond pas a un user
+						return (EXIT_FAILURE);
+					if (usr_list->find(usr->getId()) == usr_list->end())
+						return (numeric_reply(ERR_USERNOTINCHANNEL, askingOne, usr, chan, srv));
+					usr_id = usr->getId();
+					if (modestring[0] == '+')
+						usr_list->at(usr_id) = VOICE_OK;
+					else if (modestring[0] == '-')
+						usr_list->at(usr_id) = DEFAULT;
+					i++;
 				}
 				break;
-			// case 'a'://a - toggle the anonymous channel flag;
-			// 	{
-			// 		if (modestring[0] == '+'){
-			// 			chan->addMode('a');
-			// 		}
-			// 		else if (modestring[0] == '-'){
-			// 			chan->rmMode('a');
-			// 		}
-			// 	}
-			// 	break;
 			case 'i'://i - toggle the invite-only channel flag;
 				{
 					if (modestring[0] == '+'){
@@ -170,26 +135,6 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 					}
 				}
 				break;
-			case 'n'://n - toggle the no messages to channel from clients on the outside;
-				{
-					if (modestring[0] == '+'){
-						chan->addMode('n');
-					}
-					else if (modestring[0] == '-'){
-						chan->rmMode('n');
-					}
-				}
-				break;
-			// case 'q'://q - toggle the quiet channel flag;
-			// 	{
-			// 		if (modestring[0] == '+'){
-			// 			chan->addMode('q');
-			// 		}
-			// 		else if (modestring[0] == '-'){
-			// 			chan->rmMode('q');
-			// 		}
-			// 	}
-			// 	break;
 			case 'p'://p - toggle the private channel flag;
 				{
 					if (modestring[0] == '+'){
@@ -210,16 +155,6 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 					}
 				}
 				break;
-			// case 'r'://r - toggle the server reop channel flag;
-			// 	{
-			// 		if (modestring[0] == '+'){
-			// 			chan->addMode('r');
-			// 		}
-			// 		else if (modestring[0] == '-'){
-			// 			chan->rmMode('r');
-			// 		}
-			// 	}
-			// 	break;
 			case 't'://t - toggle the topic settable by channel operator only flag;
 				{
 					if (modestring[0] == '+'){
@@ -230,58 +165,20 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 					}
 				}
 				break;
-			case 'k':// k - set/remove the channel key (password);
-				{
-					if (modestring[0] == '+'){
-						chan->addMode('k');
-					}
-					else if (modestring[0] == '-'){
-						chan->rmMode('k');
-					}
-				}
-				break;
-			case 'l'://l - set/remove the user limit to channel;
-				{
-					if (modestring[0] == '+'){
-						chan->addMode('l');
-					}
-					else if (modestring[0] == '-'){
-						chan->rmMode('l');
-					}
-				}
-				break;
-			case 'b'://b - set/remove ban mask to keep users out;
-				{
-					if (modestring[0] == '+'){
-						chan->addMode('b');
-					}
-					else if (modestring[0] == '-'){
-						chan->rmMode('b');
-					}
-				}
-				break;
-			// case 'e'://e - set/remove an exception mask to override a ban mask;
+
+			// case 'b'://b - set/remove ban mask to keep users out;//whynot
 			// 	{
 			// 		if (modestring[0] == '+'){
-			// 			chan->addMode('e');
+			// 			chan->addMode('b');
 			// 		}
 			// 		else if (modestring[0] == '-'){
-			// 			chan->rmMode('e');
-			// 		}
-			// 	}
-			// 	break;
-			// case 'I':// I - set/remove an invitation mask to automatically override the invite-only flag;
-			// 	{
-			// 		if (modestring[0] == '+'){
-			// 			chan->addMode('I');
-			// 		}
-			// 		else if (modestring[0] == '-'){
-			// 			chan->rmMode('I');
+			// 			chan->rmMode('b');
 			// 		}
 			// 	}
 			// 	break;
 			
 			default:
+				return (numeric_reply(ERR_UNKNOWNMODE, askingOne, modestring.substr(1, 1), srv));
 				break;
 		}
 		modestring.erase(0, 2);
