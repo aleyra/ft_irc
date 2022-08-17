@@ -13,9 +13,9 @@ int		list(std::string params, user* askingOne, std::vector<channel*>& chan_vec,
 			std::map<unsigned int, user *>& users, Server& srv);
 int		names(std::string params, user* askingOne, std::vector<channel*> chan_vec,
 			std::map<unsigned int, user *>& users, Server& srv);
-int		nick(std::vector<std::string> params, user* askingOne, user& usr,
+int		nick(std::vector<std::string> params, user* askingOne,
 			std::map<unsigned int, user *>& users, Server& srv);
-int		pass(std::string psw, user* askingOne, user* usr, Server& srv);
+int		pass(std::string psw, user* usr, Server& srv);
 int		topic(std::vector<std::string> params, user* askingOne, user* usr,
 			std::vector<channel*> chan_vec, Server& srv);
 int		user_cmd(std::vector<std::string> params, user* askingOne, user* usr, Server& srv);

@@ -11,7 +11,7 @@ PATH_LOG        =	logs
 
 # List of sources
 
-SRCS_CMDS		=	list.cpp mode.cpp names.cpp nick.cpp oper.cpp pass.cpp \
+SRCS_CMDS		=	list.cpp  names.cpp nick.cpp oper.cpp pass.cpp \
 					ping.cpp pong.cpp quit.cpp topic.cpp user_cmd.cpp
 SRCS_CLASS		=	Server.cpp channel.cpp user.cpp
 SRCS_TOOLS		=	numeric_reply.cpp params.cpp make_full_command.cpp timeout.cpp

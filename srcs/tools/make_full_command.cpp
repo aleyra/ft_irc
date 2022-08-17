@@ -24,14 +24,14 @@
 void	exec_command(const int &id, const std::string &command,
 	std::map<unsigned int, user *> &users,
 	std::vector<channel *> &channels,
-	Server &server, user* askingOne)
+	Server &server)
 {
 	std::string firstWord = command.substr(0, command.find(" "));
 	std::string args = command.substr(command.find_first_of(" \t") + 1);
 	if (firstWord == "NICK")
-		nick(params(args), askingOne, *users[id], users, server);
+		nick(params(args), users[id], users, server);
 	else if (firstWord == "NAMES")
-		names(args, askingOne, channels, users, server);
+		names(args, users[id], channels, users, server);
 	else if (firstWord == "PING")
 		pong(params(args), *users[id], server);
 
@@ -58,7 +58,7 @@ void	make_full_command(std::map<unsigned int, std::string> &msg,
 	std::map<unsigned int, std::string> &buffers,
 	std::map<unsigned int, user *> &users,
 	std::vector<channel *> &channels,
-	Server &server, user* askingOne)
+	Server &server)
 {
 	for (std::map<unsigned int, std::string>::iterator it = msg.begin();
 		it != msg.end(); ++it)
@@ -70,7 +70,7 @@ void	make_full_command(std::map<unsigned int, std::string> &msg,
 			continue;
 		if (buffers[it->first].back() == '\n')
 		{
-			exec_command(it->first, buffers[it->first], users, channels, server, askingOne);
+			exec_command(it->first, buffers[it->first], users, channels, server);
 			buffers[it->first].clear();
 		}
 	}
