@@ -5,7 +5,7 @@ int	invite(std::vector<std::string> params, user* askingOne,
 	//Parameters: <nickname> <channel>
 	if (params.size() < 2)
 		return (numeric_reply(ERR_NEEDMOREPARAMS, askingOne, "MODE", srv));
-	user*	usr = searchUserByNick(params[0], users)
+	user*	usr = searchUserByNick(params[0], users);
 	if (usr != NULL)
 		return (numeric_reply(ERR_NOSUCHNICK, askingOne, params[0], srv));
 	channel*	chan = searchChannelByName(params[2], chan_vec);
@@ -17,9 +17,11 @@ int	invite(std::vector<std::string> params, user* askingOne,
 		return (numeric_reply(ERR_NOTONCHANNEL, askingOne, chan, srv));
 	if (chan->hasMode('i') == true && pos->second != CHAN_OP)
 		return (numeric_reply(ERR_CHANOPRIVSNEEDED, askingOne, chan, srv));
+	pos = usr_list.find(usr->getId());
+	if (pos != usr_list.end())
+		return (numeric_reply(ERR_USERONCHANNEL, askingOne, usr, chan, srv));
 	chan->addInvite_list(usr->getId());
-	//si le channel a le mode i, seul les chan-op peuvent inviter
-	return (EXIT_SUCCESS);
+	return (numeric_reply(RPL_INVITING, askingOne, usr, chan, srv));
 }
 
 /*Only the user inviting and the user being invited will receive

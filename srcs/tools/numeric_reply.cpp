@@ -242,7 +242,10 @@ int	numeric_reply(int err, user* askingOne, user* usr, channel* chan, Server& sr
 			std::cout << /*srv->client <<*/ err << " " << askingOne->getNick() << " " << usr->getNick() << " " << chan->getName() << ":They aren't on that channel" << std::endl;
 			break;
 		case ERR_USERONCHANNEL:
-			std::cout << /*srv->client <<*/ err << " " << askingOne->getNick() << " " << usr << " " << chan->getName() << ":is already on channel" << std::endl;
+			std::cout << /*srv->client <<*/ err << " " << askingOne->getNick() << " " << usr->getNick << " " << chan->getName() << ":is already on channel" << std::endl;
+			break;
+		case RPL_INVITING:
+			std::cout << /*srv->client <<*/ err << " " << askingOne->getNick() << " " << chan->getName() << " " << usr->getNick() << std::endl;
 			break;
 		default:
 			break;
