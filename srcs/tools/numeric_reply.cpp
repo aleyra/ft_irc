@@ -127,6 +127,9 @@ int	numeric_reply(int err, user* askingOne, std::string s, Server& srv){//s for 
 		case RPL_ENDOFNAMES://avec s comme param car le chan->getName() s peut de pas exister;
 			std::cout << /*srv->client <<*/ err << " " << askingOne->getNick() << " " << s << " :End of NAMES list" << std::endl;
 			break;
+		case RPL_YOUREOPER:
+			std::cout << /*srv->client <<*/ err << " " << askingOne->getNick() << " " << s << " :You are now an IRC operator" << std::endl;
+			break;
 		default:
 			break;
 	}

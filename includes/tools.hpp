@@ -35,4 +35,28 @@ void	make_full_command(std::map<unsigned int, std::string> &msg,
 //in timeout.cpp
 void	timeout(std::map<unsigned int, user *> &users, Server &server);
 
+//in utils.cpp
+
+/**
+* Description:
+* 	Convert a T to string.
+* 
+* Args:
+* 	val: The value to convert.
+* 
+* Return:
+* 	The value converted to string.
+* 
+* Notes:
+* 	Does it work with anything ?!
+**/
+
+template <typename T>
+std::string to_string(T val)
+{
+	std::stringstream ss;
+	ss << val;
+	return ss.str();
+}
+
 #endif

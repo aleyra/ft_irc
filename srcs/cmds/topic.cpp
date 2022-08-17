@@ -1,6 +1,6 @@
 #include "cmds.hpp"
 
-int	topic(std::vector<std::string> params, user* askingOne, user* usr,
+int	topic(std::vector<std::string> params, user* askingOne,
 	std::vector<channel*> chan_vec, Server& srv){
 	if (params.empty())
 		return (numeric_reply(ERR_NEEDMOREPARAMS, askingOne, "TOPIC", srv));
@@ -13,10 +13,10 @@ int	topic(std::vector<std::string> params, user* askingOne, user* usr,
 	}
 	
 	std::map<unsigned int, int>*	usr_list = &(chan->getUsr_list());	
-	if (usr_list->find(usr->getId()) == usr_list->end())
+	if (usr_list->find(askingOne->getId()) == usr_list->end())
 		return (numeric_reply(ERR_NOTONCHANNEL, askingOne, chan, srv));
 	
-	unsigned int	usr_id = usr->getId();
+	unsigned int	usr_id = askingOne->getId();
 	int				level_access = usr_list->at(usr_id);
 	if (chan->hasMode('t') == true 
 		&& (level_access != CHAN_OP || level_access != HALFOP))

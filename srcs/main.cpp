@@ -23,8 +23,7 @@ int main(int argc, char **argv)
 			users[tmp->getId()] = tmp;
 		std::map<unsigned int, std::string> msg = server.receive(readfds, users);
 		timeout(users, server);
-		make_full_command(msg, buffers, users, channels, server);//a changer
-		server.rm_useless();
+		make_full_command(msg, buffers, users, channels, server);
 	}
 
 	// It's a "good practice" but useless since we never exit the loop anyway.

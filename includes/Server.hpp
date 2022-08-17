@@ -1,7 +1,6 @@
 #ifndef SERVER_HPP
 # define SERVER_HPP
 
-#include <sys/socket.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <netdb.h>
@@ -13,6 +12,9 @@
 #include <string>
 #include <fcntl.h>
 #include <cerrno>
+#include <fstream>
+#include <sys/types.h>
+#include <arpa/inet.h>
 #include "user.hpp"
 
 #define MAX_CLIENTS 4000
@@ -24,7 +26,7 @@ class Server
 		Server(const Server &f);
 		~Server();
 
-		std::size_t const	&get_current_id() const;
+		std::size_t const							&get_current_id() const;
 
 		void						send(const std::string &msg, const std::size_t &id);
 		std::map<unsigned int, std::string>	receive(fd_set &readfds,
@@ -32,7 +34,8 @@ class Server
 		user						*add_connection(fd_set &readfds);
 		void						select(fd_set &readfds);
 		void						rm_useless();
-		void						disconnect(const std::size_t &id);
+		void						disconnect(user &user);
+		std::string					client_ip(unsigned int id);
 
 		void	operator=(const Server &f);
 		
@@ -45,11 +48,13 @@ class Server
 		sockaddr_in 		_address;
 		// The id of the next user.
 		std::size_t			_current_id;
+		// A list of user ips
+		std::map<unsigned int, std::string> _ips;
 
 		void	check_port_range(const std::string &port);
+		void	set_oper();
 
 		Server();
 };
-
 
 #endif

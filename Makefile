@@ -11,10 +11,11 @@ PATH_LOG        =	logs
 
 # List of sources
 
-SRCS_CMDS		=	invite.cpp list.cpp mode.cpp names.cpp nick.cpp oper.cpp pass.cpp \
+SRCS_CMDS		=	error.cpp invite.cpp list.cpp mode.cpp names.cpp nick.cpp oper.cpp pass.cpp \
 					ping.cpp pong.cpp quit.cpp topic.cpp user_cmd.cpp
 SRCS_CLASS		=	Server.cpp channel.cpp user.cpp
-SRCS_TOOLS		=	numeric_reply.cpp params.cpp make_full_command.cpp timeout.cpp
+SRCS_TOOLS		=	numeric_reply.cpp params.cpp make_full_command.cpp timeout.cpp \
+					utils.cpp
 SRCS 			=	$(addprefix $(PATH_SRC)/cmds/, $(SRCS_CMDS)) \
 					$(addprefix $(PATH_SRC)/class/, $(SRCS_CLASS)) \
 					$(addprefix $(PATH_SRC)/tools/, $(SRCS_TOOLS)) \
@@ -54,18 +55,6 @@ $(NAME):	$(OBJS)
 $(PATH_OBJ)/%.o : $(PATH_SRC)/*/%.cpp  $(INCS) | $(PATH_OBJ)
 		$(COMP) $(COMP_FLAG) $(COMP_ADD) -c $< -o $@
 		@ echo "$(_INFO) Compilation of $*"
-
-# $(PATH_OBJ)/%.o : $(PATH_SRC)/cmds/%.cpp  $(INCS) | $(PATH_OBJ)
-# 		$(COMP) $(COMP_FLAG) $(COMP_ADD) -c $< -o $@
-# 		@ echo "$(_INFO) Compilation of $*"
-
-# $(PATH_OBJ)/%.o : $(PATH_SRC)/class/%.cpp  $(INCS) | $(PATH_OBJ)
-# 		$(COMP) $(COMP_FLAG) $(COMP_ADD) -c $< -o $@
-# 		@ echo "$(_INFO) Compilation of $*"
-
-# $(PATH_OBJ)/%.o : $(PATH_SRC)/tools/%.cpp  $(INCS) | $(PATH_OBJ)
-# 		$(COMP) $(COMP_FLAG) $(COMP_ADD) -c $< -o $@
-# 		@ echo "$(_INFO) Compilation of $*"
 
 $(PATH_OBJ)/%.o : $(PATH_SRC)/%.cpp  $(INCS)
 		$(COMP) $(COMP_FLAG) $(COMP_ADD) -c $< -o $@

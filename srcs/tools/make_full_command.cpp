@@ -34,6 +34,18 @@ void	exec_command(const int &id, const std::string &command,
 		names(args, users[id], channels, users, server);
 	else if (firstWord == "PING")
 		pong(params(args), *users[id], server);
+	else if (firstWord == "QUIT")
+		quit(*users[id], server);
+	else if (firstWord == "OPER")
+		oper(params(args), *users[id], server);
+	else if (firstWord == "USER")
+		user_cmd(params(args), users[id], server);
+	else if (firstWord == "LIST")
+		list(args, users[id], channels, users, server);
+	else if (firstWord == "TOPIC")
+		topic(params(args), users[id], channels, server);
+
+
 
 }
 

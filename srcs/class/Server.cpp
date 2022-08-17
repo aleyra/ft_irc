@@ -80,7 +80,6 @@ Server::~Server()
 * 	** Notes **
 **/
 
-
 std::size_t const	&Server::get_current_id() const
 {
 	return (_current_id);
@@ -98,7 +97,7 @@ std::size_t const	&Server::get_current_id() const
 * 	None.
 * 
 * Notes:
-* 	** Notes **
+* 	Appends the \n at the end of the message the convenience.
 **/
 
 void	Server::send(const std::string &msg, const std::size_t &id)
@@ -106,7 +105,8 @@ void	Server::send(const std::string &msg, const std::size_t &id)
 	if (_users.find(id) == _users.end())
 		return;
 
-	if(::send(_users[id], msg.c_str(), msg.size(), 0) != static_cast<long>(msg.size()))
+	std::string	sent = msg + "\n";
+	if(::send(_users[id], sent.c_str(), sent.size(), 0) != static_cast<long>(sent.size()))
 		std::cout << "Couldn't send message. errno: " << errno << std::endl;
 }
 
@@ -185,6 +185,7 @@ user	*Server::add_connection(fd_set &readfds)
 	}
 	user *usr = new user("", _current_id);
 	_users[_current_id] = new_socket;
+	_ips[_current_id] = inet_ntoa(_address.sin_addr);
 	_current_id++;
 	return (usr);
 }
@@ -265,11 +266,16 @@ void	Server::rm_useless()
 * 	** Notes **
 **/
 
-
-void	Server::disconnect(const std::size_t &id)
+void	Server::disconnect(user &user)
 {
-	close(_users[id]);
-	_users[id] = 0;
+	if (user.getIsonline())
+	{
+		user.setIsonline(false);
+		close(_users[user.getId()]);
+		_users.erase(_users.find(user.getId()));
+		_ips.erase(_ips.find(user.getId()));
+		// _users[user.getId()] = 0;
+	}
 }
 
 void	Server::operator=(const Server &other)
@@ -306,4 +312,9 @@ void	Server::check_port_range(const std::string &port)
 		std::cout << "The given port is invalid\nAllowed: 1024 - 65535" << std::endl;
 		exit(EXIT_FAILURE);
 	}
+}
+
+std::string	Server::client_ip(unsigned int id)
+{
+	return (_ips[id]);
 }
