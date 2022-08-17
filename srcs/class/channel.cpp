@@ -10,8 +10,9 @@ channel::channel(std::string name, user* founder){
 	this->_name = name;
 	this->_founder = founder;
 	this->_isMod = false;
-	this->_usr_list[founder->getId()] = CHAN_OP;
-	this->_mode = 0;
+	if (founder != NULL)
+		this->_usr_list[founder->getId()] = CHAN_OP;
+	this->_mode = "";
 }
 
 channel::~channel(){
@@ -47,11 +48,11 @@ channel&	channel::operator=(channel const &src){
 		return this->_usr_list;
 	}
 	
-	void	channel::setMode(char c){
-		this->_mode = c;
-	}
+	// void	channel::setMode(char c){
+	// 	this->_mode = c;
+	// }
 
-	char const &	channel::getMode() const{
+	std::string const &	channel::getMode() const{
 		return this->_mode;
 	}
 
@@ -61,6 +62,10 @@ channel&	channel::operator=(channel const &src){
 
 	std::string	const &	channel::getTopic() const{
 		return this->_topic;
+	}
+
+	std::vector<unsigned int> const &	channel::getInvite_list() const{
+		return this->_invite_list;
 	}
 
 
@@ -74,6 +79,39 @@ channel&	channel::operator=(channel const &src){
 		if (f == this->_usr_list.end())
 			this->_usr_list.erase(u->getId());
 	}
+
+	void	channel::addMode(char c){
+		size_t pos = this->_mode.find(c);
+		if (pos == std::string::npos)
+			this->_mode.push_back(c);
+	}
+
+	void	channel::rmMode(char c){
+		size_t pos = this->_mode.find(c);
+		if (pos == std::string::npos)
+			this->_mode.erase(pos, 1);
+	}
+
+	bool	channel::hasMode(char c){
+		size_t pos = this->_mode.find(c);
+		if (pos == std::string::npos)
+			return false;
+		return true;
+	}
+
+	void	channel::addInvite_list(unsigned int id){
+		if (std::find(this->_invite_list.begin(), this->_invite_list.end(),
+			id) == this->_invite_list.end())
+			this->_invite_list.push_back(id);
+	}
+
+	void	channel::rmInvite_list(unsigned int id){
+		std::vector<unsigned int>::iterator pos = std::find(
+			this->_invite_list.begin(), this->_invite_list.end(), id);
+		if (pos != this->_invite_list.end())
+			this->_invite_list.erase(pos);
+	}
+
 
 // #pragma endregion other member functions
 
@@ -89,8 +127,9 @@ int	countVisibleUsers(channel* chan, std::map<unsigned int, user *>& users){
 	int						count = 0;
 	std::map<unsigned int, int> &	usr_list = chan->getUsr_list();
 
-	for (std::map<unsigned int, int>::iterator it = usr_list.begin(); it != usr_list.end(); ++it){
-		if (searchUserByID(it->first, users)->getMode() != 'i')
+	for (std::map<unsigned int, int>::iterator it = usr_list.begin();
+		it != usr_list.end(); ++it){
+		if (searchUserByID(it->first, users)->hasMode('i') == false)
 			count++;
 	}
 	return count;

@@ -29,15 +29,23 @@ void	exec_command(const int &id, const std::string &command,
 	std::string firstWord = command.substr(0, command.find(" "));
 	std::string args = command.substr(command.find_first_of(" \t") + 1);
 	if (firstWord == "NICK")
-		nick(params(args), *users[id], users, server);
+		nick(params(args), users[id], users, server);
 	else if (firstWord == "NAMES")
-		names(args, channels, users, server);
+		names(args, users[id], channels, users, server);
 	else if (firstWord == "PING")
 		pong(params(args), *users[id], server);
 	else if (firstWord == "QUIT")
 		quit(*users[id], server);
 	else if (firstWord == "OPER")
 		oper(params(args), *users[id], server);
+	else if (firstWord == "USER")
+		user_cmd(params(args), users[id], server);
+	else if (firstWord == "LIST")
+		list(params(args), users[id], channels, users, server);
+	else if (firstWord == "TOPIC")
+		topic(params(args), users[id], channels, users, server);
+
+
 
 }
 

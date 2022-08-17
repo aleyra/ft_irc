@@ -9,13 +9,19 @@
 
 class channel;
 
+enum lvl_access_user{
+	DEFAULT_USR = 0,
+	CHANNEL_OP = 1,
+	SRV_OP = 2,
+};
+
 class user{
 	private:
 		std::string					_nick;
 		std::string					_username;
 		std::string					_truename;
 		std::list<std::string>		_history_nick;//liste des anciens nick de l'user, du moins ancien (au debut), au moins ancien (a la fin)
-		int							_lvl;//lvl access : 0 = simple utilisateur, 1 = channel operator, 2 = irc operator
+		int							_lvl;//lvl access
 		std::vector<channel*>		_list_chan;//list des 10 (nombre recommandé) chan où l'user est ou peut être
 		bool						_isaway;
 		std::string					_away_msg;
@@ -23,7 +29,7 @@ class user{
 		std::string					_password;
 		bool						_isop;//is operator
 		unsigned int				_id;
-		char						_mode;
+		std::string					_mode;
 		bool						_isonline;
 	
 	// #pragma region constructors destructor
@@ -54,7 +60,7 @@ class user{
 		void							setLvl(int l);
 		int const &						getLvl() const;
 		//set de _list_chan est remplace par addList_chan et rmList_chan
-		std::vector<channel*>  &	getList_chan() ;//en attente de channel.hpp
+		std::vector<channel*>  &		getList_chan() ;//en attente de channel.hpp
 		void							setIsaway(bool a);
 		bool const &					getIsaway() const;
 		void							setIsaway_msg(std::string amsg);
@@ -66,8 +72,8 @@ class user{
 		void							setIsop(bool b);
 		bool const &					getIsop() const;
 		unsigned int const &			getId() const;
-		void							setMode(char c);
-		char const &					getMode() const;
+		// void							setMode(char c);//remplace par addMode et rmMode
+		std::string const &				getMode() const;
 		void							setIsonline(bool b);
 		bool const &					getIsonline() const;
 	// #pragma endregion getters and setters
@@ -80,6 +86,9 @@ class user{
 		std::time_t	check_Idle_time();//donne le temps en secondes depuis _last_activity
 		void		addList_chan(channel* nc);//le plus recent est a la fin
 		void		rmList_chan(channel* c);
+		void		addMode(char c);
+		void		rmMode(char c);
+		bool		hasMode(char c);
 	// #pragma endregion other member functions
 };
 

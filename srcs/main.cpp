@@ -24,7 +24,6 @@ int main(int argc, char **argv)
 		std::map<unsigned int, std::string> msg = server.receive(readfds, users);
 		timeout(users, server);
 		make_full_command(msg, buffers, users, channels, server);
-		// server.rm_useless();
 	}
 
 	// It's a "good practice" but useless since we never exit the loop anyway.

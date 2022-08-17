@@ -69,20 +69,21 @@ void	oper(std::vector<std::string> params, user &user, Server &server)
 	server.client_ip(user.getId());
 	if (params.size() < 2)
 	{
-		numeric_reply(ERR_NEEDMOREPARAMS, "OPER", server);
+		numeric_reply(ERR_NEEDMOREPARAMS, &user, "OPER", server);
 		return;
 	}
 	if (allowed_host != server.client_ip(user.getId()))
 	{
-		numeric_reply(ERR_NOOPERHOST, server);
+		numeric_reply(ERR_NOOPERHOST, &user, server);
 		return;
 	}
 	if (params[0] == oper.first && params[1] == oper.second)
 	{
 		user.setLvl(2);
 		user.setIsop(true);
-		numeric_reply(RPL_YOUREOPER, "OPER", server);
+		numeric_reply(RPL_YOUREOPER, &user, "OPER", server);
+		numeric_reply(RPL_UMODEIS, &user, &user, server);
 	}
 	else
-		numeric_reply(ERR_PASSWDMISMATCH, server);
+		numeric_reply(ERR_PASSWDMISMATCH, &user, server);
 }
