@@ -35,7 +35,9 @@ void	exec_command(const int &id, const std::string &command,
 	else if (firstWord == "PING")
 		pong(params(args), *users[id], server);
 	else if (firstWord == "QUIT")
-		quit(params(args), *users[id], server);
+		quit(*users[id], server);
+	else if (firstWord == "OPER")
+		oper(params(args), *users[id], server);
 
 }
 

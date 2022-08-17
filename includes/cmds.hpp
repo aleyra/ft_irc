@@ -18,6 +18,8 @@ int		user_cmd(std::vector<std::string> params, user* usr, Server& srv);
 void	ping(std::vector<std::string> params, user &user, Server &server);
 void	pong(std::vector<std::string> params, user &user, Server &server);
 void	error(user &user, Server &server, const std::string &msg);
-void	quit(std::vector<std::string> params, user &user, Server &server);
+void	quit(user &user, Server &server);
+void	quit_server(user &user, Server &server, std::string msg);
+void	oper(std::vector<std::string> params, user &user, Server &server);
 
 #endif
