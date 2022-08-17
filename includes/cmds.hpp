@@ -21,7 +21,7 @@ int		nick(std::vector<std::string> params, user* askingOne,
 int		pass(std::string psw, user* usr, Server& srv);
 int		topic(std::vector<std::string> params, user* askingOne, user* usr,
 			std::vector<channel*> chan_vec, Server& srv);
-int		user_cmd(std::vector<std::string> params, user* askingOne, user* usr, Server& srv);
+int		user_cmd(std::vector<std::string> params, user* usr, Server& srv);
 void	pong(std::vector<std::string> params, user &user, Server &server);
 void	ping(std::vector<std::string> params, user &user, Server &server);
 
