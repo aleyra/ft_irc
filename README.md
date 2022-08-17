@@ -54,7 +54,7 @@
 			<!-- <li>messages optionnels : AWAY / REHASH / RESTART / SUMMON (? la je suis pas sure) / USERS / WALLOPS / USERHOST / ISON</li> -->
 		</ul>
 	</li>
-	<li>faire LE ficher de configuration</li>
+	<li><strike>faire LE ficher de configuration</strike></li>
 	<li><strike>lister les reponses numeriques</strike></li>
 </ul>
 </p>

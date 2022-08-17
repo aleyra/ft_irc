@@ -64,6 +64,10 @@ channel&	channel::operator=(channel const &src){
 		return this->_topic;
 	}
 
+	std::vector<unsigned int> const &	channel::getInvite_list() const{
+		return this->_invite_list;
+	}
+
 
 // #pragma endregion getters and setters
 
@@ -94,6 +98,20 @@ channel&	channel::operator=(channel const &src){
 			return false;
 		return true;
 	}
+
+	void	channel::addInvite_list(unsigned int id){
+		if (std::find(this->_invite_list.begin(), this->_invite_list.end(),
+			id) == this->_invite_list.end())
+			this->_invite_list.push_back(id);
+	}
+
+	void	channel::rmInvite_list(unsigned int id){
+		std::vector<unsigned int>::iterator pos = std::find(
+			this->_invite_list.begin(), this->_invite_list.end(), id);
+		if (pos != this->_invite_list.end())
+			this->_invite_list.erase(pos);
+	}
+
 
 // #pragma endregion other member functions
 

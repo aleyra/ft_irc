@@ -26,6 +26,7 @@ class channel{
 		std::map<unsigned int, int>	_usr_list;//key = id d'un user et value de map = lvl acces
 		std::string					_mode;//https://datatracker.ietf.org/doc/html/rfc2811#section-4
 		std::string					_topic;
+		std::vector<unsigned int>	_invite_list;//contient les id des user invites
 
 	//#pragma region constructors destructor
 	private:
@@ -43,18 +44,20 @@ class channel{
 
 	// #pragma region getters and setters
 	public:
-		void							setName(std::string n);
-		std::string const &				getName() const;
+		void								setName(std::string n);
+		std::string const &					getName() const;
 		//pas de setter pour founder
-		user *							getFounder() const;
-		void							setIsMod(bool b);
-		bool const &					getIsMod() const;
+		user *								getFounder() const;
+		void								setIsMod(bool b);
+		bool const &						getIsMod() const;
 		//pas de setter pour _usr_list, voir addUsr_list et rmUsr_list
-		std::map<unsigned int, int> &	getUsr_list() ;
-		// void							setMode(char c);//remplace par addMode et rmMode
-		std::string const &				getMode() const;
-		void							setTopic(std::string t);
-		std::string	const &				getTopic() const;
+		std::map<unsigned int, int> &		getUsr_list() ;
+		// void								setMode(char c);//remplace par addMode et rmMode
+		std::string const &					getMode() const;
+		void								setTopic(std::string t);
+		std::string	const &					getTopic() const;
+		//pas de setter pour _invite_list, voir addInvite_list et rmInvite_list
+		std::vector<unsigned int> const &	getInvite_list() const;
 
 	// #pragma endregion getters and setters
 
@@ -64,6 +67,8 @@ class channel{
 		void	addMode(char c);
 		void	rmMode(char c);
 		bool	hasMode(char c);
+		void	addInvite_list(unsigned int id);
+		void	rmInvite_list(unsigned int id);
 	// #pragma endregion other member functions
 };
 
