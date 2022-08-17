@@ -32,7 +32,7 @@
 			<li>operations sur un canal (a check avant de se lancer) : 
 				JOIN / 
 				PART / 
-				MODE (pour mode, il y a plein d'options) / 
+				<strike>MODE (pour mode, il y a plein d'options)</strike> / 
 				<strike>TOPIC</strike> / 
 				<strike>NAMES</strike> / 
 				<strike>LIST</strike> / 

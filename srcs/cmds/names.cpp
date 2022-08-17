@@ -4,9 +4,9 @@ int	rpl_namreply(channel* chan, std::map<unsigned int, user *>& users, Server& s
 	// "<client> <symbol> <channel> :[prefix]<nick>{ [prefix]<nick>}"
 	(void) srv;//
 	std::cout << /*srv->client <<*/ " ";//<client>
-	if (chan->getMode() == 's')//<symbol>
+	if (chan->hasMode('s') == true)//<symbol>
 		std::cout << "@";//chan is secret
-	else if (chan->getMode() == 'p')
+	else if (chan->hasMode('p') == true)
 		std::cout << "*";//chan is private
 	else 
 		std::cout << "=";
@@ -29,11 +29,11 @@ int	names(std::string params, std::vector<channel*> chan_vec, std::map<unsigned 
 	//case no <channel> parameter is given
 	if (params.empty()){
 		for (size_t i = 0; i < chan_vec.size(); ++i){
-			if (chan_vec[i]->getMode() != 's' && chan_vec[i]->getMode() != 'p')
+			if (chan_vec[i]->hasMode('s') == true && chan_vec[i]->hasMode('p') == true)
 				rpl_namreply(chan_vec[i], users, srv);
 		}
 		for (std::map<unsigned int, user *>::iterator it = users.begin(); it != users.end(); ++it){
-			if ((it->second->getMode() != 'i' && it->second->getList_chan().empty())
+			if ((it->second->hasMode('i') == false && it->second->getList_chan().empty())
 				|| isIn1VisibleChannel(it->second) == false)
 			std::cout << it->second->getNick() << " ";
 		}

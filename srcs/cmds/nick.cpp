@@ -4,7 +4,7 @@ int	nick(std::vector<std::string> params, user& usr, std::map<unsigned int, user
 	if (params.size() == 0)
 		return (numeric_reply(ERR_NEEDMOREPARAMS, "NICK", srv));
 	//no indication on how to handle when there's more than 1 param -> ignored
-	if (usr.getMode() == 'r')
+	if (usr.hasMode('r') == true)
 		return (numeric_reply(ERR_RESTRICTED, srv));
 	std::string nick(params[0]);
 	//checking nick is valid

@@ -24,7 +24,7 @@ class channel{
 		user*						_founder;
 		bool						_isMod;//true si le chan est en mode moderate
 		std::map<unsigned int, int>	_usr_list;//key = id d'un user et value de map = lvl acces
-		char						_mode;//https://datatracker.ietf.org/doc/html/rfc2811#section-4
+		std::string					_mode;//https://datatracker.ietf.org/doc/html/rfc2811#section-4
 		std::string					_topic;
 
 	//#pragma region constructors destructor
@@ -51,8 +51,8 @@ class channel{
 		bool const &					getIsMod() const;
 		//pas de setter pour _usr_list, voir addUsr_list et rmUsr_list
 		std::map<unsigned int, int> &	getUsr_list() ;
-		void							setMode(char c);
-		char const &					getMode() const;
+		// void							setMode(char c);//remplace par addMode et rmMode
+		std::string const &				getMode() const;
 		void							setTopic(std::string t);
 		std::string	const &				getTopic() const;
 
@@ -61,7 +61,9 @@ class channel{
 	// #pragma region other member functions
 		void	addUsr_list(user* nu);
 		void	rmUsr_list(user* u);
-		void	change_lvl_usr(user* u, int lvl);
+		void	addMode(char c);
+		void	rmMode(char c);
+		bool	hasMode(char c);
 	// #pragma endregion other member functions
 };
 

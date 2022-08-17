@@ -11,16 +11,16 @@ user::user(){
 user::user(user const &src){*this = src;}
 
 user::user(std::string usr_name, unsigned int id){
-	this->_username = usr_name;
-	this->_isaway = false;//? je suis pas sure de : a quoi correspond usr_name dans la class usr
+	this->_username = usr_name;//? je suis pas sure de : a quoi correspond usr_name dans la class usr
+	this->_isaway = false;
 	this->_username = usr_name;//? idem
 	this->_truename = usr_name;//? idem
-	this->_lvl = 0;
+	this->_lvl = DEFAULT_USR;
 	this->_isaway = false;
 	this->setLast_activity();
 	this->_isop = false;
 	this->_id = id;
-	this->_mode = 0;
+	this->_mode = "";
 	this->_isonline = true;
 	// this->_idle_time = 0;
 }
@@ -74,8 +74,8 @@ std::list<std::string> const	&user::getHistory_nick() const{
 }
 
 void	user::setLvl(int l){//on s'assure que le lvl est entre 0 et 2
-	if (l > 2){l = 2;}
-	if (l < 0){l = 0;}
+	if (l > SRV_OP){l = SRV_OP;}
+	if (l < DEFAULT_USR){l = DEFAULT_USR;}
 	this->_lvl = l;
 }
 
@@ -113,11 +113,11 @@ bool const	&user::getIsop() const{return (this->_isop);}
 
 unsigned int const &	user::getId() const{return this->_id;}
 
-void	user::setMode(char c){
-	this->_mode = c;
-}
+// void	user::setMode(char c){
+// 	this->_mode = c;
+// }
 
-char const &	user::getMode() const{
+std::string const &	user::getMode() const{
 	return (this->_mode);
 }
 
@@ -170,6 +170,25 @@ void	user::rmList_chan(channel* c){
 		if (f == this->_list_chan.end())
 			this->_list_chan.erase(f);
 }
+void	user::addMode(char c){
+	size_t pos = this->_mode.find(c);
+	if (pos == std::string::npos)
+		this->_mode.push_back(c);
+}
+
+void	user::rmMode(char c){
+	size_t pos = this->_mode.find(c);
+	if (pos == std::string::npos)
+		this->_mode.erase(pos, 1);
+}
+
+bool	user::hasMode(char c){
+	size_t pos = this->_mode.find(c);
+	if (pos == std::string::npos)
+		return false;
+	return true;
+}
+
 
 
 // #pragma endregion other member functions
@@ -192,7 +211,8 @@ user*	searchUserByNick(std::string mask, std::map<unsigned int, user *>& users){
 }
 
 user*	searchUserByID(unsigned int id, std::map<unsigned int, user *>& users){
-	for (std::map<unsigned int, user *>::iterator it = users.begin(); it != users.end(); ++it){
+	for (std::map<unsigned int, user *>::iterator it = users.begin();
+		it != users.end(); ++it){
 		if (it->second->getId() == id)
 			return it->second;
 	}
@@ -218,7 +238,7 @@ bool	has1channelInCommon(user& u1, user& u2){
 bool	isIn1VisibleChannel(user* u){
 	std::vector<channel*>&	list_chan = u->getList_chan();
 	for (size_t i = 0; i < list_chan.size(); ++i){
-		if (list_chan[i]->getMode() != 's' && list_chan[i]->getMode() != 'p')//is visible
+		if (list_chan[i]->hasMode('s') == false && list_chan[i]->hasMode('p') == false)//is visible
 			return true;
 	}
 	return (false);

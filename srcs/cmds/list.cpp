@@ -9,6 +9,7 @@ int	rpl_list(channel* chan, std::map<unsigned int, user *>& users, Server& srv){
 }
 
 int	list(std::string params, std::vector<channel*>& chan_vec, std::map<unsigned int, user *>& users, Server& srv){
+	// Parameters: [ <channel> *( "," <channel> ) [ <target> ] ]
 	if (params.empty()){
 		for (size_t i = 0; i < chan_vec.size(); ++i){
 			rpl_list(chan_vec[i], users, srv);

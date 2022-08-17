@@ -17,7 +17,7 @@ int	topic(std::vector<std::string> params, user* usr, std::vector<channel*> chan
 	
 	unsigned int	usr_id = usr->getId();
 	int				level_access = usr_list->at(usr_id);
-	if (chan->getMode() == 't' 
+	if (chan->hasMode('t') == true 
 		&& (level_access != CHAN_OP || level_access != HALFOP))
 		return (numeric_reply(ERR_CHANOPRIVSNEEDED, chan, srv));
 	

@@ -12,9 +12,9 @@ int	user_cmd(std::vector<std::string> params, user* usr, Server& srv){//<user> <
 	usr->setUsername(params[0]);
 	int	mode = std::atoi(params[1].c_str());
 	if (mode >= 8)
-		usr->setMode('i');
+		usr->addMode('i');
 	else if (mode >= 4)
-		usr->setMode('w');
+		usr->addMode('w');
 	if (params[3][0] == ':')
 		params[3].erase(0, 1);
 	for(size_t i = 4; i < params.size(); ++i){
