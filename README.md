@@ -36,7 +36,7 @@
 				<strike>TOPIC</strike> / 
 				<strike>NAMES</strike> / 
 				<strike>LIST</strike> / 
-				INVITE / 
+				<strike>INVITE</strike> / 
 				KICK
 			</li>
 			<!-- <li>Requetes et cmd serveur : VERSION / STATS / TIME / iNVITE / ADMIN (penser a voir 8.12.4 de la doc) / INFO</li> -->
