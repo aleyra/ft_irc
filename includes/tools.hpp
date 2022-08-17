@@ -14,12 +14,12 @@
 # define TIMEOUT 500
 
 //in err_msg.cpp
-int	numeric_reply(int err, user* usr, Server& srv);
-int	numeric_reply(int err, channel* chan, Server& srv);
-int	numeric_reply(int err, std::string s, Server& srv);//s for cmd, operation, charactere
-int	numeric_reply(int err, Server& srv);
-int	numeric_reply(int err, std::string s/*, file f*/, Server& srv);
-int	numeric_reply(int err, user* usr, channel* chan, Server& srv);
+int	numeric_reply(int err, user* askingOne, user* usr, Server& srv);
+int	numeric_reply(int err, user* askingOne, channel* chan, Server& srv);
+int	numeric_reply(int err, user* askingOne, std::string s, Server& srv);//s for cmd, operation, charactere
+int	numeric_reply(int err, user* askingOne, Server& srv);
+int	numeric_reply(int err, user* askingOne, std::string s/*, file f*/, Server& srv);
+int	numeric_reply(int err, user* askingOne, user* usr, channel* chan, Server& srv);
 
 //in params.cpp
 std::vector<std::string>	params(std::string s);
@@ -30,7 +30,7 @@ void	make_full_command(std::map<unsigned int, std::string> &msg,
 	std::map<unsigned int, std::string> &buffers,
 	std::map<unsigned int, user *> &users,
 	std::vector<channel *> &channels,
-	Server &server);
+	Server &server, user* askingOne);
 
 //in timeout.cpp
 void	timeout(std::map<unsigned int, user *> &users, Server &server);

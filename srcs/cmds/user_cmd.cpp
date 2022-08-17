@@ -1,10 +1,10 @@
 #include "cmds.hpp"
 
-int	user_cmd(std::vector<std::string> params, user* usr, Server& srv){//<user> <mode> <unused> <realname>
+int	user_cmd(std::vector<std::string> params, user* askingOne, user* usr, Server& srv){//<user> <mode> <unused> <realname>
 	if (params.size() < 4)
-		return (numeric_reply(ERR_NEEDMOREPARAMS, "USER",srv));
+		return (numeric_reply(ERR_NEEDMOREPARAMS, askingOne, "USER",srv));
 	if (!usr->getTruename().empty())
-		return (numeric_reply(ERR_ALREADYREGISTERED, srv));
+		return (numeric_reply(ERR_ALREADYREGISTERED, askingOne, srv));
 	for (size_t i = 0; i < params[1].size(); ++i){//case where mode is not a positive number
 		if (!std::isdigit(params[1][i]))
 			params[1] = "0";

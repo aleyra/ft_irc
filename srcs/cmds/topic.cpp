@@ -1,25 +1,26 @@
 #include "cmds.hpp"
 
-int	topic(std::vector<std::string> params, user* usr, std::vector<channel*> chan_vec, Server& srv){
+int	topic(std::vector<std::string> params, user* askingOne, user* usr,
+	std::vector<channel*> chan_vec, Server& srv){
 	if (params.empty())
-		return (numeric_reply(ERR_NEEDMOREPARAMS, "TOPIC", srv));
+		return (numeric_reply(ERR_NEEDMOREPARAMS, askingOne, "TOPIC", srv));
 	
 	channel*	chan = searchChannelByName(params[0], chan_vec);
 	if (params.size() == 1){
 		if (chan->getTopic().empty())
-			return (numeric_reply(RPL_NOTOPIC, chan, srv));
-		return (numeric_reply(RPL_TOPIC, chan, srv));
+			return (numeric_reply(RPL_NOTOPIC, askingOne, chan, srv));
+		return (numeric_reply(RPL_TOPIC, askingOne, chan, srv));
 	}
 	
 	std::map<unsigned int, int>*	usr_list = &(chan->getUsr_list());	
 	if (usr_list->find(usr->getId()) == usr_list->end())
-		return (numeric_reply(ERR_NOTONCHANNEL, chan, srv));
+		return (numeric_reply(ERR_NOTONCHANNEL, askingOne, chan, srv));
 	
 	unsigned int	usr_id = usr->getId();
 	int				level_access = usr_list->at(usr_id);
 	if (chan->hasMode('t') == true 
 		&& (level_access != CHAN_OP || level_access != HALFOP))
-		return (numeric_reply(ERR_CHANOPRIVSNEEDED, chan, srv));
+		return (numeric_reply(ERR_CHANOPRIVSNEEDED, askingOne, chan, srv));
 	
 	if (params[1][0] == ':')
 		params[1].erase(0, 1);
@@ -27,7 +28,7 @@ int	topic(std::vector<std::string> params, user* usr, std::vector<channel*> chan
 
 
 	/*case ERR_NOCHANMODES
-		return (numeric_reply(ERR_NOCHANMODES, chan, srv));
+		return (numeric_reply(ERR_NOCHANMODES, askingOne, chan, srv));
 	
 	cette erreur ne sera pas geree car :
 		elle suppose qu'il existe un mode ou personne (?) ne peut changer le topic

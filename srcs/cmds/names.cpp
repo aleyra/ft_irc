@@ -1,9 +1,10 @@
 #include "cmds.hpp"
 
-int	rpl_namreply(channel* chan, std::map<unsigned int, user *>& users, Server& srv){
+int	rpl_namreply(user* askingOne, channel* chan, std::map<unsigned int,
+	user *>& users, Server& srv){
 	// "<client> <symbol> <channel> :[prefix]<nick>{ [prefix]<nick>}"
 	(void) srv;//
-	std::cout << /*srv->client <<*/ " ";//<client>
+	std::cout << /*srv->client <<*/ << RPL_NAMREPLY << " " << askingOne->getNick() << " " ;//<client>
 	if (chan->hasMode('s') == true)//<symbol>
 		std::cout << "@";//chan is secret
 	else if (chan->hasMode('p') == true)
@@ -23,7 +24,7 @@ int	rpl_namreply(channel* chan, std::map<unsigned int, user *>& users, Server& s
 	return (RPL_NAMREPLY);
 }
 
-int	names(std::string params, std::vector<channel*> chan_vec, std::map<unsigned int, user *>& users, Server& srv){
+int	names(std::string params, user* askingOne, std::vector<channel*> chan_vec, std::map<unsigned int, user *>& users, Server& srv){
 	channel*				chan = NULL;
 
 	//case no <channel> parameter is given
@@ -38,7 +39,7 @@ int	names(std::string params, std::vector<channel*> chan_vec, std::map<unsigned 
 			std::cout << it->second->getNick() << " ";
 		}
 		std::cout << std::endl;
-		return (numeric_reply(RPL_ENDOFNAMES, "", srv));
+		return (numeric_reply(RPL_ENDOFNAMES, askingOne, "", srv));
 	}
 
 	//case we have a list of <channel> parameter is given
@@ -48,5 +49,5 @@ int	names(std::string params, std::vector<channel*> chan_vec, std::map<unsigned 
 		if (chan !=  NULL)
 			rpl_namreply(chan, users, srv);
 	}
-	return (numeric_reply(RPL_ENDOFNAMES, v[v.size() - 1], srv));
+	return (numeric_reply(RPL_ENDOFNAMES, askingOne, v[v.size() - 1], srv));
 }
