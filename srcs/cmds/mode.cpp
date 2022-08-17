@@ -45,12 +45,14 @@ int	mode_user(std::vector<std::string> params, user* askingOne,
 			if (params[1][0] == '-' && usr->getLvl() == SRV_OP){
 				usr->setLvl(DEFAULT_USR);
 				usr->rmMode('o');
+				usr->setIsop(false);
 			}
 			break;
 		// case 'O'://O - local operator flag
 		// 	if (params[1][0] == '-' && usr->getLvl() == SRV_OP){
 		// 		usr->setLvl(DEFAULT_USR);
 		// 		usr->rmMode('O');
+		// 		usr->setIsop(false);
 		// 	}
 		// 	break;
 		default:
