@@ -41,9 +41,9 @@ void	exec_command(const int &id, const std::string &command,
 	else if (firstWord == "USER")
 		user_cmd(params(args), users[id], server);
 	else if (firstWord == "LIST")
-		list(params(args), users[id], channels, users, server);
+		list(args, users[id], channels, users, server);
 	else if (firstWord == "TOPIC")
-		topic(params(args), users[id], channels, users, server);
+		topic(params(args), users[id], channels, server);
 
 
 

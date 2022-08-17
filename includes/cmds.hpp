@@ -19,7 +19,7 @@ int		names(std::string params, user* askingOne, std::vector<channel*> chan_vec,
 int		nick(std::vector<std::string> params, user* askingOne,
 			std::map<unsigned int, user *>& users, Server& srv);
 int		pass(std::string psw, user* usr, Server& srv);
-int		topic(std::vector<std::string> params, user* askingOne, user* usr,
+int		topic(std::vector<std::string> params, user* askingOne,
 			std::vector<channel*> chan_vec, Server& srv);
 int		user_cmd(std::vector<std::string> params, user* usr, Server& srv);
 void	pong(std::vector<std::string> params, user &user, Server &server);
