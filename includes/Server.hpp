@@ -26,14 +26,14 @@ class Server
 		Server(const Server &f);
 		~Server();
 
-		std::size_t const							&get_current_id() const;
+		std::size_t const	&get_current_id() const;
 
 		void						send(const std::string &msg, const std::size_t &id);
-		std::map<unsigned int, std::string>	receive(fd_set &readfds,
+		std::map<unsigned int,
+		std::string>				receive(fd_set &readfds,
 			std::map<unsigned int, user *> &users);
 		user						*add_connection(fd_set &readfds);
 		void						select(fd_set &readfds);
-		void						rm_useless();
 		void						disconnect(user &user);
 		std::string					client_ip(unsigned int id);
 

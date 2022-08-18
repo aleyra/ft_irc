@@ -227,33 +227,6 @@ void	Server::select(fd_set &readfds)
 
 /**
 * Description:
-* 	Remove useless ids (connection over).
-* 
-* Args:
-* 	None.
-* 
-* Return:
-* 	None.
-* 
-* Notes:
-* 	** Notes **
-**/
-
-
-void	Server::rm_useless()
-{
-	for (std::map<unsigned int, int>::iterator it = _users.begin();
-		it != _users.end(); ++it)
-	{
-		if (_users.size() <= 1)
-			return ;
-		if (it->second == 0)
-			_users.erase(it->first);
-	}
-}
-
-/**
-* Description:
 * 	Disconnect a user from the server.
 * 
 * Args:
@@ -274,7 +247,6 @@ void	Server::disconnect(user &user)
 		close(_users[user.getId()]);
 		_users.erase(_users.find(user.getId()));
 		_ips.erase(_ips.find(user.getId()));
-		// _users[user.getId()] = 0;
 	}
 }
 
