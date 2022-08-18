@@ -34,7 +34,7 @@ int	mode_user(std::vector<std::string> params, user* askingOne,
 			break;
 		case 'o'://o - operator flag
 			if (params[1][0] == '-' && usr->getLvl() == SRV_OP){
-				usr->setLvl(DEFAULT_USR);
+				usr->setLvl(DEFAULT);
 				usr->rmMode('o');
 				usr->setIsop(false);
 			}
@@ -186,16 +186,6 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 	}
 	return (EXIT_SUCCESS);
 }
-/* 		
-	The various modes available for channels are as follows:
-
-		INVITE  - Invite a client to an invite-only channel (mode +i)
-        KICK    - Eject a client from the channel
-        MODE    - Change the channel's mode, as well as
-                  members' privileges
-        PRIVMSG - Sending messages to the channel (mode +n, +m, +v)
-        TOPIC   - Change the channel topic in a mode +t channel
-*/
 
 int	mode(std::vector<std::string> params, user* askingOne, std::vector<channel *> &chan_vec,
 	std::map<unsigned int, user *> &users, Server& srv){

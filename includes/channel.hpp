@@ -16,6 +16,7 @@ enum lvl_access_channel{
 	HALFOP = 2,
 	PROTECTED = 3,
 	CHAN_OP = 4,
+	SRV_OP = 5,
 };
 
 class channel{
