@@ -2,7 +2,7 @@
 
 /**
 * Description:
-* 	Set the operator's values from oper.ini file.
+* 	Set the operator's values from config.ini file.
 * 
 * Args:
 * 	None.
@@ -19,7 +19,7 @@
 std::pair<std::string, std::string>	get_oper()
 {
 	std::ifstream f;
-	f.open("./config/oper.ini", std::ios::in);
+	f.open("./config/config.ini", std::ios::in);
 	std::string line;
 	std::pair<std::string, std::string> oper;
 	if (f.is_open())
@@ -40,10 +40,25 @@ std::pair<std::string, std::string>	get_oper()
 	return (oper);
 }
 
+/**
+* Description:
+* 	Set the allowed_host's value from config.ini file.
+* 
+* Args:
+* 	None.
+* 
+* Return:
+* 	None.
+* 
+* Notes:
+* 	Format of the file:
+* 		ALLOWED_HOST=127.0.0.1
+**/
+
 std::string	get_allowed_host()
 {
 	std::ifstream f;
-	f.open("./config/oper.ini", std::ios::in);
+	f.open("./config/config.ini", std::ios::in);
 	std::string line;
 	std::string	ret;
 	if (f.is_open())
@@ -64,9 +79,20 @@ std::string	get_allowed_host()
 
 void	oper(std::vector<std::string> params, user &user, Server &server)
 {
-	std::pair<std::string, std::string> oper = get_oper();
-	std::string	allowed_host = get_allowed_host();
+	std::pair<std::string, std::string> oper;
+	std::string	allowed_host;
+	try
+	{
+		oper = get_oper();
+		allowed_host = get_allowed_host();
+	}
+	catch (std::exception &e)
+	{
+		std::cout << "Oper failed for the following reason: " << e.what() << std::endl;
+		return;
+	}
 	server.client_ip(user.getId());
+	std::cout << params.size() << std::endl;
 	if (params.size() < 2)
 	{
 		numeric_reply(ERR_NEEDMOREPARAMS, &user, "OPER", server);
