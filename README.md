@@ -10,9 +10,9 @@
 <p><!-- Mon travail-->
 <!-- <ul> mon so.notion avec un debrousaillage (j'ai besoin de vos mail pour vous inviter) https://www.notion.so/RFC-1459-Franc-ais-3d787c459ef14c849fa3ece854073952</ul> -->
 <ul> Les tâches que j'ai relevé pour le moment :
-	<li>gerer l'authentification par nickname et username</li>
-	<li>gerer la creation/destruction de canaux</li>
-	<li>gerer 3 types d'utilisateur : basiques, operateur de canal, operateur irc <!-- (pensez a voir les points 8.12.2 et 8.12.4 de la doc) --></li>
+	<li><strike>gerer l'authentification par nickname et username</strike></li>
+	<li><strike>gerer la creation/destruction de canaux</strike></li>
+	<li><strike>gerer 3 types d'utilisateur : basiques, operateur de canal, operateur irc</strike> <!-- (pensez a voir les points 8.12.2 et 8.12.4 de la doc) --></li>
 	<li>gestions de differents types de messages, ie, envoyé :
 		<ul>
 			<li>a une liste</li>
