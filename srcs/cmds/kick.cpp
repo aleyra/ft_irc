@@ -19,11 +19,19 @@ int	try_to_kick(std::string kicked, std::string msg, user *askingOne, channel* c
 	usr->rmList_chan(chan);
 	if (msg.empty()){
 		srv.send("KICK " + usr->getNick() + " :" + def_msg, askingOne->getId());
-		//a envoyer a tous les users de chan
+		for(std::map<unsigned int, int>::iterator it = usr_list.begin();
+			it != usr_list.end(); ++it){
+			if (it->first != askingOne->getId())
+				srv.send("KICK " + usr->getNick() + " :" + def_msg, it->first);
+		}
 	}
 	else{
 		srv.send("KICK " + usr->getNick() + " :" + msg, askingOne->getId());
-		//a envoyer a tous les users de chan
+		for(std::map<unsigned int, int>::iterator it = usr_list.begin();
+			it != usr_list.end(); ++it){
+			if (it->first != askingOne->getId())
+				srv.send("KICK " + usr->getNick() + " :" + msg, it->first);
+		}
 	}
 	return (EXIT_SUCCESS);
 }

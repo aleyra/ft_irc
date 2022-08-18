@@ -46,7 +46,11 @@ int	join(std::string t, user* askingOne, std::vector<channel*>& chan_vec,
 		if (usr_list.find(askingOne->getId()) == usr_list.end())
 			chan->addUsr_list(askingOne);
 		srv.send("JOIN " + params[0], askingOne->getId());
-		//a envoyer a tous les users de chan
+		for(std::map<unsigned int, int>::iterator it = usr_list.begin();
+			it != usr_list.end(); ++it){
+			if (it->first != askingOne->getId())
+				srv.send("JOIN " + params[0], it->first);
+		}
 		if (chan->hasMode('t') ==  true && !(chan->getTopic().empty()))
 			numeric_reply(RPL_TOPIC, askingOne, chan, srv);
 		numeric_reply(RPL_CHANNELMODEIS, askingOne, chan, srv);
