@@ -3,7 +3,7 @@
 	<ul>in french : http://abcdrfc.free.fr/rfc-vf/rfc1459.html</ul>
 	<ul> https://modern.ircdocs.horse/</ul>
 	<ul>http://www.codingbison.com/c/c-sockets-introduction.html</ul>
-	<ul>https://www.fluentcpp.com/2017/04/21/how-to-split-a-string-in-c/</ul>
+	<ul>petit split par ' ' : https://www.fluentcpp.com/2017/04/21/how-to-split-a-string-in-c/</ul>
 	<ul>https://www.unrealircd.org/docs/User_modes</ul>
 	<ul>Identification Protocol : https://www.rfc-editor.org/rfc/rfc1413</ul>
 </p>
@@ -26,13 +26,13 @@
 				<strike>PASS</strike> / 
 				<strike>NICK</strike> / 
 				<strike>USER</strike> / 
-				OPER / 
-				QUIT
+				<strike>OPER</strike> / 
+				<strike>QUIT</strike>
 			</li>
 			<li>operations sur un canal (a check avant de se lancer) : 
-				JOIN / 
+				<strike>JOIN</strike> / 
 				PART / 
-				<strike>MODE (pour mode, il y a plein d'options)</strike> / 
+				<strike>MODE (il y a plein d'options et toutes ne sont pas a faire)</strike> / 
 				<strike>TOPIC</strike> / 
 				<strike>NAMES</strike> / 
 				<strike>LIST</strike> / 
@@ -41,7 +41,7 @@
 			</li>
 			<!-- <li>Requetes et cmd serveur : VERSION / STATS / TIME / iNVITE / ADMIN (penser a voir 8.12.4 de la doc) / INFO</li> -->
 			<li>envoi de messages : 
-				PRIVMSG / 
+				PRIVMSG /
 				NOTICE
 			</li>
 			<!-- <li>Requete basee sur les utilisateurs : WHO / WHOIS / WHOWAS</li> -->
@@ -49,7 +49,7 @@
 				KILL / 
 				<strike>PING</strike> / 
 				<strike>PONG</strike> / 
-				ERROR 
+				<strike>ERROR</strike>
 			</li>
 			<!-- <li>messages optionnels : AWAY / REHASH / RESTART / SUMMON (? la je suis pas sure) / USERS / WALLOPS / USERHOST / ISON</li> -->
 		</ul>
