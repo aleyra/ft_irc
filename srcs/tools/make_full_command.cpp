@@ -26,8 +26,10 @@ void	exec_command(const int &id, const std::string &command,
 	std::vector<channel *> &channels,
 	Server &server)
 {
-	std::string firstWord = command.substr(0, command.find(" "));
-	std::string args = command.substr(command.find_first_of(" \t") + 1);
+	std::string firstWord = command.substr(0, command.find_first_of(" "));
+	std::string args = command.substr(command.find_first_of(" \t\n") + 1);
+	firstWord.erase(remove(firstWord.begin(), firstWord.end(), '\n'), firstWord.end());
+	std::cout << firstWord << std::endl;
 	if (firstWord == "NICK")
 		nick(params(args), users[id], users, server);
 	else if (firstWord == "NAMES")
