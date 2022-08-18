@@ -6,13 +6,16 @@ int	invite(std::vector<std::string> params, user* askingOne,
 	if (params.size() < 2)
 		return (numeric_reply(ERR_NEEDMOREPARAMS, askingOne, "MODE", srv));
 	user*	usr = searchUserByNick(params[0], users);
-	if (usr != NULL)
+	std::cout << searchUserByNick("test", users)->getNick() << std::endl;
+	if (usr == NULL)
 		return (numeric_reply(ERR_NOSUCHNICK, askingOne, params[0], srv));
 	channel*	chan = searchChannelByName(params[2], chan_vec);
 	if (chan == NULL)
 		return (EXIT_FAILURE);
+
 	std::map<unsigned int, int>&			usr_list = chan->getUsr_list();
 	std::map<unsigned int, int>::iterator	pos = usr_list.find(askingOne->getId());
+
 	if (pos == usr_list.end())
 		return (numeric_reply(ERR_NOTONCHANNEL, askingOne, chan, srv));
 	if (chan->hasMode('i') == true && pos->second != CHAN_OP)
@@ -21,6 +24,7 @@ int	invite(std::vector<std::string> params, user* askingOne,
 	if (pos != usr_list.end())
 		return (numeric_reply(ERR_USERONCHANNEL, askingOne, usr, chan, srv));
 	chan->addInvite_list(usr->getId());
+	srv.send("INVITE " + usr->getNick() + " :#" + chan->getName(), usr->getId());
 	return (numeric_reply(RPL_INVITING, askingOne, usr, chan, srv));
 }
 

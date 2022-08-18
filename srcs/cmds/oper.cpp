@@ -88,7 +88,8 @@ void	oper(std::vector<std::string> params, user &user, Server &server)
 	}
 	catch (std::exception &e)
 	{
-		std::cout << "Oper failed for the following reason: " << e.what() << std::endl;
+		std::cout << "Oper failed for the following reason: "
+		<< e.what() << std::endl;
 		return;
 	}
 	server.client_ip(user.getId());
