@@ -39,5 +39,7 @@ int	nick(std::vector<std::string> params, user* askingOne,
 		return (numeric_reply(ERR_UNAVAILRESOURCE, askingOne, nick, srv));
 	askingOne->addHistory_nick(askingOne->getNick());
 	askingOne->setNick(nick);
+	if (askingOne->getFirstNickGiven() == false)
+		askingOne->setFirstNickGiven(true);
 	return (EXIT_SUCCESS);
 }

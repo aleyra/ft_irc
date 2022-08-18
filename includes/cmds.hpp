@@ -11,7 +11,12 @@
 // int	away(std::string txt, user*	usr, Server& srv);
 int		invite(std::vector<std::string> params, user* askingOne,
 			std::map<unsigned int, user *>& users, std::vector<channel *> &chan_vec,
-			Server& srv);//si le retour est RPL_INVITING, il faut envoyer le RPL_INVITING au user correspondants a params[0]
+			Server& srv);
+int		join(std::string t, user* askingOne, std::vector<channel*>& chan_vec,
+			std::map<unsigned int, user *> &users, Server& srv);
+int		kick(std::vector<std::string> params, user *askingOne,
+			std::vector<channel *> &chan_vec, std::map<unsigned int, user *>& users, 
+			Server &srv);
 int		list(std::string params, user* askingOne, std::vector<channel*>& chan_vec,
 			std::map<unsigned int, user *>& users, Server& srv);
 int		mode(std::vector<std::string> params, user* askingOne,
@@ -21,20 +26,22 @@ int		names(std::string params, user* askingOne, std::vector<channel*> chan_vec,
 			std::map<unsigned int, user *>& users, Server& srv);
 int		nick(std::vector<std::string> params, user* askingOne,
 			std::map<unsigned int, user *>& users, Server& srv);
+void	oper(std::vector<std::string> params, user &user, Server &server);
+int		part(std::vector<std::string> paramsEtMsg, user* askingOne,
+			std::vector<channel *> &chan_vec, Server& srv);
 int		pass(std::string psw, user* usr, Server& srv);
+void	pong(std::vector<std::string> params, user &user, Server &server);
 int		topic(std::vector<std::string> params, user* askingOne,
 			std::vector<channel*> chan_vec, Server& srv);
 int		user_cmd(std::vector<std::string> params, user* usr, Server& srv);
-void	pong(std::vector<std::string> params, user &user, Server &server);
-void	error(user &user, Server &server, const std::string &msg);
 void	quit(user &user, Server &server);
-void	oper(std::vector<std::string> params, user &user, Server &server);
 void	notice(std::vector<std::string> params, user &askingOne,
 			std::vector<channel*> chan_vec,
 			std::map<unsigned int, user*> &users, Server &server);
 void	privmsg(std::vector<std::string> params, user &askingOne,
 			std::vector<channel*> chan_vec,
 			std::map<unsigned int, user*> &users, Server &server);
+void	error(user &user, Server &server, const std::string &msg);
 
 // Server-side commands
 void	quit_server(user &user, Server &server, std::string msg);

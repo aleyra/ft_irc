@@ -31,26 +31,34 @@ void	exec_command(const int &id, const std::string &command,
 	firstWord.erase(remove(firstWord.begin(), firstWord.end(), '\n'), firstWord.end());
 	if (firstWord == "NICK")
 		nick(params(args), users[id], users, server);
-	else if (firstWord == "NAMES")
-		names(args, users[id], channels, users, server);
-	else if (firstWord == "PING")
-		pong(params(args), *users[id], server);
-	else if (firstWord == "QUIT")
-		quit(*users[id], server);
-	else if (firstWord == "OPER")
-		oper(params(args), *users[id], server);
 	else if (firstWord == "USER")
 		user_cmd(params(args), users[id], server);
-	else if (firstWord == "LIST")
-		list(args, users[id], channels, users, server);
-	else if (firstWord == "TOPIC")
-		topic(params(args), users[id], channels, server);
-	else if (firstWord == "MODE")
-		mode(params(args), users[id], channels, users, server);
-	else if (firstWord == "INVITE")
+	else if (firstWord == "INVITE" && users[id]->getFirstNickGiven() == true && !users[id]->getTruename().empty())
 		invite(params(args), users[id], users, channels, server);
-	else if (firstWord == "NOTICE")
+	else if (firstWord == "JOIN" && users[id]->getFirstNickGiven() == true && !users[id]->getTruename().empty())
+		join(args, users[id], channels, users, server);
+	else if (firstWord == "KICK" && users[id]->getFirstNickGiven() == true && !users[id]->getTruename().empty())
+		kick(params(args), users[id], channels, users, server);
+	else if (firstWord == "LIST" && users[id]->getFirstNickGiven() == true && !users[id]->getTruename().empty())
+		list(args, users[id], channels, users, server);
+	else if (firstWord == "MODE" && users[id]->getFirstNickGiven() == true && !users[id]->getTruename().empty())
+		mode(params(args), users[id], channels, users, server);
+	else if (firstWord == "NAMES" && users[id]->getFirstNickGiven() == true && !users[id]->getTruename().empty())
+		names(args, users[id], channels, users, server);
+	else if (firstWord == "OPER" && users[id]->getFirstNickGiven() == true && !users[id]->getTruename().empty())
+		oper(params(args), *users[id], server);
+	else if (firstWord == "PART" && users[id]->getFirstNickGiven() == true && !users[id]->getTruename().empty())
+		part(params(args), users[id], channels, server);
+	else if (firstWord == "PING" && users[id]->getFirstNickGiven() == true && !users[id]->getTruename().empty())
+		pong(params(args), *users[id], server);
+	else if (firstWord == "TOPIC" && users[id]->getFirstNickGiven() == true && !users[id]->getTruename().empty())
+		topic(params(args), users[id], channels, server);
+	else if (firstWord == "QUIT" && users[id]->getFirstNickGiven() == true && !users[id]->getTruename().empty())
+		quit(*users[id], server);
+	else if (firstWord == "NOTICE" && users[id]->getFirstNickGiven() == true && !users[id]->getTruename().empty())
 		notice(params(args), *users[id], channels, users, server);
+	else if (firstWord == "PRIVMSG" && users[id]->getFirstNickGiven() == true && !users[id]->getTruename().empty())
+		privmsg(params(args), *users[id], channels, users, server);
 }
 
 /**

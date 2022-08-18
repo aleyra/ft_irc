@@ -28,7 +28,7 @@ void	privmsg(std::vector<std::string> params, user &askingOne,
 		// Channels ~&@%
 		else
 		{
-			
+			(void)chan_vec;
 		}
 	}
 	// Check if recipients were found
