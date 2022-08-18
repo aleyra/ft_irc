@@ -27,10 +27,14 @@ int	part(std::vector<std::string> paramsEtMsg, user* askingOne,
 			numeric_reply(ERR_NOTONCHANNEL, askingOne, chan, srv);
 		askingOne->rmList_chan(chan);
 		chan->rmUsr_list(askingOne);
-		if (msg.empty())
+		if (msg.empty()){
 			srv.send("PART " + params[i], askingOne->getId());
-		else
+			//a envoyer a tous les users de chan
+		}
+		else{
 			srv.send("PART " + params[i] + ":" + msg, askingOne->getId());
+			//a envoyer a tous les users de chan
+		}
 		if (chan->getUsr_list().empty()){
 			pos = std::find(chan_vec.begin(), chan_vec.end(), chan);
 			chan_vec.erase(pos);

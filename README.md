@@ -31,18 +31,18 @@
 			</li>
 			<li>operations sur un canal (a check avant de se lancer) : 
 				<strike>JOIN</strike> / 
-				PART / 
+				<strike>PART</strike> / 
 				<strike>MODE (il y a plein d'options et toutes ne sont pas a faire)</strike> / 
 				<strike>TOPIC</strike> / 
 				<strike>NAMES</strike> / 
 				<strike>LIST</strike> / 
 				<strike>INVITE</strike> / 
-				KICK
+				<strike>KICK</strike>
 			</li>
 			<!-- <li>Requetes et cmd serveur : VERSION / STATS / TIME / iNVITE / ADMIN (penser a voir 8.12.4 de la doc) / INFO</li> -->
 			<li>envoi de messages : 
-				PRIVMSG /
-				NOTICE
+				<strike>PRIVMSG</strike> /
+				<strike>NOTICE</strike>
 			</li>
 			<!-- <li>Requete basee sur les utilisateurs : WHO / WHOIS / WHOWAS</li> -->
 			<li>messages divers : 
