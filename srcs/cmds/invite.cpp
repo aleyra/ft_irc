@@ -1,7 +1,7 @@
 #include "cmds.hpp"
 
 int	invite(std::vector<std::string> params, user* askingOne,
-	std::map<unsigned int, user *>& users, std::vector<channel *> &chan_vec, Server* srv){
+	std::map<unsigned int, user *>& users, std::vector<channel *> &chan_vec, Server& srv){
 	//Parameters: <nickname> <channel>
 	if (params.size() < 2)
 		return (numeric_reply(ERR_NEEDMOREPARAMS, askingOne, "MODE", srv));
