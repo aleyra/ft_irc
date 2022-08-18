@@ -26,13 +26,13 @@
 				<strike>PASS</strike> / 
 				<strike>NICK</strike> / 
 				<strike>USER</strike> / 
-				OPER / 
-				QUIT
+				<strike>OPER</strike> / 
+				<strike>QUIT</strike>
 			</li>
 			<li>operations sur un canal (a check avant de se lancer) : 
-				JOIN / 
+				<strike>JOIN</strike> / 
 				PART / 
-				<strike>MODE (pour mode, il y a plein d'options)</strike> / 
+				<strike>MODE (il y a plein d'options et toutes ne sont pas a faire)</strike> / 
 				<strike>TOPIC</strike> / 
 				<strike>NAMES</strike> / 
 				<strike>LIST</strike> / 
@@ -41,7 +41,7 @@
 			</li>
 			<!-- <li>Requetes et cmd serveur : VERSION / STATS / TIME / iNVITE / ADMIN (penser a voir 8.12.4 de la doc) / INFO</li> -->
 			<li>envoi de messages : 
-				PRIVMSG / 
+				PRIVMSG /
 				NOTICE
 			</li>
 			<!-- <li>Requete basee sur les utilisateurs : WHO / WHOIS / WHOWAS</li> -->
@@ -49,7 +49,7 @@
 				KILL / 
 				<strike>PING</strike> / 
 				<strike>PONG</strike> / 
-				ERROR 
+				<strike>ERROR</strike>
 			</li>
 			<!-- <li>messages optionnels : AWAY / REHASH / RESTART / SUMMON (? la je suis pas sure) / USERS / WALLOPS / USERHOST / ISON</li> -->
 		</ul>
