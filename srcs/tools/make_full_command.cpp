@@ -48,6 +48,8 @@ void	exec_command(const int &id, const std::string &command,
 		topic(params(args), users[id], channels, server);
 	else if (firstWord == "MODE")
 		mode(params(args), users[id], channels, users, server);
+	else if (firstWord == "INVITE")
+		invite(params(args), users[id], users, channels, server);
 }
 
 /**
