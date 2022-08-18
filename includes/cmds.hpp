@@ -23,6 +23,8 @@ int		names(std::string params, user* askingOne, std::vector<channel*> chan_vec,
 			std::map<unsigned int, user *>& users, Server& srv);
 int		nick(std::vector<std::string> params, user* askingOne,
 			std::map<unsigned int, user *>& users, Server& srv);
+int		part(std::vector<std::string> paramsEtMsg, user* askingOne,
+			std::vector<channel *> &chan_vec, Server& srv);
 int		pass(std::string psw, user* usr, Server& srv);
 int		topic(std::vector<std::string> params, user* askingOne,
 			std::vector<channel*> chan_vec, Server& srv);

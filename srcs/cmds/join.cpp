@@ -6,8 +6,18 @@ int	join(std::string t, user* askingOne, std::vector<channel*>& chan_vec,
 	if (t.empty())
 		return (numeric_reply(ERR_NEEDMOREPARAMS, askingOne, "JOIN", srv));
 	std::vector<std::string>	params = paramsSeparedByComas(t);
+	std::vector<channel*> &		list_chan = askingOne->getList_chan();
+	std::vector<std::string>	paramsDePart;
+	paramsDePart.push_back("");
 	if (params[0].compare("0") == 0){//todo
-		// Leave all currently joined channels.
+		if (list_chan.empty())
+			return (EXIT_SUCCESS);
+		for (size_t i = 0; i < list_chan.size(); ++i){
+			if (i != 0)
+				paramsDePart[0].append(",");
+			paramsDePart[0].append(list_chan[i]->getName());
+		}
+		part(paramsDePart, askingOne, chan_vec, srv);
 		return (EXIT_SUCCESS);
 	}
 
@@ -16,7 +26,7 @@ int	join(std::string t, user* askingOne, std::vector<channel*>& chan_vec,
 	for (size_t i = 0; i < params.size(); ++i){
 		if (params[i][0] == '&' || params[i][0] == '#'
 			|| params[i][0] == '+' || params[i][0] == '!'){
-			numeric_reply(ERR_NOSUCHCHANNEL, askingOne, params[0], srv);
+			numeric_reply(ERR_NOSUCHCHANNEL, askingOne, params[i], srv);
 			pos = std::find(params.begin(), params.end(), params[i]);
 			params.erase(pos);
 		}
