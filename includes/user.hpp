@@ -25,6 +25,7 @@ class user{
 		unsigned int				_id;
 		std::string					_mode;
 		bool						_isonline;
+		bool						_firstNickGiven;
 	
 	// #pragma region constructors destructor
 	private:
@@ -70,6 +71,8 @@ class user{
 		std::string const &				getMode() const;
 		void							setIsonline(bool b);
 		bool const &					getIsonline() const;
+		void							setFirstNickGiven(bool b);
+		bool const &					getFirstNickGiven() const;
 	// #pragma endregion getters and setters
 	// #pragma region other member functions
 	public:	
