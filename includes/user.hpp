@@ -9,12 +9,6 @@
 
 class channel;
 
-enum lvl_access_user{
-	DEFAULT_USR = 0,
-	CHANNEL_OP = 1,
-	SRV_OP = 2,
-};
-
 class user{
 	private:
 		std::string					_nick;
@@ -22,7 +16,7 @@ class user{
 		std::string					_truename;
 		std::list<std::string>		_history_nick;//liste des anciens nick de l'user, du moins ancien (au debut), au moins ancien (a la fin)
 		int							_lvl;//lvl access
-		std::vector<channel*>		_list_chan;//list des 10 (nombre recommandé) chan où l'user est ou peut être
+		std::vector<channel*>		_list_chan;//list des 10 (nombre recommandé) chan où l'user est
 		bool						_isaway;
 		std::string					_away_msg;
 		std::time_t					_last_activity;//save en sec du moment de la dernière activite qu'a eu l'user (depuis le Epoch) https://en.cppreference.com/w/cpp/chrono/c/time 

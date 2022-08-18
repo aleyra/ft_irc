@@ -15,7 +15,7 @@ user::user(std::string usr_name, unsigned int id){
 	this->_isaway = false;
 	this->_username = usr_name;//? idem
 	this->_truename = usr_name;//? idem
-	this->_lvl = DEFAULT_USR;
+	this->_lvl = DEFAULT;
 	this->_isaway = false;
 	this->setLast_activity();
 	this->_isop = false;
@@ -75,7 +75,7 @@ std::list<std::string> const	&user::getHistory_nick() const{
 
 void	user::setLvl(int l){//on s'assure que le lvl est entre 0 et 2
 	if (l > SRV_OP){l = SRV_OP;}
-	if (l < DEFAULT_USR){l = DEFAULT_USR;}
+	if (l < DEFAULT){l = DEFAULT;}
 	this->_lvl = l;
 }
 
