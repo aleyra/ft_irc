@@ -106,7 +106,7 @@ void	oper(std::vector<std::string> params, user &user, Server &server)
 	}
 	if (params[0] == oper.first && params[1] == oper.second)
 	{
-		user.setLvl(2);
+		user.setLvl(5);
 		user.setIsop(true);
 		numeric_reply(RPL_YOUREOPER, &user, "OPER", server);
 		numeric_reply(RPL_UMODEIS, &user, &user, server);
