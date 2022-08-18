@@ -29,6 +29,12 @@ void	pong(std::vector<std::string> params, user &user, Server &server);
 void	error(user &user, Server &server, const std::string &msg);
 void	quit(user &user, Server &server);
 void	oper(std::vector<std::string> params, user &user, Server &server);
+void	notice(std::vector<std::string> params, user &askingOne,
+			std::vector<channel*> chan_vec,
+			std::map<unsigned int, user*> &users, Server &server);
+void	privmsg(std::vector<std::string> params, user &askingOne,
+			std::vector<channel*> chan_vec,
+			std::map<unsigned int, user*> &users, Server &server);
 
 // Server-side commands
 void	quit_server(user &user, Server &server, std::string msg);
