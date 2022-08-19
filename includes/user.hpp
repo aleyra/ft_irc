@@ -6,6 +6,7 @@
 # include <algorithm>
 # include <vector>
 # include <ctime>
+# include <list>
 # include "channel.hpp"
 
 class channel;
@@ -57,7 +58,7 @@ class user{
 		void							setLvl(int l);
 		int const &						getLvl() const;
 		//set de _list_chan est remplace par addList_chan et rmList_chan
-		std::vector<channel*>  &		getList_chan() ;//en attente de channel.hpp
+		std::vector<channel*>  &		getList_chan();
 		void							setIsaway(bool a);
 		bool const &					getIsaway() const;
 		void							setIsaway_msg(std::string amsg);
