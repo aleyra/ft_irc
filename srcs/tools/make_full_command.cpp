@@ -31,6 +31,8 @@ void	exec_command(const int &id, const std::string &command,
 	std::string args = command.substr(command.find_first_of(" \t\n") + 1);
 	firstWord.erase(remove(firstWord.begin(), firstWord.end(), '\n'), firstWord.end());
 
+	std::cout << firstWord << " " << args;
+
 	if (!users[id]->getHasConnected())
 	{
 		if (firstWord == "PASS")

@@ -3,6 +3,7 @@
 void	quit(std::vector<std::string> params, user &askingOne,
 	std::vector<channel*> chan_vec, Server &server)
 {
+	std::string reason = (params.size() == 0) ? "" : params[0];
 	for (std::vector<channel *>::iterator it = chan_vec.begin();
 		it != chan_vec.end(); ++it)
 	{
