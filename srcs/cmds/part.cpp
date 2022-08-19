@@ -12,8 +12,8 @@ int	part(std::vector<std::string> paramsEtMsg, user* askingOne,
 	if (paramsEtMsg.size() == 2)
 		msg = paramsEtMsg[1];
 	for (size_t i = 0; i < params.size(); ++i){
-		if (params[i][0] != '&' || params[i][0] != '#'
-			|| params[i][0] != '+' || params[i][0] != '!'){
+		if (params[i][0] != '&' && params[i][0] != '#'
+			&& params[i][0] != '+' && params[i][0] != '!'){
 			numeric_reply(ERR_NOSUCHCHANNEL, askingOne, params[i], srv);
 			continue;
 		}

@@ -1,10 +1,4 @@
 #include "tools.hpp"
-//usr = user // don't know more...
-//chan->getName() = channel // don't know more... maybe canal's id ?
-//srv->name = server's name
-//srv->mask = server's mask
-//srv->host = host's server (always localhost)
-//srv = server //don't know more...
 
 int	numeric_reply(int err, user* askingOne, user* usr, Server& srv){
 	switch (err){
