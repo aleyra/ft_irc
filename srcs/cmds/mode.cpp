@@ -61,24 +61,36 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 	std::map<unsigned int, int>*	usr_list = &(chan->getUsr_list());
 	unsigned int					usr_id = askingOne->getId();
 	int								level_access = usr_list->at(usr_id);
+	size_t							count_ov = 0;
+	std::string						modestring = params[1];
+	std::string						last_sign = "+";
+
+	//check enough params
+	for (size_t i = 0; i < modestring.size(); ++i){
+		if (modestring[i] == 'o' || modestring[i] == 'v')
+			count_ov++;
+	}
+	if (params.size() < count_ov + 2)
+		return (numeric_reply(ERR_NEEDMOREPARAMS, askingOne, "MODE", srv));
 	if (usr_list->find(askingOne->getId()) == usr_list->end() || level_access != CHAN_OP)
 		return (numeric_reply(ERR_CHANOPRIVSNEEDED, askingOne, chan, srv));
-	std::string	modestring = params[1];
+	
 	size_t		i = 2;
 	int			count = 1;
 	std::string	tmp;
 	user*		usr = NULL;
-	// std::pair<unsigned int, int>	*p = NULL;
+	
 	while (!modestring.empty() && count <= 3){
-		if (modestring.size() != 2){//les 2 premiers char seront toujours un signe et une lettre
+		if (modestring.size() != 2){//les 2 premiers char seront toujours un signe et une lettre, le signe se distribut
 			if (modestring[0] != '+' && modestring[0] != '-'){
-				tmp = "+";
+				tmp = last_sign;
 				tmp.append(modestring);
 				modestring = tmp;
 			}
 			while (!std::isalpha(modestring[1])){
 				modestring.erase(0, 1);
 			}
+			last_sign = modestring.substr(0, 1);
 		}
 		switch (modestring[2]){
 			case 'o':// o - give/take channel operator privilege;
