@@ -30,7 +30,7 @@ void	make_full_command(std::map<unsigned int, std::string> &msg,
 	std::map<unsigned int, std::string> &buffers,
 	std::map<unsigned int, user *> &users,
 	std::vector<channel *> &channels,
-	Server &server);
+	Server &server, std::string password);
 
 //in timeout.cpp
 void	timeout(std::map<unsigned int, user *> &users, Server &server);

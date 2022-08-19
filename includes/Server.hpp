@@ -19,6 +19,8 @@
 
 #define MAX_CLIENTS 4000
 
+class user;
+
 class Server
 {
 	public:

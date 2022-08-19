@@ -1,7 +1,7 @@
 #include "cmds.hpp"
 
-void	error(user &user, Server &server, const std::string &msg)
+void	error(user &askingOne, Server &server, const std::string &msg)
 {
-	server.send("ERROR " + msg, user.getId());
-	server.disconnect(user);
+	server.send("ERROR " + msg, askingOne.getId());
+	server.disconnect(askingOne);
 }

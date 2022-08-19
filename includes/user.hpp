@@ -1,4 +1,5 @@
-#pragma once
+#ifndef USER_HPP
+# define USER_HPP
 
 # include <iostream>
 # include <string>
@@ -26,13 +27,14 @@ class user{
 		std::string					_mode;
 		bool						_isonline;
 		bool						_firstNickGiven;
+		bool						_hasConnected; //user used the pass command
 	
 	// #pragma region constructors destructor
 	private:
 		user();
+		user(user const &src);
 	public:
 		user(std::string usr_name, unsigned int id);
-		user(user const &src);
 		~user();//a ne pas mettre en private ^^"
 	// #pragma endregion constructors destrcutor
 
@@ -73,6 +75,8 @@ class user{
 		bool const &					getIsonline() const;
 		void							setFirstNickGiven(bool b);
 		bool const &					getFirstNickGiven() const;
+		bool const &					getHasConnected() const;
+		void							connect();
 	// #pragma endregion getters and setters
 	// #pragma region other member functions
 	public:	
@@ -102,3 +106,4 @@ char	display_isaway(user& usr);
 bool	has1channelInCommon(user& u1, user& u2);
 bool	isIn1VisibleChannel(user* u);
 
+#endif

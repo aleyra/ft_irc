@@ -23,6 +23,7 @@ user::user(std::string usr_name, unsigned int id){
 	this->_mode = "";
 	this->_isonline = true;
 	this->_firstNickGiven = false;
+	this->_hasConnected = false;
 	// this->_idle_time = 0;
 }
 
@@ -142,6 +143,29 @@ bool const &	user::getFirstNickGiven() const{
 	return (this->_firstNickGiven);
 }
 
+bool const &	user::getHasConnected() const
+{
+	return (_hasConnected);
+}
+
+/**
+* Description:
+* 	Connect a user after PASS.
+* 
+* Args:
+* 	None.
+* 
+* Return:
+* 	None.
+* 
+* Notes:
+* 	** Notes **
+**/
+
+void	user::connect()
+{
+	_hasConnected = true;
+}
 
 // #pragma endregion getters and setters
 

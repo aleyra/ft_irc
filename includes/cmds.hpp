@@ -29,19 +29,21 @@ int		nick(std::vector<std::string> params, user* askingOne,
 void	oper(std::vector<std::string> params, user &user, Server &server);
 int		part(std::vector<std::string> paramsEtMsg, user* askingOne,
 			std::vector<channel *> &chan_vec, Server& srv);
-int		pass(std::string psw, user* usr, Server& srv);
+void	pass(std::vector<std::string> params, user &user,
+	Server& server, std::string password);
 void	pong(std::vector<std::string> params, user &user, Server &server);
 int		topic(std::vector<std::string> params, user* askingOne,
 			std::vector<channel*> chan_vec, Server& srv);
 int		user_cmd(std::vector<std::string> params, user* usr, Server& srv);
-void	quit(user &user, Server &server);
+void	quit(std::vector<std::string> params, user &askingOne,
+	std::vector<channel*> chan_vec, Server &server);
 void	notice(std::vector<std::string> params, user &askingOne,
 			std::vector<channel*> chan_vec,
 			std::map<unsigned int, user*> &users, Server &server);
 void	privmsg(std::vector<std::string> params, user &askingOne,
 			std::vector<channel*> chan_vec,
 			std::map<unsigned int, user*> &users, Server &server);
-void	error(user &user, Server &server, const std::string &msg);
+void	error(user &askingOne, Server &server, const std::string &msg);
 
 // Server-side commands
 void	quit_server(user &user, Server &server, std::string msg);

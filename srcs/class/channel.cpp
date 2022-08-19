@@ -112,6 +112,16 @@ channel&	channel::operator=(channel const &src){
 			this->_invite_list.erase(pos);
 	}
 
+	void	channel::send(Server &server, std::string message, int level)
+	{
+		for (std::map<unsigned int, int>::iterator it = _usr_list.begin();
+			it != _usr_list.end(); ++it)
+		{
+			if (it->second >= level)
+				server.send(message, it->first);
+		}
+	}
+
 
 // #pragma endregion other member functions
 

@@ -7,8 +7,10 @@
 #include <ctime>
 #include <map>
 #include "user.hpp"
+#include "Server.hpp"
 
 class user;
+class Server;
 
 enum lvl_access_channel{
 	DEFAULT = 0,
@@ -70,6 +72,7 @@ class channel{
 		bool	hasMode(char c);
 		void	addInvite_list(unsigned int id);
 		void	rmInvite_list(unsigned int id);
+		void	send(Server &server, std::string message, int level = 0);
 	// #pragma endregion other member functions
 };
 

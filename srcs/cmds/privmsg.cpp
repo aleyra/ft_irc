@@ -1,9 +1,25 @@
 #include "cmds.hpp"
 
+/**
+* Description:
+* 	Send a message to a user or a channel.
+* 
+* Args:
+* 	Lazy.
+* 
+* Return:
+* 	None.
+* 
+* Notes:
+* 	Largely untested.
+**/
+
+
 void	privmsg(std::vector<std::string> params, user &askingOne,
 			std::vector<channel*> chan_vec,
 			std::map<unsigned int, user *>& users, Server &server)
 {
+	std::cout << "IN" << std::endl;
 	if (params.size() == 0)
 		numeric_reply(ERR_NOTEXTTOSEND, &askingOne, server);
 	
@@ -28,7 +44,39 @@ void	privmsg(std::vector<std::string> params, user &askingOne,
 		// Channels ~&@%
 		else
 		{
-			(void)chan_vec;
+			channel *chan = searchChannelByName(*it ,chan_vec);
+			if (chan == NULL)
+			{
+				numeric_reply(ERR_NOSUCHCHANNEL, &askingOne, *it, server);
+				continue;
+			}
+			std::map<unsigned int, int> chan_users = chan->getUsr_list();
+			if (it->find_first_of("~&@%") != std::string::npos)
+			{
+				int lvl = 0;
+				if (it->find("%") != std::string::npos)
+					lvl = 4;
+				else if (it->find("@") != std::string::npos)
+					lvl = 3;
+				else if (it->find("&") != std::string::npos)
+					lvl = 2;
+				else if (it->find("~") != std::string::npos)
+					lvl = 1;
+				for (std::map<unsigned int, int>::iterator it = chan_users.begin();
+					it != chan_users.end(); it++)
+				{
+					if (it->second >= lvl)
+						recipients.push_back(searchUserByID(it->first, users));
+				}
+			}
+			else
+			{
+				for (std::map<unsigned int, int>::iterator it = chan_users.begin();
+					it != chan_users.end(); it++)
+				{
+					recipients.push_back(searchUserByID(it->first, users));
+				}
+			}
 		}
 	}
 	// Check if recipients were found

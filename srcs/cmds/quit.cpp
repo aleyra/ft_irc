@@ -1,8 +1,16 @@
 #include "cmds.hpp"
 
-void	quit(user &user, Server &server)
+void	quit(std::vector<std::string> params, user &askingOne,
+	std::vector<channel*> chan_vec, Server &server)
 {
-	error(user, server, "quit requested");
+	for (std::vector<channel *>::iterator it = chan_vec.begin();
+		it != chan_vec.end(); ++it)
+	{
+		if ((*it)->getUsr_list().count(askingOne.getId()))
+			(*it)->send(server, "QUIT " + askingOne.getNick() + ": " + params[0]);
+	}
+	error(askingOne, server, "quit requested");
+
 }
 
 void	quit_server(user &user, Server &server, std::string msg)
