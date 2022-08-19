@@ -24,8 +24,8 @@ int	join(std::string t, user* askingOne, std::vector<channel*>& chan_vec,
 	//on a pas de mode k pour les channel donc pas de <key> a gerer
 	std::vector<std::string>::iterator pos = params.end();
 	for (size_t i = 0; i < params.size(); ++i){
-		if (params[i][0] == '&' || params[i][0] == '#'
-			|| params[i][0] == '+' || params[i][0] == '!'){
+		if (params[i][0] != '&' || params[i][0] != '#'
+			|| params[i][0] != '+' || params[i][0] != '!'){
 			numeric_reply(ERR_NOSUCHCHANNEL, askingOne, params[i], srv);
 			pos = std::find(params.begin(), params.end(), params[i]);
 			params.erase(pos);
