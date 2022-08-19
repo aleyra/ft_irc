@@ -18,17 +18,7 @@ int	numeric_reply(int err, user* askingOne, user* usr, Server& srv){
 			srv.send(srv.client_ip(askingOne->getId()) + to_string(err) + " " + askingOne->getNick() + " " + usr->getNick() + ":User not logged in", askingOne->getId());
 			break;
 		case RPL_UMODEIS:
-		{
-			srv.send(srv.client_ip(askingOne->getId()) + to_string(err) + " " + askingOne->getNick() + " ", askingOne->getId());
-			std::string mode = usr->getMode();
-			for (size_t i = 0; i < mode.size(); ++i)
-			{
-				std::string tmp;
-				tmp.push_back(mode[i]);
-				srv.send(tmp + " ", askingOne->getId());
-			}
-		}
-			srv.send("\n", askingOne->getId());
+			srv.send(srv.client_ip(askingOne->getId()) + to_string(err) + " " + askingOne->getNick() + " " + usr->getMode(), askingOne->getId());
 			break;
 		default:
 			break;
@@ -79,14 +69,7 @@ int	numeric_reply(int err, user* askingOne, channel* chan, Server& srv){
 			break;
 		case RPL_CHANNELMODEIS://"<client> <channel> <modestring> <mode arguments>..."
 			{
-				srv.send(/*srv->client <<*/ to_string(err) + " " + askingOne->getNick() + " ", askingOne->getId());//<client>
-				srv.send(chan->getName() + " +", askingOne->getId());//<channel>
-				std::string	mode = chan->getMode();//<modestring>
-				for (size_t i = 0; i < mode.size(); ++i){
-					std::string tmp;
-					tmp.push_back(mode[i]);
-					srv.send(tmp + " ", askingOne->getId());
-				}
+				srv.send(/*srv->client <<*/ to_string(err) + " " + askingOne->getNick() + " " + chan->getName() + " +" + chan->getMode(), askingOne->getId());
 				//<mode arguments> ?????
 			}
 			break;
