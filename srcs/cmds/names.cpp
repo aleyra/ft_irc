@@ -2,18 +2,17 @@
 
 int	rpl_namreply(user* askingOne, channel* chan, std::map<unsigned int,
 	user *>& users, Server& srv){
+	std::string	to_send;
 	// "<client> <symbol> <channel> :[prefix]<nick>{ [prefix]<nick>}"
-	(void) srv;//
-	std::cout << /*srv->client <<*/ RPL_NAMREPLY << " " << askingOne->getNick() << " " ;//<client>
+	to_send += srv.client_ip(askingOne->getId()) + to_string(RPL_NAMREPLY) + " " + askingOne->getNick() + " " ;//<client>
 	if (chan->hasMode('s') == true)//<symbol>
-		std::cout << "@";//chan is secret
+		to_send += "@";//chan is secret
 	else if (chan->hasMode('p') == true)
-		std::cout << "*";//chan is private
+		to_send += "*";//chan is private
 	else 
-		std::cout << "=";
-	std::cout << chan->getName() << " :";//<channel> :
+		to_send += "=";
+	to_send += chan->getName() + " :";//<channel> :
 	std::map<unsigned int, int>*	usr_map = &(chan->getUsr_list());
-	std::string to_send;
 	for (std::map<unsigned, int>::iterator it = usr_map->begin(); it != usr_map->end(); ++it){//[prefix]<nick>
 		if (it->second == 4)
 			to_send += "@";

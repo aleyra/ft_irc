@@ -7,7 +7,6 @@
 //srv = server //don't know more...
 
 int	numeric_reply(int err, user* askingOne, user* usr, Server& srv){
-	(void)srv;
 	switch (err){
 		case ERR_ERRONEUSNICKNAME:
 			srv.send(srv.client_ip(askingOne->getId()) + to_string(err) + " " + askingOne->getNick() + " " + usr->getNick() + ":Erroneus nickname", askingOne->getId());
@@ -38,7 +37,6 @@ int	numeric_reply(int err, user* askingOne, user* usr, Server& srv){
 }
 
 int	numeric_reply(int err, user* askingOne, channel* chan, Server& srv){
-	(void)srv;
 	switch (err){
 		case ERR_CANNOTSENDTOCHAN:
 			srv.send(srv.client_ip(askingOne->getId()) + to_string(err) + " " + askingOne->getNick() + " " + chan->getName() + ":Cannot srv.send to channel", askingOne->getId());
@@ -99,7 +97,6 @@ int	numeric_reply(int err, user* askingOne, channel* chan, Server& srv){
 }
 
 int	numeric_reply(int err, user* askingOne, std::string s, Server& srv){//s for cmd, operation, charactere, string
-	(void)srv;
 	switch (err){
 		case ERR_NOSUCHCHANNEL:
 			srv.send(srv.client_ip(askingOne->getId()) + to_string(err) + " " + askingOne->getNick() + " " + s + ":No such channel", askingOne->getId());
@@ -144,7 +141,6 @@ int	numeric_reply(int err, user* askingOne, std::string s, Server& srv){//s for 
 }
 
 int	numeric_reply(int err, user* askingOne, Server& srv){
-	(void)srv;
 	switch (err){
 		case ERR_NOSUCHSERVER:
 			srv.send(srv.client_ip(askingOne->getId()) + to_string(err) + " " + askingOne->getNick() + " " + /*srv->name +*/ ":No such server", askingOne->getId());
@@ -232,7 +228,6 @@ int	numeric_reply(int err, user* askingOne, Server& srv){
 }
 
 int	numeric_reply(int err, user* askingOne, user* usr, channel* chan, Server& srv){
-	(void)srv;
 	switch (err){
 		case ERR_USERNOTINCHANNEL:
 			srv.send(srv.client_ip(askingOne->getId()) + to_string(err) + " " + askingOne->getNick() + " " + usr->getNick() + " " + chan->getName() + ":They aren't on that channel", askingOne->getId());
