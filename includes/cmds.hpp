@@ -1,12 +1,12 @@
 #ifndef CMDS_HPP
 # define CMDS_HPP
 
-#include "tools.hpp"
-#include "user.hpp"
-#include "Server.hpp"
-#include "channel.hpp"
-#include <cstdlib>
-#include <cstring>
+# include "tools.hpp"
+# include "user.hpp"
+# include "Server.hpp"
+# include "channel.hpp"
+# include <cstdlib>
+# include <cstring>
 
 // int	away(std::string txt, user*	usr, Server& srv);
 int		invite(std::vector<std::string> params, user* askingOne,
