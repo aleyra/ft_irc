@@ -1,12 +1,13 @@
-#pragma once
+#ifndef CHANNEL_HPP
+# define CHANNEL_HPP
 
-#include <iostream>
-#include <string>
-#include <algorithm>
-#include <list>
-#include <ctime>
-#include <map>
-#include "user.hpp"
+# include <iostream>
+# include <string>
+# include <algorithm>
+# include <list>
+# include <ctime>
+# include <map>
+# include "user.hpp"
 
 class user;
 
@@ -58,7 +59,7 @@ class channel{
 		void								setTopic(std::string t);
 		std::string	const &					getTopic() const;
 		//pas de setter pour _invite_list, voir addInvite_list et rmInvite_list
-		std::vector<unsigned int> const &	getInvite_list() const;
+		std::vector<unsigned int> &			getInvite_list();
 
 	// #pragma endregion getters and setters
 
@@ -75,3 +76,5 @@ class channel{
 
 channel*	searchChannelByName(std::string mask, std::vector<channel*>& chan_vec);
 int			countVisibleUsers(channel* chan, std::map<unsigned int, user *>& users);
+
+#endif

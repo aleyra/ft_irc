@@ -64,7 +64,7 @@ channel&	channel::operator=(channel const &src){
 		return this->_topic;
 	}
 
-	std::vector<unsigned int> const &	channel::getInvite_list() const{
+	std::vector<unsigned int> &	channel::getInvite_list() {
 		return this->_invite_list;
 	}
 
