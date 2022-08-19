@@ -46,7 +46,7 @@
 			</li>
 			<!-- <li>Requete basee sur les utilisateurs : WHO / WHOIS / WHOWAS</li> -->
 			<li>messages divers : 
-				KILL / 
+				<strike>KILL</strike> / 
 				<strike>PING</strike> / 
 				<strike>PONG</strike> / 
 				<strike>ERROR</strike>
