@@ -2,30 +2,31 @@
 
 int	rpl_namreply(user* askingOne, channel* chan, std::map<unsigned int,
 	user *>& users, Server& srv){
+	std::string	to_send;
 	// "<client> <symbol> <channel> :[prefix]<nick>{ [prefix]<nick>}"
-	(void) srv;//
-	std::cout << /*srv->client <<*/ RPL_NAMREPLY << " " << askingOne->getNick() << " " ;//<client>
+	to_send += srv.client_ip(askingOne->getId()) + to_string(RPL_NAMREPLY) + " " + askingOne->getNick() + " " ;//<client>
 	if (chan->hasMode('s') == true)//<symbol>
-		std::cout << "@";//chan is secret
+		to_send += "@";//chan is secret
 	else if (chan->hasMode('p') == true)
-		std::cout << "*";//chan is private
+		to_send += "*";//chan is private
 	else 
-		std::cout << "=";
-	std::cout << chan->getName() << " :";//<channel> :
+		to_send += "=";
+	to_send += chan->getName() + " :";//<channel> :
 	std::map<unsigned int, int>*	usr_map = &(chan->getUsr_list());
 	for (std::map<unsigned, int>::iterator it = usr_map->begin(); it != usr_map->end(); ++it){//[prefix]<nick>
 		if (it->second == 4)
-			std::cout << "@";
+			to_send += "@";
 		else if (chan->getIsMod() == true && it->second == 1)
-			std::cout << "+";
-		std::cout << searchUserByID(it->first, users)->getNick() << " ";
+			to_send += "+";
+		to_send += searchUserByID(it->first, users)->getNick() + " ";
 	}
-	std::cout << std::endl;
+	srv.send(to_send, askingOne->getId());
 	return (RPL_NAMREPLY);
 }
 
 int	names(std::string params, user* askingOne, std::vector<channel*> chan_vec, std::map<unsigned int, user *>& users, Server& srv){
-	channel*				chan = NULL;
+	channel*	chan = NULL;
+	std::string	to_send;
 
 	//case no <channel> parameter is given
 	if (params.empty()){
@@ -36,9 +37,9 @@ int	names(std::string params, user* askingOne, std::vector<channel*> chan_vec, s
 		for (std::map<unsigned int, user *>::iterator it = users.begin(); it != users.end(); ++it){
 			if ((it->second->hasMode('i') == false && it->second->getList_chan().empty())
 				|| isIn1VisibleChannel(it->second) == false)
-			std::cout << it->second->getNick() << " ";
+			to_send += it->second->getNick() + " ";
 		}
-		std::cout << std::endl;
+		srv.send(to_send, askingOne->getId());
 		return (numeric_reply(RPL_ENDOFNAMES, askingOne, "", srv));
 	}
 

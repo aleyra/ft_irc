@@ -19,7 +19,6 @@ void	privmsg(std::vector<std::string> params, user &askingOne,
 			std::vector<channel*> chan_vec,
 			std::map<unsigned int, user *>& users, Server &server)
 {
-	std::cout << "IN" << std::endl;
 	if (params.size() == 0)
 		numeric_reply(ERR_NOTEXTTOSEND, &askingOne, server);
 	
