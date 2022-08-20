@@ -11,16 +11,19 @@ user::user(){
 user::user(user const &src){*this = src;}
 
 user::user(std::string usr_name, unsigned int id){
-	this->_username = usr_name;
-	this->_isaway = false;//? je suis pas sure de : a quoi correspond usr_name dans la class usr
+	this->_username = usr_name;//? je suis pas sure de : a quoi correspond usr_name dans la class usr
+	this->_isaway = false;
 	this->_username = usr_name;//? idem
 	this->_truename = usr_name;//? idem
-	this->_lvl = 0;
+	this->_lvl = DEFAULT;
 	this->_isaway = false;
 	this->setLast_activity();
 	this->_isop = false;
 	this->_id = id;
-	this->_mode = 0;
+	this->_mode = "";
+	this->_isonline = true;
+	this->_firstNickGiven = false;
+	this->_hasConnected = false;
 	// this->_idle_time = 0;
 }
 
@@ -46,6 +49,10 @@ user	&user::operator=(user const &src){
 	this->_last_activity = src._last_activity;
 	this->_password = src._password;
 	this->_isop = src._isop;
+	this->_id = src._id;
+	this->_mode = src._mode;
+	this->_isonline = src._isonline;
+	this->_firstNickGiven = src._firstNickGiven;
 	return (*this);
 }
 // #pragma endregion overload d operateurs
@@ -73,14 +80,14 @@ std::list<std::string> const	&user::getHistory_nick() const{
 }
 
 void	user::setLvl(int l){//on s'assure que le lvl est entre 0 et 2
-	if (l > 2){l = 2;}
-	if (l < 0){l = 0;}
+	if (l > SRV_OP){l = SRV_OP;}
+	if (l < DEFAULT){l = DEFAULT;}
 	this->_lvl = l;
 }
 
 int const	&user::getLvl() const{return (this->_lvl);}
 
-std::vector<channel*> const &	user::getList_chan() const{
+std::vector<channel*>  &	user::getList_chan() {
 	return (this->_list_chan);
 }
 
@@ -112,11 +119,11 @@ bool const	&user::getIsop() const{return (this->_isop);}
 
 unsigned int const &	user::getId() const{return this->_id;}
 
-void	user::setMode(char c){
-	this->_mode = c;
-}
+// void	user::setMode(char c){
+// 	this->_mode = c;
+// }
 
-char const &	user::getMode() const{
+std::string const &	user::getMode() const{
 	return (this->_mode);
 }
 
@@ -128,11 +135,44 @@ bool const &	user::getIsonline() const{
 	return (this->_isonline);
 }
 
+void			user::setFirstNickGiven(bool b){
+	this->_firstNickGiven = b;
+}
+
+bool const &	user::getFirstNickGiven() const{
+	return (this->_firstNickGiven);
+}
+
+bool const &	user::getHasConnected() const
+{
+	return (_hasConnected);
+}
+
+/**
+* Description:
+* 	Connect a user after PASS.
+* 
+* Args:
+* 	None.
+* 
+* Return:
+* 	None.
+* 
+* Notes:
+* 	** Notes **
+**/
+
+void	user::connect()
+{
+	_hasConnected = true;
+}
+
 // #pragma endregion getters and setters
 
 // #pragma region other member functions
 void	user::addHistory_nick(std::string	old_nick){
-	this->_history_nick.push_front(old_nick);
+	if (!old_nick.empty())
+		this->_history_nick.push_front(old_nick);
 }
 
 void	user::clearHistory_nick(){
@@ -159,7 +199,7 @@ std::time_t	user::check_Idle_time(){
 	return (now - this->getLast_activity());
 }
 
-void	user::addList_chan(channel* nc){
+void	user::addList_chan(channel* nc){//gerer que max 10
 	this->_list_chan.push_back(nc);
 }
 void	user::rmList_chan(channel* c){
@@ -168,6 +208,25 @@ void	user::rmList_chan(channel* c){
 		if (f == this->_list_chan.end())
 			this->_list_chan.erase(f);
 }
+void	user::addMode(char c){
+	size_t pos = this->_mode.find(c);
+	if (pos == std::string::npos)
+		this->_mode.push_back(c);
+}
+
+void	user::rmMode(char c){
+	size_t pos = this->_mode.find(c);
+	if (pos == std::string::npos)
+		this->_mode.erase(pos, 1);
+}
+
+bool	user::hasMode(char c){
+	size_t pos = this->_mode.find(c);
+	if (pos == std::string::npos)
+		return false;
+	return true;
+}
+
 
 
 // #pragma endregion other member functions
@@ -181,21 +240,47 @@ bool	operator>=(user const & lhs, user const & rhs){return (lhs.getId() >= rhs.g
 bool	operator<(user const & lhs, user const & rhs){return (lhs.getId() < rhs.getId());}
 bool	operator<=(user const & lhs, user const & rhs){return (lhs.getId() <= rhs.getId());}
 
-user*	searchUser(std::string mask){
-	user*	usr;
-	std::map<int, user*> usr_list;//a changer // recup la liste des user notee ici usr_list
-	for (std::map<int, user*>::iterator it = usr_list.begin(); it != usr_list.end(); it++){
-		usr = it->second;
-		if (usr->getNick().compare(mask) == 0)			
-			return usr;
+user*	searchUserByNick(std::string mask, std::map<unsigned int, user *>& users){
+	for (std::map<unsigned int, user *>::iterator it = users.begin(); it != users.end(); ++it){
+		if (it->second->getNick().compare(mask) == 0)
+			return it->second;
 	}
 	return NULL;
 }
 
-char	display_isaway(user* usr){
-	if (usr->getIsaway() == true)
+user*	searchUserByID(unsigned int id, std::map<unsigned int, user *>& users){
+	for (std::map<unsigned int, user *>::iterator it = users.begin();
+		it != users.end(); ++it){
+		if (it->second->getId() == id)
+			return it->second;
+	}
+	return NULL;
+}
+
+char	display_isaway(user& usr){
+	if (usr.getIsaway() == true)
 		return 'G';
 	return 'H';
 }
+
+bool	has1channelInCommon(user& u1, user& u2){
+	std::vector<channel*>&	list_chan1 = u1.getList_chan();
+	std::vector<channel*>&	list_chan2 = u2.getList_chan();
+	for (size_t i = 0; i < list_chan1.size(); ++i){
+		if (searchChannelByName(list_chan1[i]->getName(), list_chan2) != NULL)
+			return true;
+	}
+	return false;
+}
+
+bool	isIn1VisibleChannel(user* u){
+	std::vector<channel*>&	list_chan = u->getList_chan();
+	for (size_t i = 0; i < list_chan.size(); ++i){
+		if (list_chan[i]->hasMode('s') == false && list_chan[i]->hasMode('p') == false)//is visible
+			return true;
+	}
+	return (false);
+}
+
 
 // #pragma endregion non-member functions

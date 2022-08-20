@@ -1,16 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lburnet <lburnet@student.42lyon.fr>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/27 11:25:23 by tlafay            #+#    #+#             */
-/*   Updated: 2022/08/11 14:40:51 by lburnet          ###   ########lyon.fr   */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "Server.hpp"
+#include "tools.hpp"
+#include "channel.hpp"
 
 int main(int argc, char **argv)
 {
@@ -20,16 +10,25 @@ int main(int argc, char **argv)
 		return (1);
 	}
 
-	Server server(argv[1], argv[2]);
-	fd_set readfds;	
+	Server server(argv[1]);
+	fd_set readfds;
+	std::map<unsigned int, user *> users;
+	std::vector<channel *> channels;
+	std::map<unsigned int, std::string> buffers;
 	while (true)
 	{
 		server.select(readfds);
-		server.add_connection(readfds);
-		std::vector<std::string> v = server.receive(readfds);
-		for (std::vector<std::string>::iterator it = v.begin(); it != v.end(); ++it)
-		{
-			std::cout << *it;
-		}
+		user *tmp = server.add_connection(readfds);
+		if (tmp)
+			users[tmp->getId()] = tmp;
+		std::map<unsigned int, std::string> msg = server.receive(readfds, users);
+		timeout(users, server);
+		make_full_command(msg, buffers, users, channels, server, argv[2]);
+	}
+
+	// It's a "good practice" but useless since we never exit the loop anyway.
+	for (std::map<unsigned int, user *>::iterator it = users.begin(); it != users.end(); ++it)
+	{
+		delete it->second;
 	}
 }

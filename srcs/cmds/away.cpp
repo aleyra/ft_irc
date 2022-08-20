@@ -1,12 +1,11 @@
 #include "cmds.hpp"
 
-int	away(std::string txt, user*	usr, Server* srv){
+int	away(std::string txt, user* askingOne, user* usr, Server& srv){
 	if (txt.empty() == true){
 		usr->setIsaway(false);
-		return (numeric_reply(RPL_UNAWAY, srv));
+		return (numeric_reply(RPL_UNAWAY, askingOne, srv));
 	}
-
 	usr->setIsaway(true);
 	usr->setIsaway_msg(txt);
-	return (numeric_reply(RPL_NOWAWAY, srv));
+	return (numeric_reply(RPL_NOWAWAY, askingOne, srv));
 }

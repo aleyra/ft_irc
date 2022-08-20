@@ -1,236 +1,222 @@
 #include "tools.hpp"
-//usr = user // don't know more...
-//chan = channel // don't know more... maybe canal's id ?
-//srv->name = server's name
-//srv->mask = server's mask
-//srv->host = host's server
-//srv = server //don't know more...
-//srv->info = server's info
 
-int	numeric_reply(int err, user* usr, Server* srv){
-	(void)srv;
+int	numeric_reply(int err, user* askingOne, user* usr, Server& srv){
 	switch (err){
-	case ERR_ERRONEUSNICKNAME:
-		std::cout << /*srv->client <<*/ " " << usr->getNick() << ":Erroneus nickname" << std::endl;//weird
-		break;
-	case ERR_NICKNAMEINUSE:
-		std::cout << /*srv->client <<*/ " " << usr->getNick() << ":Nickname is already in use" << std::endl;
-		break;
-	case ERR_NICKCOLLISION:
-		std::cout << /*srv->client <<*/ " " << usr->getNick() << ":Nickname collision KILL" << std::endl;
-		break;
-	case ERR_NOLOGIN:
-		std::cout << /*srv->client <<*/ " " << usr << ":User not logged in" << std::endl;
-		break;
-	// case RPL_AWAY:
-	// 	std::cout << /*srv->client <<*/ " " << usr->getNick() << ":" << usr->getAway_msg() << std::endl;
-	// 	break;	
-	default:
-		break;
+		case ERR_ERRONEUSNICKNAME:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + usr->getNick() + ":Erroneus nickname", askingOne->getId());
+			break;
+		case ERR_NICKCOLLISION:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + usr->getNick() + ":Nickname collision KILL", askingOne->getId());
+			break;
+		case ERR_NOLOGIN:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + usr->getNick() + ":User not logged in", askingOne->getId());
+			break;
+		case RPL_UMODEIS:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + usr->getMode(), askingOne->getId());
+			break;
+		default:
+			break;
 	}
 	return (err);
 }
 
-int	numeric_reply(int err, channel* chan, Server* srv){
-	(void)srv;
+int	numeric_reply(int err, user* askingOne, channel* chan, Server& srv){
 	switch (err){
-	case ERR_NOSUCHCHANNEL:
-		std::cout << /*srv->client <<*/ " " << chan->getName() << ":No such channel" << std::endl;
-		break;
-	case ERR_CANNOTSENDTOCHAN:
-		std::cout << /*srv->client <<*/ " " << chan->getName() << ":Cannot send to channel" << std::endl;
-		break;
-	case ERR_TOOMANYCHANNELS:
-		std::cout << /*srv->client <<*/ " " << chan->getName() << ":You have joined too many channels" << std::endl;
-		break;
-	case ERR_WASNOSUCHNICK:
-		std::cout << /*srv->client <<*/ " " << chan->getName() << ":There was no such nickname" << std::endl;
-		break;
-	case ERR_NOTONCHANNEL:
-		std::cout << /*srv->client <<*/ " " << chan << ":You're not on that channel" << std::endl;
-		break;
-	case ERR_KEYSET:
-		std::cout << /*srv->client <<*/ " " << chan << ":Channel key already set" << std::endl;
-		break;
-	case ERR_CHANNELISFULL:
-		std::cout << /*srv->client <<*/ " " << chan << ":Cannot join channel (+l)" << std::endl;
-		break;
-	case ERR_INVITEONLYCHAN:
-		std::cout << /*srv->client <<*/ " " << chan << ":Cannot join channel (+i)" << std::endl;
-		break;
-	case ERR_BANNEDFROMCHAN:
-		std::cout << /*srv->client <<*/ " " << chan << ":Cannot join channel (+b)" << std::endl;
-		break;
-	case ERR_BADCHANNELKEY:
-		std::cout << /*srv->client <<*/ " " << chan << ":Cannot join channel (+k)" << std::endl;
-		break;
-	case ERR_CHANOPRIVSNEEDED:
-		std::cout << /*srv->client <<*/ " " << chan << ":You're not channel operator" << std::endl;
-		break;
-	default:
-		break;
+		case ERR_CANNOTSENDTOCHAN:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + chan->getName() + ":Cannot srv.send to channel", askingOne->getId());
+			break;
+		case ERR_TOOMANYCHANNELS:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + chan->getName() + ":You have joined too many channels", askingOne->getId());
+			break;
+		case ERR_WASNOSUCHNICK:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + chan->getName() + ":There was no such nickname", askingOne->getId());
+			break;
+		case ERR_NOTONCHANNEL:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + chan->getName() + ":You're not on that channel", askingOne->getId());
+			break;
+		case ERR_KEYSET:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + chan->getName() + ":Channel key already set", askingOne->getId());
+			break;
+		case ERR_CHANNELISFULL:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + chan->getName() + ":Cannot join channel (+l)", askingOne->getId());
+			break;
+		case ERR_INVITEONLYCHAN:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + chan->getName() + ":Cannot join channel (+i)", askingOne->getId());
+			break;
+		case ERR_BANNEDFROMCHAN:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + chan->getName() + ":Cannot join channel (+b)", askingOne->getId());
+			break;
+		case ERR_BADCHANNELKEY:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + chan->getName() + ":Cannot join channel (+k)", askingOne->getId());
+			break;
+		case ERR_CHANOPRIVSNEEDED:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + chan->getName() + ":You're not channel operator", askingOne->getId());
+			break;
+		case RPL_NOTOPIC:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + chan->getName() + " :No topic is set", askingOne->getId());
+			break;
+		case RPL_TOPIC:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + chan->getName() + " :" + chan->getTopic(), askingOne->getId());
+			break;
+		case ERR_NOCHANMODES:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + chan->getName() + " :Channel doesn't support modes", askingOne->getId());
+			break;
+		case RPL_CHANNELMODEIS://"<client> <channel> <modestring> <mode arguments>..."
+			{
+				srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + chan->getName() + " +" + chan->getMode(), askingOne->getId());
+				//<mode arguments> ?????
+			}
+			break;
+		default:
+			break;
 	}
 	return (err);
 }
 
-int	numeric_reply(int err, std::string s, Server* srv){//s for cmd, operation, charactere, string
-	(void)srv;
+int	numeric_reply(int err, user* askingOne, std::string s, Server& srv){//s for cmd, operation, charactere, string
 	switch (err){
-	case ERR_NOSUCHNICK:
-		std::cout << /*srv->client <<*/ " " << s << ":No such nick/channel" << std::endl;
-		break;
-	case ERR_TOOMANYTARGETS:
-		std::cout << /*srv->client <<*/ " " << s << ":Duplicate recipients. No message delivered" << std::endl;
-		break;
-	case ERR_NORECIPIENT:
-		std::cout << /*srv->client <<*/ " " << ":No recipient given (" << s << ")" << std::endl;
-		break;
-	case ERR_UNKNOWNCOMMAND:
-		std::cout << /*srv->client <<*/ " " << s << ":Unknown command" << std::endl;
-		break;
-	case ERR_NEEDMOREPARAMS:
-		std::cout << /*srv->client <<*/ " " << s << ":Not enough parameters" << std::endl;
-		break;
-	case ERR_UNKNOWNMODE:
-		std::cout << /*srv->client <<*/ " " << s << ":is unknown mode char to me" << std::endl;
-		break;
-	case RPL_ENDOFWHO:
-		std::cout << s << " :End of WHO list" << std::endl;
-		break;
-	default:
-		break;
+		case ERR_NOSUCHCHANNEL:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + s + ":No such channel", askingOne->getId());
+			break;
+		case ERR_NOSUCHNICK:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + s + ":No such nick/channel", askingOne->getId());
+			break;
+		case ERR_TOOMANYTARGETS:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + s + ":Duplicate recipients. No message delivered", askingOne->getId());
+			break;
+		case ERR_NORECIPIENT:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + ":No recipient given (" + s + ")", askingOne->getId());
+			break;
+		case ERR_UNKNOWNCOMMAND:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + s + ":Unknown command", askingOne->getId());
+			break;
+		case ERR_NEEDMOREPARAMS:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + s + ":Not enough parameters", askingOne->getId());
+			break;
+		case ERR_UNKNOWNMODE:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + s + ":is unknown mode char to me", askingOne->getId());
+			break;
+		case RPL_ENDOFWHO:
+			srv.send(s + " :End of WHO list", askingOne->getId());
+			break;
+		case ERR_UNAVAILRESOURCE:
+			srv.send(s + " :Nick/channel is temporarily unavailable", askingOne->getId());
+			break;
+		case ERR_NICKNAMEINUSE:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + s + ":Nickname is already in use", askingOne->getId());
+			break;
+		case RPL_ENDOFNAMES://avec s comme param car le chan->getName() s peut de pas exister;
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + s + " :End of NAMES list", askingOne->getId());
+			break;
+		case RPL_YOUREOPER:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + s + " :You are now an IRC operator", askingOne->getId());
+			break;
+		default:
+			break;
 	}
 	return (err);
 }
 
-int	numeric_reply(int err, Server* srv){
-	(void)srv;
+int	numeric_reply(int err, user* askingOne, Server& srv){
 	switch (err){
-	case ERR_NOSUCHSERVER:
-		std::cout << /*srv->client <<*/ " " << /*srv->name <<*/ ":No such serve" << std::endl;
-		break;
-	case ERR_NOTOPLEVEL:
-		std::cout << /*srv->client <<*/ " " << /*srv->mask <<*/ ":No toplevel domain specified" << std::endl;
-		break;
-	case ERR_WILDTOPLEVEL:
-		std::cout << /*srv->client <<*/ " " << /*srv->mask <<*/ ":Wildcard in toplevel domain" << std::endl;
-		break;
-	case ERR_NOADMININFO:
-		std::cout << /*srv->client <<*/ " " << /*srv <<*/ ":No administrative info available" << std::endl;
-		break;
-	//cases without specific info about server needed
-	case ERR_NOORIGIN:
-		std::cout << /*srv->client <<*/ ":No origin specified" << std::endl;
-		break;
-	case ERR_NOTEXTTOSEND:
-		std::cout << /*srv->client <<*/ ":No text to send" << std::endl;
-		break;
-	case ERR_NOMOTD:
-		std::cout << /*srv->client <<*/ ":MOTD File is missing" << std::endl;
-		break;
-	case ERR_NONICKNAMEGIVEN:
-		std::cout << /*srv->client <<*/ ":No nickname given" << std::endl;
-		break;
-	case ERR_SUMMONDISABLED:
-		std::cout << /*srv->client <<*/ ":SUMMON has been disabled" << std::endl;
-		break;
-	case ERR_USERSDISABLED:
-		std::cout << /*srv->client <<*/ ":USERS has been disabled" << std::endl;
-		break;
-	case ERR_NOTREGISTERED:
-		std::cout << /*srv->client <<*/ ":You have not registered" << std::endl;
-		break;
-	case ERR_ALREADYREGISTERED:
-		std::cout << /*srv->client <<*/ ":Unauthorized command (already registered)" << std::endl;
-		break;
-	case ERR_NOPERMFORHOST:
-		std::cout << /*srv->client <<*/ ":Your host isn't among the privileged" << std::endl;
-		break;
-	case ERR_PASSWDMISMATCH:
-		std::cout << /*srv->client <<*/ ":Password incorrect" << std::endl;
-		break;
-	case ERR_YOUREBANNEDCREEP:
-		std::cout << /*srv->client <<*/ ":You are banned from this server" << std::endl;
-		break;
-	case ERR_NOPRIVILEGES:
-		std::cout << /*srv->client <<*/ ":Permission Denied- You're not an IRC operator" << std::endl;
-		break;
-	case ERR_CANTKILLSERVER:
-		std::cout << /*srv->client <<*/ ":You cant kill a server!" << std::endl;
-		break;
-	case ERR_NOOPERHOST:
-		std::cout << /*srv->client <<*/ ":No O-lines for your host" << std::endl;
-		break;
-	case ERR_UMODEUNKNOWNFLAG:
-		std::cout << /*srv->client <<*/ ":Unknown MODE flag" << std::endl;
-		break;
-	case ERR_USERSDONTMATCH:
-		std::cout << /*srv->client <<*/ ":Cant change mode for other users" << std::endl;
-		break;
-	case RPL_ENDOFWHOWAS:
-		std::cout << /*srv->client <<*/ ":End of WHOWAS" << std::endl;
-		break;
-	case ERR_WASNOSUCHNICK:
-		std::cout << /*srv->client <<*/ " :There was no such nickname" << std::endl;
-		break;
-	case RPL_UNAWAY:
-		std::cout << /*srv->client <<*/ ":You are no longer marqued as being away" << std::endl;
-		break;
-	case RPL_NOWAWAY:
-		std::cout << /*srv->client <<*/ ":You have been marked as being away" << std::endl;
-		break;
-	default:
-		break;
+		case ERR_NOSUCHSERVER:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + /*srv->name +*/ ":No such server", askingOne->getId());
+			break;
+		case ERR_NOTOPLEVEL:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + /*srv->mask +*/ ":No toplevel domain specified", askingOne->getId());
+			break;
+		case ERR_WILDTOPLEVEL:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + /*srv->mask +*/ ":Wildcard in toplevel domain", askingOne->getId());
+			break;
+		case ERR_NOADMININFO:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + /*srv +*/ ":No administrative info available", askingOne->getId());
+			break;
+		//cases without specific info about server needed
+		case ERR_NOORIGIN:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + ":No origin specified", askingOne->getId());
+			break;
+		case ERR_NOTEXTTOSEND:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + ":No text to srv.send", askingOne->getId());
+			break;
+		case ERR_NOMOTD:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + ":MOTD File is missing", askingOne->getId());
+			break;
+		case ERR_NONICKNAMEGIVEN:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + ":No nickname given", askingOne->getId());
+			break;
+		case ERR_SUMMONDISABLED:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + ":SUMMON has been disabled", askingOne->getId());
+			break;
+		case ERR_USERSDISABLED:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + ":USERS has been disabled", askingOne->getId());
+			break;
+		case ERR_NOTREGISTERED:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + ":You have not registered", askingOne->getId());
+			break;
+		case ERR_ALREADYREGISTERED:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + ":Unauthorized command (already registered)", askingOne->getId());
+			break;
+		case ERR_NOPERMFORHOST:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + ":Your host isn't among the privileged", askingOne->getId());
+			break;
+		case ERR_PASSWDMISMATCH:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + ":Password incorrect", askingOne->getId());
+			break;
+		case ERR_YOUREBANNEDCREEP:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + ":You are banned from this server", askingOne->getId());
+			break;
+		case ERR_NOPRIVILEGES:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + ":Permission Denied- You're not an IRC operator", askingOne->getId());
+			break;
+		case ERR_CANTKILLSERVER:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + ":You cant kill a server!", askingOne->getId());
+			break;
+		case ERR_NOOPERHOST:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + ":No O-lines for your host", askingOne->getId());
+			break;
+		case ERR_UMODEUNKNOWNFLAG:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + ":Unknown MODE flag", askingOne->getId());
+			break;
+		case ERR_USERSDONTMATCH:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + ":Cant change mode for other users", askingOne->getId());
+			break;
+		case RPL_ENDOFWHOWAS:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + ":End of WHOWAS", askingOne->getId());
+			break;
+		case ERR_WASNOSUCHNICK:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + " :There was no such nickname", askingOne->getId());
+			break;
+		case RPL_UNAWAY:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + ":You are no longer marqued as being away", askingOne->getId());
+			break;
+		case RPL_NOWAWAY:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + ":You have been marked as being away", askingOne->getId());
+			break;
+		case ERR_RESTRICTED:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + ":Your connection is restricted!", askingOne->getId());
+			break;
+		case RPL_LISTEND:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + ":End of LIST", askingOne->getId());
+			break;
+		default:
+			break;
 	}
 	return (err);
 }
 
-// int	numeric_reply(int err, std::string s/*, file f*/, Server* srv){
-// 	switch (err){
-// 	case ERR_FILEERROR:
-// 		std::cout << /*srv->client <<*/ ":File error doing "<< s << " on " /*<< f.name */<< std::endl;
-// 		break;
-// 	default:
-// 		break;
-// 	}
-// 	return (err);
-// }
-
-int	numeric_reply(int err, user* usr, channel* chan, Server* srv){
-	(void)srv;
+int	numeric_reply(int err, user* askingOne, user* usr, channel* chan, Server& srv){
 	switch (err){
-	case ERR_USERNOTINCHANNEL:
-		std::cout << /*srv->client <<*/ " " << usr->getNick() << " " << chan << ":They aren't on that channel" << std::endl;
-		break;
-	case ERR_USERONCHANNEL:
-		std::cout << /*srv->client <<*/ " " << usr << " " << chan << ":is already on channel" << std::endl;
-		break;
-	default:
-		break;
+		case ERR_USERNOTINCHANNEL:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + usr->getNick() + " " + chan->getName() + ":They aren't on that channel", askingOne->getId());
+			break;
+		case ERR_USERONCHANNEL:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + usr->getNick() + " " + chan->getName() + ":is already on channel", askingOne->getId());
+			break;
+		case RPL_INVITING:
+			srv.send(srv.client_ip(askingOne->getId()) + " " + to_string(err) + " " + askingOne->getNick() + " " + chan->getName() + " " + usr->getNick(), askingOne->getId());
+			break;
+		default:
+			break;
 	}
 	return (err);
 }
-
-// int	numeric_reply(int err, user* usr, Server* srv){
-// 	switch (err){
-// 	case RPL_USERHOST://to be used with a 'for' for each nick in the cmd USERHOST separate by a ' ' et a '\n' right after the 'for'
-// 		std::cout << /*srv->client <<*/ " " << usr->getNick() << "[";
-// 		if (usr->getLvl() == 2) std::cout << "operator";
-// 		else std::cout << "non operator";
-// 		std::cout << "] = <";
-// 		if (usr->getIsaway() == TRUE) std::cout << usr->getAway_msg();
-// 		std::cout << ">" << srv->host;
-// 		break;
-// 	case RPL_WHOISUSER:
-// 		std::cout << /*srv->client <<*/ " " << usr->getNick() << " " << usr << srv->host << "*:" << usr->getTruename() << std::endl;
-// 		break;
-// 	case RPL_WHOISSERVER:
-// 		std::cout << /*srv->client <<*/ " " << usr->getNick() << " " << /*srv <<*/ ":" << srv->info << std::endl;
-// 		break;
-// 	}
-// return (err);
-// }
-
-// case /* constant-expression */:
-// 		/* code */
-// 		break;

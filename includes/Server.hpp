@@ -1,19 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Server.hpp                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lucille <lucille@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/10 13:50:36 by tlafay            #+#    #+#             */
-/*   Updated: 2022/08/12 15:44:52 by lucille          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef SERVER_HPP
 # define SERVER_HPP
 
-#include <sys/socket.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <netdb.h>
@@ -21,30 +8,53 @@
 #include <iostream>
 #include <unistd.h>
 #include <vector>
-#include <arpa/inet.h>
+#include <map>
+#include <string>
+#include <fcntl.h>
 #include <cerrno>
+#include <fstream>
+#include <sys/types.h>
+#include <arpa/inet.h>
+#include "user.hpp"
 
-#define MAX_CLIENTS 30
+#define MAX_CLIENTS 4000
+
+class user;
 
 class Server
 {
 	public:
-		Server(const std::string &port, const std::string &pass);
+		Server(const std::string &port);
 		Server(const Server &f);
 		~Server();
 
-		void						connection_test();
-		void						send(const std::string &msg, const int &client_fd);
-		std::vector<std::string>	receive(fd_set &readfds);
-		void						add_connection(fd_set &readfds);
+		std::size_t const	&get_current_id() const;
+
+		void						send(const std::string &msg, const std::size_t &id);
+		std::map<unsigned int,
+		std::string>				receive(fd_set &readfds,
+			std::map<unsigned int, user *> &users);
+		user						*add_connection(fd_set &readfds);
 		void						select(fd_set &readfds);
+		void						disconnect(user &user);
+		std::string					client_ip(unsigned int id);
 
 		void	operator=(const Server &f);
 		
 	private:
-		int			_main_socket;
-		int			_client_sockets[MAX_CLIENTS];
-		sockaddr_in _address;
+		// A map of ids, with a socket associated.
+		std::map<unsigned int, int>	_users;
+		// The socket that handles all connections.
+		int					_main_socket;
+		// A thing used to get addresses.
+		sockaddr_in 		_address;
+		// The id of the next user.
+		std::size_t			_current_id;
+		// A list of user ips
+		std::map<unsigned int, std::string> _ips;
+
+		void	check_port_range(const std::string &port);
+		void	set_oper();
 
 		Server();
 };

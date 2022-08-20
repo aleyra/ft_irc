@@ -10,10 +10,12 @@ PATH_LOG        =	logs
 
 
 # List of sources
-SRCS_CMDS		=	away.cpp ison.cpp nick.cpp oper.cpp pass.cpp quit.cpp \
-					user_cmd.cpp who.cpp whois.cpp whowas.cpp
+SRCS_CMDS		=	error.cpp invite.cpp join.cpp kick.cpp kill.cpp list.cpp \
+					mode.cpp names.cpp nick.cpp notice.cpp oper.cpp part.cpp \
+					pass.cpp ping.cpp pong.cpp privmsg.cpp quit.cpp topic.cpp \
+					user_cmd.cpp
 SRCS_CLASS		=	Server.cpp channel.cpp user.cpp
-SRCS_TOOLS		=	numeric_reply.cpp params.cpp
+SRCS_TOOLS		=	numeric_reply.cpp params.cpp make_full_command.cpp timeout.cpp
 SRCS 			=	$(addprefix $(PATH_SRC)/cmds/, $(SRCS_CMDS)) \
 					$(addprefix $(PATH_SRC)/class/, $(SRCS_CLASS)) \
 					$(addprefix $(PATH_SRC)/tools/, $(SRCS_TOOLS)) \
@@ -31,7 +33,7 @@ COMP_ADD		=	-I $(PATH_INC)
 # Others Command
 RM				=	/bin/rm
 
-# Color Code and template code
+# Color Code and template 
 _YELLOW			=	\033[38;5;184m
 _GREEN			=	\033[38;5;46m
 _RESET			=	\033[0m
@@ -53,18 +55,6 @@ $(NAME):	$(OBJS)
 $(PATH_OBJ)/%.o : $(PATH_SRC)/*/%.cpp  $(INCS) | $(PATH_OBJ)
 		$(COMP) $(COMP_FLAG) $(COMP_ADD) -c $< -o $@
 		@ echo "$(_INFO) Compilation of $*"
-
-# $(PATH_OBJ)/%.o : $(PATH_SRC)/cmds/%.cpp  $(INCS) | $(PATH_OBJ)
-# 		$(COMP) $(COMP_FLAG) $(COMP_ADD) -c $< -o $@
-# 		@ echo "$(_INFO) Compilation of $*"
-
-# $(PATH_OBJ)/%.o : $(PATH_SRC)/class/%.cpp  $(INCS) | $(PATH_OBJ)
-# 		$(COMP) $(COMP_FLAG) $(COMP_ADD) -c $< -o $@
-# 		@ echo "$(_INFO) Compilation of $*"
-
-# $(PATH_OBJ)/%.o : $(PATH_SRC)/tools/%.cpp  $(INCS) | $(PATH_OBJ)
-# 		$(COMP) $(COMP_FLAG) $(COMP_ADD) -c $< -o $@
-# 		@ echo "$(_INFO) Compilation of $*"
 
 $(PATH_OBJ)/%.o : $(PATH_SRC)/%.cpp  $(INCS)
 		$(COMP) $(COMP_FLAG) $(COMP_ADD) -c $< -o $@
