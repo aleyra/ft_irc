@@ -38,10 +38,7 @@ int	nick(std::vector<std::string> params, user* askingOne,
 			return (numeric_reply(ERR_NICKNAMEINUSE, askingOne, nick, srv));
 	//check if there is already a user with this nick
 	if (searchUserByNick(nick, users) != NULL){
-		if (!askingOne->getNick().empty())
 			return (numeric_reply(ERR_UNAVAILRESOURCE, askingOne, nick, srv));
-		//send :NickServ!NickServ@services.libera.chat NOTICE airi :This nickname is registered. Please choose a different nickname, or identify via /msg NickServ IDENTIFY daru <password>
-		//envoyer apres avoir donner acces au server (donc apres NICK + USER) mais laisser le nick s'enregistrer. ca n'empechera pas l'utilisation du server par la suite
 	}
 	//update nick
 	askingOne->addHistory_nick(askingOne->getNick());

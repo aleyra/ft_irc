@@ -91,13 +91,13 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 				modestring.erase(0, 1);
 			}
 			last_sign = modestring.substr(0, 1);
-			srv.send(modestring + " " + last_sign, askingOne->getId());//
 		}
 		switch (modestring[1]){
 			case 'o':// o - give/take channel operator privilege;
 				{
-					if (params.size() <= i + 1)//case there's no nick given to give "channel operator"
+					if (params.size() <= i)//case there's no nick given to give "channel operator"
 						return (EXIT_FAILURE);
+					std::cout << "enough params" << std::endl;
 					usr = searchUserByNick(params[i], users);
 					if (usr == NULL)//params[i] ne correspond pas a un user
 						return (EXIT_FAILURE);
@@ -109,12 +109,12 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 					else if (modestring[0] == '-')
 						usr_list->at(usr_id) = DEFAULT;
 					i++;
-					chan->send(srv, "MODE " + chan->getName() + modestring.substr(0, 2) + " " + usr->getNick());
+					chan->send(srv, "MODE " + chan->getName() + + " " + modestring.substr(0, 2) + " " + usr->getNick());
 				}
 				break;
 			case 'v'://v - give/take the voice privilege;
 				{
-					if (params.size() <= i + 1)//case there's no nick given to give "the voice privilege"
+					if (params.size() <= i)//case there's no nick given to give "the voice privilege"
 						return (EXIT_FAILURE);
 					usr = searchUserByNick(params[i], users);
 					if (usr == NULL)//params[i] ne correspond pas a un user

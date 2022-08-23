@@ -24,7 +24,7 @@
 		<ul>
 			<li>etablissement de connexion :
 				<strike>PASS</strike> / 
-				NICK / 
+				<strike>NICK</strike> / 
 				<strike>USER</strike> / 
 				<strike>OPER</strike> / 
 				<strike>QUIT</strike>
@@ -32,7 +32,7 @@
 			<li>operations sur un canal (a check avant de se lancer) : 
 				<strike>JOIN</strike> / 
 				<strike>PART</strike> / 
-				MODE (il y a plein d'options et toutes ne sont pas a faire) / 
+				<strike>MODE</strike> (il y a plein d'options et toutes ne sont pas a faire) / 
 				<strike>TOPIC</strike> / 
 				<strike>NAMES</strike> / 
 				<strike>LIST</strike> / 

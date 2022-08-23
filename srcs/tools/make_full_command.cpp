@@ -87,6 +87,8 @@ void	exec_command(const int &id, const std::string &command,
 	else if (firstWord == "PRIVMSG" && users[id]->getFirstNickGiven() == true
 		&& !users[id]->getTruename().empty())
 		privmsg(params(args), *users[id], channels, users, server);
+	else
+		numeric_reply(ERR_UNKNOWNCOMMAND, users[id], firstWord, server);
 }
 
 /**
