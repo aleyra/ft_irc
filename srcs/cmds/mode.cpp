@@ -81,7 +81,6 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 	user*		usr = NULL;
 	
 	while (!modestring.empty() && count <= 3){
-		srv.send("dans le while", askingOne->getId());//
 		if (modestring.size() != 2){//les 2 premiers char seront toujours un signe et une lettre, le signe se distribut
 			if (modestring[0] != '+' && modestring[0] != '-'){
 				tmp = last_sign;
@@ -110,9 +109,7 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 					else if (modestring[0] == '-')
 						usr_list->at(usr_id) = DEFAULT;
 					i++;
-					for(std::map<unsigned int, int>::iterator it = usr_list->begin(); it != usr_list->end(); ++it){//display
-						srv.send("MODE " + chan->getName() + modestring.substr(0, 2) + " " + usr->getNick(), it->first);
-					}
+					chan->send(srv, "MODE " + chan->getName() + modestring.substr(0, 2) + " " + usr->getNick());
 				}
 				break;
 			case 'v'://v - give/take the voice privilege;
@@ -130,9 +127,7 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 					else if (modestring[0] == '-')
 						usr_list->at(usr_id) = DEFAULT;
 					i++;
-					for(std::map<unsigned int, int>::iterator it = usr_list->begin(); it != usr_list->end(); ++it){//display
-						srv.send("MODE " + chan->getName() + modestring.substr(0, 2) + " " + usr->getNick(), it->first);
-					}
+					chan->send(srv, "MODE " + chan->getName() + " " + modestring.substr(0, 2) + " " + usr->getNick());
 				}
 				break;
 			case 'i'://i - toggle the invite-only channel flag;
@@ -143,9 +138,7 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 					else if (modestring[0] == '-'){
 						chan->rmMode('i');
 					}
-					for(std::map<unsigned int, int>::iterator it = usr_list->begin(); it != usr_list->end(); ++it){//display
-						srv.send("MODE " + chan->getName() + modestring.substr(0, 2), it->first);
-					}
+					chan->send(srv, "MODE " + chan->getName() + " " + modestring.substr(0, 2));
 				}
 				break;
 			case 'm'://m - toggle the moderated channel;
@@ -156,9 +149,7 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 					else if (modestring[0] == '-'){
 						chan->rmMode('m');
 					}
-					for(std::map<unsigned int, int>::iterator it = usr_list->begin(); it != usr_list->end(); ++it){//display
-						srv.send("MODE " + chan->getName() + modestring.substr(0, 2), it->first);
-					}
+					chan->send(srv, "MODE " + chan->getName() + " " + modestring.substr(0, 2));
 				}
 				break;
 			case 'p'://p - toggle the private channel flag;
@@ -169,9 +160,7 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 					else if (modestring[0] == '-'){
 						chan->rmMode('p');
 					}
-					for(std::map<unsigned int, int>::iterator it = usr_list->begin(); it != usr_list->end(); ++it){//display
-						srv.send("MODE " + chan->getName() + modestring.substr(0, 2), it->first);
-					}
+					chan->send(srv, "MODE " + chan->getName() + " " + modestring.substr(0, 2));
 				}
 				break;
 			case 's'://s - toggle the secret channel flag;
@@ -182,9 +171,7 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 					else if (modestring[0] == '-'){
 						chan->rmMode('s');
 					}
-					for(std::map<unsigned int, int>::iterator it = usr_list->begin(); it != usr_list->end(); ++it){//display
-						srv.send("MODE " + chan->getName() + modestring.substr(0, 2), it->first);
-					}
+					chan->send(srv, "MODE " + chan->getName() + " " + modestring.substr(0, 2));
 				}
 				break;
 			case 't'://t - toggle the topic settable by channel operator only flag;
@@ -195,9 +182,7 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 					else if (modestring[0] == '-'){
 						chan->rmMode('t');
 					}
-					for(std::map<unsigned int, int>::iterator it = usr_list->begin(); it != usr_list->end(); ++it){//display
-						srv.send("MODE " + chan->getName() + modestring.substr(0, 2), it->first);
-					}
+					chan->send(srv, "MODE " + chan->getName() + " " + modestring.substr(0, 2));
 				}
 				break;
 

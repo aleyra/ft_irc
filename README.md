@@ -34,10 +34,10 @@
 				<strike>PART</strike> / 
 				MODE (il y a plein d'options et toutes ne sont pas a faire) / 
 				<strike>TOPIC</strike> / 
-				NAMES / 
-				LIST / 
-				INVITE / 
-				KICK
+				<strike>NAMES</strike> / 
+				<strike>LIST</strike> / 
+				<strike>INVITE</strike> / 
+				<strike>KICK</strike>
 			</li>
 			<!-- <li>Requetes et cmd serveur : VERSION / STATS / TIME / iNVITE / ADMIN (penser a voir 8.12.4 de la doc) / INFO</li> -->
 			<li>envoi de messages : 
@@ -46,7 +46,7 @@
 			</li>
 			<!-- <li>Requete basee sur les utilisateurs : WHO / WHOIS / WHOWAS</li> -->
 			<li>messages divers : 
-				KILL / 
+				<strike>KILL</strike> / 
 				<strike>PING</strike> / 
 				<strike>PONG</strike> / 
 				<strike>ERROR</strike>
