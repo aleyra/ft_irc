@@ -205,7 +205,7 @@ void	user::addList_chan(channel* nc){//gerer que max 10
 void	user::rmList_chan(channel* c){
 	std::vector<channel*>::iterator f = std::find(this->_list_chan.begin(),
 			this->_list_chan.end(), c);
-		if (f == this->_list_chan.end())
+		if (f != this->_list_chan.end())
 			this->_list_chan.erase(f);
 }
 void	user::addMode(char c){
@@ -282,5 +282,10 @@ bool	isIn1VisibleChannel(user* u){
 	return (false);
 }
 
-
+void	sendToAllInChanOfAskingOne(user *askingOne, std::string msg, Server &srv){
+	std::vector<channel*> &	list_chan = askingOne->getList_chan();
+	for (size_t i = 0; i < list_chan.size(); ++i){
+		list_chan[i]->send(srv, msg);
+	}
+}
 // #pragma endregion non-member functions

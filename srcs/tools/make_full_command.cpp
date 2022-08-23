@@ -40,6 +40,8 @@ void	exec_command(const int &id, const std::string &command,
 		return;
 	}
 
+	// std::cout << "coucou" << std::endl;//
+
 	if (firstWord == "NICK")
 		nick(params(args), users[id], users, server);
 	else if (firstWord == "USER")

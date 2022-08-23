@@ -33,13 +33,21 @@ int	nick(std::vector<std::string> params, user* askingOne,
 		std::cout << nick << " :Erroneous nickname" <<std::endl;
 		return (ERR_ERRONEUSNICKNAME);
 	}
+	//check if nick != actual_nick
 	if (nick.compare(askingOne->getNick()) == 0)
-		return (numeric_reply(ERR_NICKNAMEINUSE, askingOne, nick, srv));
-	if (searchUserByNick(nick, users) != NULL)
-		return (numeric_reply(ERR_UNAVAILRESOURCE, askingOne, nick, srv));
+			return (numeric_reply(ERR_NICKNAMEINUSE, askingOne, nick, srv));
+	//check if there is already a user with this nick
+	if (searchUserByNick(nick, users) != NULL){
+		if (!askingOne->getNick().empty())
+			return (numeric_reply(ERR_UNAVAILRESOURCE, askingOne, nick, srv));
+		//send :NickServ!NickServ@services.libera.chat NOTICE airi :This nickname is registered. Please choose a different nickname, or identify via /msg NickServ IDENTIFY daru <password>
+		//mais laisser le nick s'enregistrer. ca n'empechera pas l'utilisation du server par la suite
+	}
+	//update nick
 	askingOne->addHistory_nick(askingOne->getNick());
 	askingOne->setNick(nick);
 	if (askingOne->getFirstNickGiven() == false)
 		askingOne->setFirstNickGiven(true);
+	sendToAllInChanOfAskingOne(askingOne, "NICK :" + nick, srv);
 	return (EXIT_SUCCESS);
 }

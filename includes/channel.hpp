@@ -13,13 +13,13 @@
 class user;
 class Server;
 
-enum lvl_access_channel{
+enum lvl_access{
 	DEFAULT = 0,
-	VOICE_OK = 1,
-	HALFOP = 2,
-	PROTECTED = 3,
-	CHAN_OP = 4,
-	SRV_OP = 5,
+	VOICE_OK,
+	PROTECTED,
+	HALFOP,
+	CHAN_OP,
+	SRV_OP,
 };
 
 class channel{
