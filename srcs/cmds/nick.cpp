@@ -41,10 +41,10 @@ int	nick(std::vector<std::string> params, user* askingOne,
 			return (numeric_reply(ERR_UNAVAILRESOURCE, askingOne, nick, srv));
 	}
 	//update nick
-	askingOne->addHistory_nick(askingOne->getNick());
 	askingOne->setNick(nick);
-	if (askingOne->getFirstNickGiven() == false)
-		askingOne->setFirstNickGiven(true);
-	sendToAllInChanOfAskingOne(askingOne, "NICK :" + nick, srv);
+	askingOne->addHistory_nick(askingOne->getNick());
+	sendToAllInChanOfAskingOne(askingOne, askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + " " + "NICK :" + nick, srv);
+	if (askingOne->getList_chan().empty() && askingOne->getHistory_nick().size() > 1)
+		srv.send(askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + " " + "NICK : " + nick, askingOne->getId());
 	return (EXIT_SUCCESS);
 }

@@ -28,7 +28,6 @@ class user{
 		unsigned int				_id;
 		std::string					_mode;
 		bool						_isonline;
-		bool						_firstNickGiven;
 		bool						_hasConnected; //user used the pass command
 	
 	// #pragma region constructors destructor
@@ -75,8 +74,6 @@ class user{
 		std::string const &				getMode() const;
 		void							setIsonline(bool b);
 		bool const &					getIsonline() const;
-		void							setFirstNickGiven(bool b);
-		bool const &					getFirstNickGiven() const;
 		bool const &					getHasConnected() const;
 		void							connect();
 	// #pragma endregion getters and setters

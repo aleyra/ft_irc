@@ -22,9 +22,7 @@ user::user(std::string usr_name, unsigned int id){
 	this->_id = id;
 	this->_mode = "";
 	this->_isonline = true;
-	this->_firstNickGiven = false;
 	this->_hasConnected = false;
-	// this->_idle_time = 0;
 }
 
 user::~user(){
@@ -52,7 +50,6 @@ user	&user::operator=(user const &src){
 	this->_id = src._id;
 	this->_mode = src._mode;
 	this->_isonline = src._isonline;
-	this->_firstNickGiven = src._firstNickGiven;
 	return (*this);
 }
 // #pragma endregion overload d operateurs
@@ -133,14 +130,6 @@ void	user::setIsonline(bool b){
 
 bool const &	user::getIsonline() const{
 	return (this->_isonline);
-}
-
-void			user::setFirstNickGiven(bool b){
-	this->_firstNickGiven = b;
-}
-
-bool const &	user::getFirstNickGiven() const{
-	return (this->_firstNickGiven);
 }
 
 bool const &	user::getHasConnected() const

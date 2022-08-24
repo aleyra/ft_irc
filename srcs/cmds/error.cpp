@@ -3,5 +3,6 @@
 void	error(user &askingOne, Server &server, const std::string &msg)
 {
 	server.send("ERROR " + msg, askingOne.getId());
+	// server.send(askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + " " + "ERROR " + msg, askingOne.getId());
 	server.disconnect(askingOne);
 }

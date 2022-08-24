@@ -40,51 +40,49 @@ void	exec_command(const int &id, const std::string &command,
 		return;
 	}
 
-	// std::cout << "coucou" << std::endl;//
-
 	if (firstWord == "NICK")
 		nick(params(args), users[id], users, server);
 	else if (firstWord == "USER")
 		user_cmd(params(args), users[id], server);
 	else if (firstWord == "PASS")
 			pass(params(args), *users[id], server, password);
-	else if (firstWord == "INVITE" && users[id]->getFirstNickGiven() == true
+	else if (firstWord == "INVITE" && !users[id]->getHistory_nick().empty()
 		&& !users[id]->getTruename().empty())
 		invite(params(args), users[id], users, channels, server);
-	else if (firstWord == "JOIN" && users[id]->getFirstNickGiven() == true
+	else if (firstWord == "JOIN" && !users[id]->getHistory_nick().empty()
 		&& !users[id]->getTruename().empty())
 		join(args, users[id], channels, users, server);
-	else if (firstWord == "KICK" && users[id]->getFirstNickGiven() == true
+	else if (firstWord == "KICK" && !users[id]->getHistory_nick().empty()
 		&& !users[id]->getTruename().empty())
 		kick(params(args), users[id], channels, users, server);
-	else if (firstWord == "LIST" && users[id]->getFirstNickGiven() == true
+	else if (firstWord == "LIST" && !users[id]->getHistory_nick().empty()
 		&& !users[id]->getTruename().empty())
 		list(args, users[id], channels, users, server);
-	else if (firstWord == "MODE" && users[id]->getFirstNickGiven() == true
+	else if (firstWord == "MODE" && !users[id]->getHistory_nick().empty()
 		&& !users[id]->getTruename().empty())
 		mode(params(args), users[id], channels, users, server);
-	else if (firstWord == "NAMES" && users[id]->getFirstNickGiven() == true
+	else if (firstWord == "NAMES" && !users[id]->getHistory_nick().empty()
 		&& !users[id]->getTruename().empty())
 		names(args, users[id], channels, users, server);
-	else if (firstWord == "OPER" && users[id]->getFirstNickGiven() == true
+	else if (firstWord == "OPER" && !users[id]->getHistory_nick().empty()
 		&& !users[id]->getTruename().empty())
 		oper(params(args), *users[id], server);
-	else if (firstWord == "PART" && users[id]->getFirstNickGiven() == true
+	else if (firstWord == "PART" && !users[id]->getHistory_nick().empty()
 		&& !users[id]->getTruename().empty())
 		part(params(args), users[id], channels, server);
-	else if (firstWord == "PING" && users[id]->getFirstNickGiven() == true
+	else if (firstWord == "PING" && !users[id]->getHistory_nick().empty()
 		&& !users[id]->getTruename().empty())
 		pong(params(args), *users[id], server);
-	else if (firstWord == "TOPIC" && users[id]->getFirstNickGiven() == true
+	else if (firstWord == "TOPIC" && !users[id]->getHistory_nick().empty()
 		&& !users[id]->getTruename().empty())
 		topic(params(args), users[id], channels, server);
-	else if (firstWord == "QUIT" && users[id]->getFirstNickGiven() == true
+	else if (firstWord == "QUIT" && !users[id]->getHistory_nick().empty()
 		&& !users[id]->getTruename().empty())
 		quit(params(args), *users[id], channels, server);
-	else if (firstWord == "NOTICE" && users[id]->getFirstNickGiven() == true
+	else if (firstWord == "NOTICE" && !users[id]->getHistory_nick().empty()
 		&& !users[id]->getTruename().empty())
 		notice(params(args), *users[id], channels, users, server);
-	else if (firstWord == "PRIVMSG" && users[id]->getFirstNickGiven() == true
+	else if (firstWord == "PRIVMSG" && !users[id]->getHistory_nick().empty()
 		&& !users[id]->getTruename().empty())
 		privmsg(params(args), *users[id], channels, users, server);
 	else
@@ -122,7 +120,7 @@ void	make_full_command(std::map<unsigned int, std::string> &msg,
 			users[it->first]->setLast_activity();
 		else
 			continue;
-		if (buffers[it->first].back() == '\n')
+		if (buffers[it->first][buffers[it->first].size() - 1] == '\n')
 		{
 			exec_command(it->first, buffers[it->first],
 				users, channels, server, password);

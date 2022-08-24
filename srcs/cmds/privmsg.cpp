@@ -87,6 +87,7 @@ void	privmsg(std::vector<std::string> params, user &askingOne,
 		it != recipients.end(); ++it)
 	{
 		server.send(":" + askingOne.getNick() + " PRIVMSG "
-			+ (*it)->getNick() + " :" + message, (*it)->getId());
+			+ (*it)->getNick() + " :" + message, (*it)->getId());//premier ":" necessaire ?
+		// server.send(askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + " " + "PRIVMSG " + (*it)->getNick() + " :" + message, (*it)->getId());
 	}
 }
