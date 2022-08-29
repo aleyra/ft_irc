@@ -116,7 +116,7 @@ void	make_full_command(std::map<unsigned int, std::string> &msg,
 			users[it->first]->setLast_activity();
 		else
 			continue;
-		if (buffers[it->first].back() == '\n')
+		if (buffers[it->first][buffers[it->first].size() - 1] == '\n')
 		{
 			exec_command(it->first, buffers[it->first],
 				users, channels, server, password);
