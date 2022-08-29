@@ -33,13 +33,18 @@ int	nick(std::vector<std::string> params, user* askingOne,
 		std::cout << nick << " :Erroneous nickname" <<std::endl;
 		return (ERR_ERRONEUSNICKNAME);
 	}
+	//check if nick != actual_nick
 	if (nick.compare(askingOne->getNick()) == 0)
-		return (numeric_reply(ERR_NICKNAMEINUSE, askingOne, nick, srv));
-	if (searchUserByNick(nick, users) != NULL)
-		return (numeric_reply(ERR_UNAVAILRESOURCE, askingOne, nick, srv));
-	askingOne->addHistory_nick(askingOne->getNick());
+			return (numeric_reply(ERR_NICKNAMEINUSE, askingOne, nick, srv));
+	//check if there is already a user with this nick
+	if (searchUserByNick(nick, users) != NULL){
+			return (numeric_reply(ERR_UNAVAILRESOURCE, askingOne, nick, srv));
+	}
+	//update nick
 	askingOne->setNick(nick);
-	if (askingOne->getFirstNickGiven() == false)
-		askingOne->setFirstNickGiven(true);
+	askingOne->addHistory_nick(askingOne->getNick());
+	sendToAllInChanOfAskingOne(askingOne, askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + " " + "NICK :" + nick, srv);
+	if (askingOne->getList_chan().empty() && askingOne->getHistory_nick().size() > 1)
+		srv.send(askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + " " + "NICK : " + nick, askingOne->getId());
 	return (EXIT_SUCCESS);
 }

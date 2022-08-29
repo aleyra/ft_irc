@@ -2,7 +2,7 @@
 
 int	rpl_list(user* askingOne, channel* chan, std::map<unsigned int, user *>& users, Server& srv){
 	std::string	to_send;
-	to_send += srv.client_ip(askingOne->getId()) + to_string(RPL_LIST) + " " + askingOne->getNick() + " ";
+	to_send += srv.client_ip(askingOne->getId()) + " " + to_string(RPL_LIST) + " " + askingOne->getNick() + " ";
 	to_send += chan->getName() + " ";
 	to_send += to_string(countVisibleUsers(chan, users)) + " :" + chan->getTopic();
 	srv.send(to_send, askingOne->getId());

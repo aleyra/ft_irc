@@ -10,6 +10,7 @@
 # include "channel.hpp"
 
 class channel;
+class Server;
 
 class user{
 	private:
@@ -27,7 +28,6 @@ class user{
 		unsigned int				_id;
 		std::string					_mode;
 		bool						_isonline;
-		bool						_firstNickGiven;
 		bool						_hasConnected; //user used the pass command
 	
 	// #pragma region constructors destructor
@@ -58,7 +58,7 @@ class user{
 		void							setLvl(int l);
 		int const &						getLvl() const;
 		//set de _list_chan est remplace par addList_chan et rmList_chan
-		std::vector<channel*>  &		getList_chan();
+		std::vector<channel*> &			getList_chan();
 		void							setIsaway(bool a);
 		bool const &					getIsaway() const;
 		void							setIsaway_msg(std::string amsg);
@@ -74,8 +74,6 @@ class user{
 		std::string const &				getMode() const;
 		void							setIsonline(bool b);
 		bool const &					getIsonline() const;
-		void							setFirstNickGiven(bool b);
-		bool const &					getFirstNickGiven() const;
 		bool const &					getHasConnected() const;
 		void							connect();
 	// #pragma endregion getters and setters
@@ -106,5 +104,6 @@ user*	searchUserByID(unsigned int id, std::map<unsigned int, user *>& users);
 char	display_isaway(user& usr);
 bool	has1channelInCommon(user& u1, user& u2);
 bool	isIn1VisibleChannel(user* u);
+void	sendToAllInChanOfAskingOne(user *askingOne, std::string msg, Server &srv);
 
 #endif

@@ -32,7 +32,7 @@
 			<li>operations sur un canal (a check avant de se lancer) : 
 				<strike>JOIN</strike> / 
 				<strike>PART</strike> / 
-				<strike>MODE (il y a plein d'options et toutes ne sont pas a faire)</strike> / 
+				<strike>MODE</strike> (il y a plein d'options et toutes ne sont pas a faire) / 
 				<strike>TOPIC</strike> / 
 				<strike>NAMES</strike> / 
 				<strike>LIST</strike> / 
@@ -46,7 +46,7 @@
 			</li>
 			<!-- <li>Requete basee sur les utilisateurs : WHO / WHOIS / WHOWAS</li> -->
 			<li>messages divers : 
-				KILL / 
+				<strike>KILL</strike> / 
 				<strike>PING</strike> / 
 				<strike>PONG</strike> / 
 				<strike>ERROR</strike>

@@ -16,11 +16,13 @@ void	pass(std::vector<std::string> params, user &user,
 	if (params[0] == password)
 	{
 		user.connect();
+		std::cout << "User connected" << std::endl;
 		return;
 	}
 	else
 	{
 		numeric_reply(ERR_PASSWDMISMATCH, &user, server);
+		std::cout << params[0] << std::endl;
 		return;
 	}
 }

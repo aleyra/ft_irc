@@ -76,7 +76,7 @@ channel&	channel::operator=(channel const &src){
 
 	void	channel::rmUsr_list(user* u){
 		std::map<unsigned int, int>::iterator f = this->_usr_list.find(u->getId());
-		if (f == this->_usr_list.end())
+		if (f != this->_usr_list.end())
 			this->_usr_list.erase(u->getId());
 	}
 

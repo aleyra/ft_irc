@@ -14,24 +14,16 @@ int	try_to_kick(std::string kicked, std::string msg, user *askingOne, channel* c
 	pos = usr_list.find(usr->getId());
 	if (pos == usr_list.end())
 		numeric_reply(ERR_USERNOTINCHANNEL, askingOne, usr, chan, srv);
-	//kick usr avec le message msg
+	//kick usr ans send msg msg
 	chan->rmUsr_list(usr);
 	usr->rmList_chan(chan);
 	if (msg.empty()){
-		srv.send("KICK " + usr->getNick() + " :" + def_msg, askingOne->getId());
-		for(std::map<unsigned int, int>::iterator it = usr_list.begin();
-			it != usr_list.end(); ++it){
-			if (it->first != askingOne->getId())
-				srv.send("KICK " + usr->getNick() + " :" + def_msg, it->first);
-		}
+		chan->send(srv, askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + " " + "KICK " + usr->getNick() + " :" + def_msg);
+		srv.send(askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + " " + "KICK " + usr->getNick() + " :" + def_msg, askingOne->getId());
 	}
 	else{
-		srv.send("KICK " + usr->getNick() + " :" + msg, askingOne->getId());
-		for(std::map<unsigned int, int>::iterator it = usr_list.begin();
-			it != usr_list.end(); ++it){
-			if (it->first != askingOne->getId())
-				srv.send("KICK " + usr->getNick() + " :" + msg, it->first);
-		}
+		chan->send(srv, askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + " " + "KICK " + usr->getNick() + " :" + msg);
+		srv.send(askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + " " + "KICK " + usr->getNick() + " :" + msg, askingOne->getId());
 	}
 	return (EXIT_SUCCESS);
 }

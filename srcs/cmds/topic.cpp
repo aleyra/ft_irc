@@ -19,14 +19,13 @@ int	topic(std::vector<std::string> params, user* askingOne,
 	unsigned int	usr_id = askingOne->getId();
 	int				level_access = usr_list->at(usr_id);
 	if (chan->hasMode('t') == true 
-		&& (level_access != CHAN_OP || level_access != HALFOP))
+		&& (level_access < CHAN_OP))
 		return (numeric_reply(ERR_CHANOPRIVSNEEDED, askingOne, chan, srv));
 	
 	if (params[1][0] == ':')
 		params[1].erase(0, 1);
 	chan->setTopic(params[1]);
-
-
+	chan->send(srv, askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + " " + "TOPIC " + chan->getName() + " :" + params[1]);
 	/*case ERR_NOCHANMODES
 		return (numeric_reply(ERR_NOCHANMODES, askingOne, chan, srv));
 	

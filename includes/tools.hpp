@@ -18,7 +18,7 @@ int	numeric_reply(int err, user* askingOne, user* usr, Server& srv);
 int	numeric_reply(int err, user* askingOne, channel* chan, Server& srv);
 int	numeric_reply(int err, user* askingOne, std::string s, Server& srv);//s for cmd, operation, charactere
 int	numeric_reply(int err, user* askingOne, Server& srv);
-int	numeric_reply(int err, user* askingOne, std::string s/*, file f*/, Server& srv);
+// int	numeric_reply(int err, user* askingOne, std::string s/*, file f*/, Server& srv);
 int	numeric_reply(int err, user* askingOne, user* usr, channel* chan, Server& srv);
 
 //in params.cpp

@@ -105,7 +105,8 @@ void	Server::send(const std::string &msg, const std::size_t &id)
 	if (_users.find(id) == _users.end())
 		return;
 
-	std::string	sent = msg + "\n";
+	// std::string	sent = msg + "\n";
+	std::string	sent = ":" + msg + "\n";
 	if(::send(_users[id], sent.c_str(), sent.size(), 0) != static_cast<long>(sent.size()))
 		std::cout << "Couldn't send message. errno: " << errno << std::endl;
 }
