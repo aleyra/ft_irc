@@ -22,7 +22,7 @@ user::user(std::string usr_name, unsigned int id){
 	this->_id = id;
 	this->_mode = "";
 	this->_isonline = true;
-	this->_hasConnected = false;
+	this->_hasSetPass = false;
 }
 
 user::~user(){
@@ -108,6 +108,11 @@ void	user::setPassword(std::string pwd){
 	this->_password = pwd;
 }
 
+void	user::setIp(std::string ip)
+{
+	this->_ip = ip;
+}
+
 std::string const	&user::getPassword() const{return (this->_password);}
 
 void	user::setIsop(bool b){this->_isop = b;}
@@ -134,7 +139,12 @@ bool const &	user::getIsonline() const{
 
 bool const &	user::getHasConnected() const
 {
-	return (_hasConnected);
+	return (_hasSetPass);
+}
+
+std::string const	&user::getIp() const
+{
+	return (_ip);
 }
 
 /**
@@ -153,7 +163,7 @@ bool const &	user::getHasConnected() const
 
 void	user::connect()
 {
-	_hasConnected = true;
+	_hasSetPass = true;
 }
 
 // #pragma endregion getters and setters

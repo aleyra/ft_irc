@@ -27,8 +27,10 @@ class user{
 		bool						_isop;//is operator
 		unsigned int				_id;
 		std::string					_mode;
+		std::string					_ip;
 		bool						_isonline;
-		bool						_hasConnected; //user used the pass command
+		bool						_hasSetPass; //user used the pass command
+		bool						_sentConnectionMessage;
 	
 	// #pragma region constructors destructor
 	private:
@@ -76,6 +78,8 @@ class user{
 		bool const &					getIsonline() const;
 		bool const &					getHasConnected() const;
 		void							connect();
+		void							setIp(std::string ip);
+		std::string const &				getIp() const;
 	// #pragma endregion getters and setters
 	// #pragma region other member functions
 	public:	

@@ -187,6 +187,7 @@ user	*Server::add_connection(fd_set &readfds)
 	user *usr = new user("", _current_id);
 	_users[_current_id] = new_socket;
 	_ips[_current_id] = inet_ntoa(_address.sin_addr);
+	usr->setIp(_ips[_current_id]);
 	_current_id++;
 	return (usr);
 }
