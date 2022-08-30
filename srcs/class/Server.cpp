@@ -129,7 +129,7 @@ void	Server::send(const std::string &msg, const std::size_t &id)
 std::map<unsigned int, std::string>	Server::receive(fd_set &readfds,
 	std::map<unsigned int, user *> &users)
 {
-	char	*buffer = NULL;
+	char	buffer[4096];
 	std::map<unsigned int, std::string>	m;
 
 	for (std::map<unsigned int, int>::iterator it = _users.begin();
@@ -140,17 +140,18 @@ std::map<unsigned int, std::string>	Server::receive(fd_set &readfds,
 		if (FD_ISSET(sd, &readfds))
 		{
 			fcntl(sd, F_SETFL, O_NONBLOCK);
-			FILE* fp = fdopen(sd, "r");
-			getline(&buffer, &valread, fp);
-			if (valread > 1)
+			valread = recv(sd, buffer, 4095, 0);
+			buffer[valread] = '\0';
+			if (valread > 0)
 				m[it->first] = buffer;
 			else
 			{
 				close(sd);
 				it->second = 0;
 				users[it->first]->setIsonline(false);
+				// _users.erase(it);
 			}
-			free(buffer);
+			// free(buffer);
 		}
 	}
 	return (m);
@@ -217,7 +218,10 @@ void	Server::select(fd_set &readfds)
 	{
 		int sd = it->second;
 		if(sd > 0)
+		{
+			// std::cout << sd << std::endl;
 			FD_SET(sd, &readfds);
+		}
 		if(sd > max_sd)
 			max_sd = sd;
 	}
