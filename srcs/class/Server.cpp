@@ -149,9 +149,7 @@ std::map<unsigned int, std::string>	Server::receive(fd_set &readfds,
 				close(sd);
 				it->second = 0;
 				users[it->first]->setIsonline(false);
-				// _users.erase(it);
 			}
-			// free(buffer);
 		}
 	}
 	return (m);
@@ -219,7 +217,6 @@ void	Server::select(fd_set &readfds)
 		int sd = it->second;
 		if(sd > 0)
 		{
-			// std::cout << sd << std::endl;
 			FD_SET(sd, &readfds);
 		}
 		if(sd > max_sd)
