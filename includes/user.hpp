@@ -80,6 +80,8 @@ class user{
 		void							connect();
 		void							setIp(std::string ip);
 		std::string const &				getIp() const;
+		void							setSentConnectionMessage(bool b);
+		bool const						&getSentConnectionMessage() const;
 	// #pragma endregion getters and setters
 	// #pragma region other member functions
 	public:	

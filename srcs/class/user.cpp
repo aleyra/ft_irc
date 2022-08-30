@@ -23,6 +23,7 @@ user::user(std::string usr_name, unsigned int id){
 	this->_mode = "";
 	this->_isonline = true;
 	this->_hasSetPass = false;
+	this->_sentConnectionMessage = false;
 }
 
 user::~user(){
@@ -50,6 +51,8 @@ user	&user::operator=(user const &src){
 	this->_id = src._id;
 	this->_mode = src._mode;
 	this->_isonline = src._isonline;
+	this->_ip = src._ip;
+	this->_sentConnectionMessage = src._sentConnectionMessage;
 	return (*this);
 }
 // #pragma endregion overload d operateurs
@@ -131,6 +134,16 @@ std::string const &	user::getMode() const{
 
 void	user::setIsonline(bool b){
 	this->_isonline = b;
+}
+
+void	user::setSentConnectionMessage(bool b)
+{
+	this->_sentConnectionMessage = b;
+}
+
+bool const	&user::getSentConnectionMessage() const
+{
+	return (this->_sentConnectionMessage);
 }
 
 bool const &	user::getIsonline() const{

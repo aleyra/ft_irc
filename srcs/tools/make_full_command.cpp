@@ -40,6 +40,7 @@ void	exec_command(const int &id, const std::string &command,
 		return;
 	}
 
+
 	if (firstWord == "NICK")
 		nick(params(args), users[id], users, server);
 	else if (firstWord == "USER")
@@ -87,6 +88,15 @@ void	exec_command(const int &id, const std::string &command,
 		privmsg(params(args), *users[id], channels, users, server);
 	else
 		numeric_reply(ERR_UNKNOWNCOMMAND, users[id], firstWord, server);
+	
+	if (!users[id]->getHistory_nick().empty()
+		&& !users[id]->getTruename().empty()
+		&& !users[id]->getSentConnectionMessage())
+	{
+		server.send("MODE " + users[id]->getNick()
+			+ " :+" + users[id]->getMode(), users[id]->getId());
+		users[id]->setSentConnectionMessage(true);
+	}
 }
 
 /**
