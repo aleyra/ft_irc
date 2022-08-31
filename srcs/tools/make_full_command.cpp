@@ -1,5 +1,12 @@
 #include "tools.hpp"
 
+void	welcome(user &askingOne, Server &server)
+{
+	numeric_reply(RPL_WELCOME, &askingOne, server);
+	numeric_reply(RPL_UMODEIS, &askingOne, &askingOne, server);
+	askingOne.setSentConnectionMessage(true);
+}
+
 /**
 * Description:
 * 	Execute a command.
@@ -29,9 +36,8 @@ void	exec_command(const int &id, const std::string &command,
 {
 	std::string firstWord = command.substr(0, command.find_first_of(" "));
 	std::string args = command.substr(command.find_first_of(" \t\n") + 1);
-	firstWord.erase(remove(firstWord.begin(), firstWord.end(), '\n'), firstWord.end());
-
-	std::cout << firstWord << " " << args;
+	firstWord.erase(remove(firstWord.begin(), firstWord.end(), '\n'),
+		firstWord.end());
 
 	if (!users[id]->getHasConnected())
 	{
@@ -39,7 +45,6 @@ void	exec_command(const int &id, const std::string &command,
 			pass(params(args), *users[id], server, password);
 		return;
 	}
-
 
 	if (firstWord == "NICK")
 		nick(params(args), users[id], users, server);
@@ -93,9 +98,7 @@ void	exec_command(const int &id, const std::string &command,
 		&& !users[id]->getTruename().empty()
 		&& !users[id]->getSentConnectionMessage())
 	{
-		server.send("MODE " + users[id]->getNick()
-			+ " :+" + users[id]->getMode(), users[id]->getId());
-		users[id]->setSentConnectionMessage(true);
+		welcome(*users[id], server);
 	}
 }
 

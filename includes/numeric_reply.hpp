@@ -3,6 +3,11 @@
 # include <iostream>
 
 enum numeric_reply{
+	RPL_WELCOME = 1,
+	RPL_YOURHOST = 2,
+	RPL_CREATED = 3,
+	RPL_MYINFO= 4,
+	RPL_ISUPPORT = 5,
 	RPL_STATSLINKINFO = 211,
 	RPL_STATSCOMMANDS = 212,
 	RPL_STATSCLINE = 213,
