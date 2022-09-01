@@ -138,11 +138,18 @@ void	make_full_command(std::map<unsigned int, std::string> &msg,
 			users[it->first]->setLast_activity();
 		else
 			continue;
-		if (buffers[it->first][buffers[it->first].size() - 1] == '\n')
+		if (buffers[it->first].find('\n') != std::string::npos)
 		{
-			exec_command(it->first, buffers[it->first],
-				users, channels, server, password);
-			buffers[it->first].clear();
+			while (true)
+			{
+				size_t pos = buffers[it->first].find('\n');
+				if (pos == std::string::npos)
+					break;
+				exec_command(it->first, buffers[it->first].substr(0, pos),
+					users, channels, server, password);
+				buffers[it->first] = buffers[it->first].substr(pos + 1);
+				// buffers[it->first].clear();
+			}
 		}
 	}
 }
