@@ -3,6 +3,9 @@
 void	welcome(user &askingOne, Server &server)
 {
 	numeric_reply(RPL_WELCOME, &askingOne, server);
+	numeric_reply(RPL_YOURHOST, &askingOne, server);
+	numeric_reply(RPL_CREATED, &askingOne, server);
+	numeric_reply(RPL_MYINFO, &askingOne, server);
 	numeric_reply(RPL_UMODEIS, &askingOne, &askingOne, server);
 	askingOne.setSentConnectionMessage(true);
 }
@@ -38,6 +41,8 @@ void	exec_command(const int &id, const std::string &command,
 	std::string args = command.substr(command.find_first_of(" \t\n") + 1);
 	firstWord.erase(remove(firstWord.begin(), firstWord.end(), '\n'),
 		firstWord.end());
+
+	std::cout << "The command is: " << command << std::endl;
 
 	if (!users[id]->getHasConnected())
 	{
