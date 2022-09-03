@@ -11,38 +11,59 @@ int	mode_user(std::vector<std::string> params, user* askingOne,
 		return (numeric_reply(ERR_USERSDONTMATCH, askingOne, srv));
 	if (params.size() == 1)
 		return (numeric_reply(RPL_UMODEIS, askingOne, usr, srv));
+	
+	std::string	modestring = params[1];
+	std::string tmp;
+	std::string	last_sign = "+";
+
 	if (params[1].size() != 2){
-		if (params[1][0] != '+' && params[1][0] != '-'){
-			std::string tmp("+");
-			tmp.append(params[1]);
-			params[1] = tmp;
-		}
-		while (!std::isalpha(params[1][1])){
-			params[1].erase(0, 1);
-		}
+		if (modestring[0] != '+' && modestring[0] != '-'){
+				tmp = last_sign;
+				tmp.append(modestring);
+				modestring = tmp;
+			}
+			while (!std::isalpha(modestring[1])){
+				modestring.erase(0, 1);
+			}
+			last_sign = modestring.substr(0, 1);
 	}
-	switch (params[1][1]){
+	std::cout << "modestring = " << modestring << std::endl;
+	switch (modestring[1]){
 		case 'i':// i - marks a users as invisible
-			if (params[1][0] == '+')
-				usr->addMode('i');
-			else if (params[1][0] == '-')
-				usr->rmMode('i');
+			{
+				std::cout << "i" << std::endl;
+				if (modestring[0] == '+')
+					usr->addMode('i');
+				else if (params[1][0] == '-')
+					usr->rmMode('i');
+			}
 			break;
 		case 'r'://r - restricted user connection
-			if (params[1][0] == '+')
-				usr->addMode('r');
+			{
+				std::cout << "r" << std::endl;
+				if (modestring[0] == '+')
+					usr->addMode('r');
+			}
 			break;
 		case 'o'://o - operator flag
-			if (params[1][0] == '-' && usr->getLvl() == SRV_OP){
-				usr->setLvl(DEFAULT);
-				usr->rmMode('o');
-				usr->setIsop(false);
+			{
+				std::cout << "o" << std::endl;
+				if (modestring[0] == '-' && usr->getLvl() == SRV_OP){
+					std::cout << "-" << std::endl;
+					usr->setLvl(DEFAULT);
+					std::cout << "lvl set to DEF" << std::endl;
+					usr->rmMode('o');
+					std::cout << "o rm from mode" << std::endl; 
+					usr->setIsop(false);
+					std::cout << "isop set to false" << std::endl;
+				}
 			}
 			break;
 		default:
 			return (numeric_reply(ERR_UMODEUNKNOWNFLAG, askingOne, srv));
 			break;
 	}
+	std::cout << "umodeis = " << usr->getMode() << std::endl;
 	return (EXIT_SUCCESS);
 }
 
@@ -97,7 +118,6 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 				{
 					if (params.size() <= i)//case there's no nick given to give "channel operator"
 						return (EXIT_FAILURE);
-					std::cout << "enough params" << std::endl;
 					usr = searchUserByNick(params[i], users);
 					if (usr == NULL)//params[i] ne correspond pas a un user
 						return (EXIT_FAILURE);
