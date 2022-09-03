@@ -1,16 +1,5 @@
 #include "cmds.hpp"
 
-std::string	concat(std::vector<std::string> params)
-{
-	std::string	ret;
-	for (std::vector<std::string>::iterator it = params.begin();
-		it != params.end(); ++it)
-	{
-		ret += *it + " ";
-	}
-	return (ret);
-}
-
 /**
 * Description:
 * 	Send a message to a user or a channel.

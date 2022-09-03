@@ -24,6 +24,7 @@ int	numeric_reply(int err, user* askingOne, user* usr, channel* chan, Server& sr
 //in params.cpp
 std::vector<std::string>	params(std::string s);
 std::vector<std::string>	paramsSeparedByComas(std::string txt);
+std::string					concat(std::vector<std::string> params);
 
 //in handle_commands.cpp
 void	make_full_command(std::map<unsigned int, std::string> &msg,
@@ -34,8 +35,6 @@ void	make_full_command(std::map<unsigned int, std::string> &msg,
 
 //in timeout.cpp
 void	timeout(std::map<unsigned int, user *> &users, Server &server);
-
-//in utils.cpp
 
 /**
 * Description:

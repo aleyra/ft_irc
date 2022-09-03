@@ -1,16 +1,34 @@
 #include "cmds.hpp"
 
+/**
+* Description:
+* 	Send a message to a user or a channel.
+* 
+* Args:
+* 	Lazy.
+* 
+* Return:
+* 	None.
+* 
+* Notes:
+* 	Basically the same as privmsg but without
+* 	sending numeric replies.
+**/
+
 void	notice(std::vector<std::string> params, user &askingOne,
 			std::vector<channel*> chan_vec,
 			std::map<unsigned int, user *>& users, Server &server)
 {	
 	std::vector<user*> recipients;
-	std::string	message = *(params.end() - 1);
+	std::string	message = concat(params);
+	message = message.substr(message.find(':') + 1);
 
 	// Iterate all targets and stop before the message.
 	for (std::vector<std::string>::iterator it = params.begin();
 		it != params.end() - 1; ++it)
 	{
+		if (it->find(':') != std::string::npos)
+			break;
 		// Users
 		if (it->find_first_of("#&!+") == std::string::npos)
 		{

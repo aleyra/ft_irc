@@ -19,3 +19,14 @@ std::vector<std::string>	paramsSeparedByComas(std::string txt){
 	v = params(txt);
 	return v;
 }
+
+std::string	concat(std::vector<std::string> params)
+{
+	std::string	ret;
+	for (std::vector<std::string>::iterator it = params.begin();
+		it != params.end(); ++it)
+	{
+		ret += *it + " ";
+	}
+	return (ret);
+}
