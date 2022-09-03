@@ -31,26 +31,15 @@ void	privmsg(std::vector<std::string> params, user &askingOne,
 {
 	if (params.size() == 0)
 		numeric_reply(ERR_NOTEXTTOSEND, &askingOne, server);
-	
-	for (std::vector<std::string>::iterator it = params.begin(); it != params.end(); ++it)
-	{
-		std::cout << *it << " ";
-	}
-	std::cout << std::endl;
 
 	std::vector<user*> recipients;
-	// std::vector<std::string>::iterator endOfContacts = std::find(params.begin(),
-	// 	params.end(), ":");
-	// std::cout << "HI" << std::endl;
-	// std::cout << (endOfContacts == params.end()) << std::endl;
 	std::string message = concat(params);
 	message = message.substr(message.find(':') + 1);
-	// std::string	message = *(params.end() - 1);
-
-	// Iterate all targets and stop before the message.
 	for (std::vector<std::string>::iterator it = params.begin();
 		it != params.end(); ++it)
 	{
+		if (it->find(':') != std::string::npos)
+			break;
 		// Users
 		if (it->find_first_of("#&!+") == std::string::npos)
 		{
@@ -62,7 +51,7 @@ void	privmsg(std::vector<std::string> params, user &askingOne,
 			}
 			recipients.push_back(receiver);
 		}
-		// Channels ~&@%
+		// Channels
 		else
 		{
 			channel *chan = searchChannelByName(*it ,chan_vec);
