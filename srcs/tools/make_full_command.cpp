@@ -45,6 +45,9 @@ int	exec_command(const int &id, const std::string &command,
 	if (firstWord == "QUITSERVER")
 		return (1);
 
+	// Print the command (for debugging).
+	std::cout << "The command is : " << command << std::endl;
+
 	if (!users[id]->getHasConnected())
 	{
 		if (firstWord == "PASS")
@@ -97,7 +100,8 @@ int	exec_command(const int &id, const std::string &command,
 	else if (firstWord == "PRIVMSG" && !users[id]->getHistory_nick().empty()
 		&& !users[id]->getTruename().empty())
 		privmsg(params(args), *users[id], channels, users, server);
-	else
+	else if (!users[id]->getHistory_nick().empty()
+		&& !users[id]->getTruename().empty())
 		numeric_reply(ERR_UNKNOWNCOMMAND, users[id], firstWord, server);
 	
 	if (!users[id]->getHistory_nick().empty()

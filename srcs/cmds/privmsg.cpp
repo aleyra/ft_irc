@@ -18,12 +18,16 @@ void	privmsg(std::vector<std::string> params, user &askingOne,
 			std::vector<channel*> chan_vec,
 			std::map<unsigned int, user *>& users, Server &server)
 {
-	if (params.size() == 0)
-		numeric_reply(ERR_NOTEXTTOSEND, &askingOne, server);
-
-	std::vector<user*> recipients;
 	std::string message = concat(params);
+
+	if (message.find(':') == std::string::npos)
+	{
+		numeric_reply(ERR_NOTEXTTOSEND, &askingOne, server);
+		return;
+	}
+
 	message = message.substr(message.find(':') + 1);
+	std::vector<user*> recipients;
 	for (std::vector<std::string>::iterator it = params.begin();
 		it != params.end(); ++it)
 	{
