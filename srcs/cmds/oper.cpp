@@ -93,7 +93,6 @@ void	oper(std::vector<std::string> params, user &user, Server &server)
 		return;
 	}
 	server.client_ip(user.getId());
-	std::cout << params.size() << std::endl;
 	if (params.size() < 2)
 	{
 		numeric_reply(ERR_NEEDMOREPARAMS, &user, "OPER", server);

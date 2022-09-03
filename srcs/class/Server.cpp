@@ -133,7 +133,7 @@ std::map<unsigned int, std::string>	Server::receive(fd_set &readfds,
 	std::map<unsigned int, std::string>	m;
 
 	for (std::map<unsigned int, int>::iterator it = _users.begin();
-		it != _users.end(); ++it) 
+		it != _users.end(); ++it)
 	{
 		size_t valread = 0;
 		int sd = it->second;
@@ -141,9 +141,11 @@ std::map<unsigned int, std::string>	Server::receive(fd_set &readfds,
 		{
 			fcntl(sd, F_SETFL, O_NONBLOCK);
 			valread = recv(sd, buffer, 4095, 0);
-			buffer[valread] = '\0';
 			if (valread > 0)
+			{
+				buffer[valread] = '\0';
 				m[it->first] = buffer;
+			}
 			else
 			{
 				close(sd);

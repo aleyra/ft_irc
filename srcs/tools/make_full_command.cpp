@@ -46,7 +46,7 @@ int	exec_command(const int &id, const std::string &command,
 		return (1);
 
 	// Print the command (for debugging).
-	std::cout << "The command is : " << command << std::endl;
+	// std::cout << "The command is : " << command << std::endl;
 
 	if (!users[id]->getHasConnected())
 	{
@@ -158,7 +158,6 @@ int	make_full_command(std::map<unsigned int, std::string> &msg,
 					users, channels, server, password) == 1)
 					return (1);
 				buffers[it->first] = buffers[it->first].substr(pos + 1);
-				// buffers[it->first].clear();
 			}
 		}
 	}
