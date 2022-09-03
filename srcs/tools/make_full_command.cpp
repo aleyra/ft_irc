@@ -32,7 +32,7 @@ void	welcome(user &askingOne, Server &server)
 **/
 
 
-void	exec_command(const int &id, const std::string &command,
+int	exec_command(const int &id, const std::string &command,
 	std::map<unsigned int, user *> &users,
 	std::vector<channel *> &channels,
 	Server &server, std::string password)
@@ -42,13 +42,14 @@ void	exec_command(const int &id, const std::string &command,
 	firstWord.erase(remove(firstWord.begin(), firstWord.end(), '\n'),
 		firstWord.end());
 
-	std::cout << "The command is: " << command << std::endl;
+	if (firstWord == "QUITSERVER")
+		return (1);
 
 	if (!users[id]->getHasConnected())
 	{
 		if (firstWord == "PASS")
 			pass(params(args), *users[id], server, password);
-		return;
+		return (0);
 	}
 
 	if (firstWord == "NICK")
@@ -105,6 +106,7 @@ void	exec_command(const int &id, const std::string &command,
 	{
 		welcome(*users[id], server);
 	}
+	return (0);
 }
 
 /**
@@ -124,7 +126,7 @@ void	exec_command(const int &id, const std::string &command,
 * 	small amounts of data though.
 **/
 
-void	make_full_command(std::map<unsigned int, std::string> &msg,
+int	make_full_command(std::map<unsigned int, std::string> &msg,
 	std::map<unsigned int, std::string> &buffers,
 	std::map<unsigned int, user *> &users,
 	std::vector<channel *> &channels,
@@ -145,11 +147,13 @@ void	make_full_command(std::map<unsigned int, std::string> &msg,
 				size_t pos = buffers[it->first].find('\n');
 				if (pos == std::string::npos)
 					break;
-				exec_command(it->first, buffers[it->first].substr(0, pos),
-					users, channels, server, password);
+				if (exec_command(it->first, buffers[it->first].substr(0, pos),
+					users, channels, server, password) == 1)
+					return (1);
 				buffers[it->first] = buffers[it->first].substr(pos + 1);
 				// buffers[it->first].clear();
 			}
 		}
 	}
+	return (0);
 }

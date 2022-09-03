@@ -23,12 +23,17 @@ int main(int argc, char **argv)
 			users[tmp->getId()] = tmp;
 		std::map<unsigned int, std::string> msg = server.receive(readfds, users);
 		timeout(users, server);
-		make_full_command(msg, buffers, users, channels, server, argv[2]);
+		if (make_full_command(msg, buffers, users, channels, server, argv[2]) == 1)
+			break;
 	}
 
 	// It's a "good practice" but useless since we never exit the loop anyway.
 	for (std::map<unsigned int, user *>::iterator it = users.begin(); it != users.end(); ++it)
 	{
 		delete it->second;
+	}
+	for (std::vector<channel *>::iterator it = channels.begin(); it != channels.end(); ++it)
+	{
+		delete *it;
 	}
 }

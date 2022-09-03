@@ -27,7 +27,7 @@ std::vector<std::string>	paramsSeparedByComas(std::string txt);
 std::string					concat(std::vector<std::string> params);
 
 //in handle_commands.cpp
-void	make_full_command(std::map<unsigned int, std::string> &msg,
+int	make_full_command(std::map<unsigned int, std::string> &msg,
 	std::map<unsigned int, std::string> &buffers,
 	std::map<unsigned int, user *> &users,
 	std::vector<channel *> &channels,
