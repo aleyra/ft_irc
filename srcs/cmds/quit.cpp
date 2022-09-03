@@ -20,6 +20,6 @@ void	quit_server(user &user, Server &server, std::string msg)
 		return;
 	
 	// server.send("QUIT " + msg, user.getId());
-	server.send(":" + askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + " " + "QUIT " + msg, user.getId());
+	server.send(":" + askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "QUIT " + msg, user.getId());
 	server.disconnect(user);
 }

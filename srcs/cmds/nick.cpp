@@ -43,8 +43,8 @@ int	nick(std::vector<std::string> params, user* askingOne,
 	//update nick
 	askingOne->setNick(nick);
 	askingOne->addHistory_nick(askingOne->getNick());
-	sendToAllInChanOfAskingOne(askingOne, askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + " " + "NICK :" + nick, srv);
+	sendToAllInChanOfAskingOne(askingOne, askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "NICK :" + nick, srv);
 	if (askingOne->getList_chan().empty() && askingOne->getHistory_nick().size() > 1)
-		srv.send(":" + askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + " " + "NICK : " + nick, askingOne->getId());
+		srv.send(":" + askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "NICK : " + nick, askingOne->getId());
 	return (EXIT_SUCCESS);
 }
