@@ -70,6 +70,9 @@ int	exec_command(const int &id, const std::string &command,
 	else if (firstWord == "KICK" && !users[id]->getHistory_nick().empty()
 		&& !users[id]->getTruename().empty())
 		kick(params(args), users[id], channels, users, server);
+	else if (firstWord == "KILL" && !users[id]->getHistory_nick().empty()
+		&& !users[id]->getTruename().empty())
+		kill(params(args), users[id], users, channels, server);
 	else if (firstWord == "LIST" && !users[id]->getHistory_nick().empty()
 		&& !users[id]->getTruename().empty())
 		list(args, users[id], channels, users, server);
