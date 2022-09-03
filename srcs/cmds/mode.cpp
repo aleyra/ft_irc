@@ -109,7 +109,7 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 					else if (modestring[0] == '-')
 						usr_list->at(usr_id) = DEFAULT;
 					i++;
-					chan->send(srv, askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + " " + "MODE " + chan->getName() + + " " + modestring.substr(0, 2) + " " + usr->getNick());
+					chan->send(srv, ":" + askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "MODE " + chan->getName() + + " " + modestring.substr(0, 2) + " " + usr->getNick());
 				}
 				break;
 			case 'v'://v - give/take the voice privilege;
@@ -127,7 +127,7 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 					else if (modestring[0] == '-')
 						usr_list->at(usr_id) = DEFAULT;
 					i++;
-					chan->send(srv, askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + " " + "MODE " + chan->getName() + " " + modestring.substr(0, 2) + " " + usr->getNick());
+					chan->send(srv, ":" + askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "MODE " + chan->getName() + " " + modestring.substr(0, 2) + " " + usr->getNick());
 				}
 				break;
 			case 'i'://i - toggle the invite-only channel flag;
@@ -138,7 +138,7 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 					else if (modestring[0] == '-'){
 						chan->rmMode('i');
 					}
-					chan->send(srv, askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + " " + "MODE " + chan->getName() + " " + modestring.substr(0, 2));
+					chan->send(srv, ":" + askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "MODE " + chan->getName() + " " + modestring.substr(0, 2));
 				}
 				break;
 			case 'm'://m - toggle the moderated channel;
@@ -149,7 +149,7 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 					else if (modestring[0] == '-'){
 						chan->rmMode('m');
 					}
-					chan->send(srv, askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + " " + "MODE " + chan->getName() + " " + modestring.substr(0, 2));
+					chan->send(srv, ":" + askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "MODE " + chan->getName() + " " + modestring.substr(0, 2));
 				}
 				break;
 			case 'p'://p - toggle the private channel flag;
@@ -160,7 +160,7 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 					else if (modestring[0] == '-'){
 						chan->rmMode('p');
 					}
-					chan->send(srv, askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + " " + "MODE " + chan->getName() + " " + modestring.substr(0, 2));
+					chan->send(srv, ":" + askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "MODE " + chan->getName() + " " + modestring.substr(0, 2));
 				}
 				break;
 			case 's'://s - toggle the secret channel flag;
@@ -171,7 +171,7 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 					else if (modestring[0] == '-'){
 						chan->rmMode('s');
 					}
-					chan->send(srv, askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + " " + "MODE " + chan->getName() + " " + modestring.substr(0, 2));
+					chan->send(srv, ":" + askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "MODE " + chan->getName() + " " + modestring.substr(0, 2));
 				}
 				break;
 			case 't'://t - toggle the topic settable by channel operator only flag;
@@ -182,7 +182,7 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 					else if (modestring[0] == '-'){
 						chan->rmMode('t');
 					}
-					chan->send(srv, askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + " " + "MODE " + chan->getName() + " " + modestring.substr(0, 2));
+					chan->send(srv, ":" + askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "MODE " + chan->getName() + " " + modestring.substr(0, 2));
 				}
 				break;
 

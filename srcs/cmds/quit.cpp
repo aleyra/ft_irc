@@ -19,7 +19,7 @@ void	quit_server(user &user, Server &server, std::string msg)
 	if (!user.getIsonline())
 		return;
 	
-	server.send("QUIT " + msg, user.getId());
-	// server.send(askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + " " + "QUIT " + msg, user.getId());
+	// server.send("QUIT " + msg, user.getId());
+	server.send(":" + user.getNick() + "!~" + user.getHistory_nick().front() + "@" + user.getIp() + " " + "QUIT " + msg, user.getId());
 	server.disconnect(user);
 }

@@ -50,8 +50,9 @@ user	&user::operator=(user const &src){
 	this->_isop = src._isop;
 	this->_id = src._id;
 	this->_mode = src._mode;
-	this->_isonline = src._isonline;
 	this->_ip = src._ip;
+	this->_isonline = src._isonline;
+	this->_hasSetPass = src._hasSetPass;
 	this->_sentConnectionMessage = src._sentConnectionMessage;
 	return (*this);
 }
