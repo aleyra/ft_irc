@@ -37,12 +37,12 @@ int	part(std::vector<std::string> paramsEtMsg, user* askingOne,
 		chan->rmUsr_list(askingOne);
 		//send msgs
 		if (msg.empty()){
-			chan->send(srv, askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + " " + "PART " + params[i]);
-			srv.send(askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + " " + "PART " + params[i], askingOne->getId());
+			chan->send(srv, ":" + askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + " " + "PART " + params[i]);
+			srv.send(":" + askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + " " + "PART " + params[i], askingOne->getId());
 		}
 		else{
-			chan->send(srv, askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + " " + "PART " + params[i] + ":" + msg);
-			srv.send(askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + " " + "PART " + params[i] + ":" + msg, askingOne->getId());
+			chan->send(srv, ":" + askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + " " + "PART " + params[i] + ":" + msg);
+			srv.send(":" + askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + " " + "PART " + params[i] + ":" + msg, askingOne->getId());
 		}
 		//if chan is empty, delete chan
 		if (chan->getUsr_list().empty()){
