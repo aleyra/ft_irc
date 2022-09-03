@@ -1,5 +1,16 @@
 #include "cmds.hpp"
 
+std::string	concat(std::vector<std::string> params)
+{
+	std::string	ret;
+	for (std::vector<std::string>::iterator it = params.begin();
+		it != params.end(); ++it)
+	{
+		ret += *it + " ";
+	}
+	return (ret);
+}
+
 /**
 * Description:
 * 	Send a message to a user or a channel.
@@ -14,7 +25,6 @@
 * 	Largely untested.
 **/
 
-
 void	privmsg(std::vector<std::string> params, user &askingOne,
 			std::vector<channel*> chan_vec,
 			std::map<unsigned int, user *>& users, Server &server)
@@ -22,12 +32,24 @@ void	privmsg(std::vector<std::string> params, user &askingOne,
 	if (params.size() == 0)
 		numeric_reply(ERR_NOTEXTTOSEND, &askingOne, server);
 	
+	for (std::vector<std::string>::iterator it = params.begin(); it != params.end(); ++it)
+	{
+		std::cout << *it << " ";
+	}
+	std::cout << std::endl;
+
 	std::vector<user*> recipients;
-	std::string	message = *(params.end() - 1);
+	// std::vector<std::string>::iterator endOfContacts = std::find(params.begin(),
+	// 	params.end(), ":");
+	// std::cout << "HI" << std::endl;
+	// std::cout << (endOfContacts == params.end()) << std::endl;
+	std::string message = concat(params);
+	message = message.substr(message.find(':') + 1);
+	// std::string	message = *(params.end() - 1);
 
 	// Iterate all targets and stop before the message.
 	for (std::vector<std::string>::iterator it = params.begin();
-		it != params.end() - 1; ++it)
+		it != params.end(); ++it)
 	{
 		// Users
 		if (it->find_first_of("#&!+") == std::string::npos)
