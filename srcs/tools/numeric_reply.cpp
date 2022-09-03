@@ -148,7 +148,7 @@ int	numeric_reply(int err, user* askingOne, Server& srv){
 			srv.send(to_string(err) + " " + askingOne->getIp() + " " + askingOne->getNick() + " " + ":No origin specified", askingOne->getId());
 			break;
 		case ERR_NOTEXTTOSEND:
-			srv.send(to_string(err) + " " + askingOne->getIp() + " " + askingOne->getNick() + " " + ":No text to srv.send", askingOne->getId());
+			srv.send(to_string(err) + " " + askingOne->getIp() + " " + askingOne->getNick() + " " + ":No text to send", askingOne->getId());
 			break;
 		case ERR_NOMOTD:
 			srv.send(to_string(err) + " " + askingOne->getIp() + " " + askingOne->getNick() + " " + ":MOTD File is missing", askingOne->getId());
