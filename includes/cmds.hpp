@@ -18,7 +18,9 @@ int		join(std::string t, user* askingOne, std::vector<channel*>& chan_vec,
 int		kick(std::vector<std::string> params, user *askingOne,
 			std::vector<channel *> &chan_vec, std::map<unsigned int, user *>& users, 
 			Server &srv);
-
+int		kill(std::vector<std::string> params, user* askingOne,
+			std::map<unsigned int, user *>& users, std::vector<channel*> chan_vec,
+			Server &srv);
 int		list(std::string params, user* askingOne, std::vector<channel*>& chan_vec,
 			std::map<unsigned int, user *>& users, Server& srv);
 int		mode(std::vector<std::string> params, user* askingOne,
