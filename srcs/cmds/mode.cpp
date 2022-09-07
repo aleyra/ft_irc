@@ -16,6 +16,8 @@ int	mode_user(std::vector<std::string> params, user* askingOne,
 	std::string tmp;
 	std::string	last_sign = "+";
 
+	if(modestring.size() == 1 && (modestring[0] == '-' || modestring[0] == '+'))
+		return (EXIT_FAILURE);
 	if (params[1].size() != 2){
 		if (modestring[0] != '+' && modestring[0] != '-'){
 				tmp = last_sign;
@@ -27,11 +29,9 @@ int	mode_user(std::vector<std::string> params, user* askingOne,
 			}
 			last_sign = modestring.substr(0, 1);
 	}
-	std::cout << "modestring = " << modestring << std::endl;
 	switch (modestring[1]){
 		case 'i':// i - marks a users as invisible
 			{
-				std::cout << "i" << std::endl;
 				if (modestring[0] == '+')
 					usr->addMode('i');
 				else if (params[1][0] == '-')
@@ -40,22 +40,16 @@ int	mode_user(std::vector<std::string> params, user* askingOne,
 			break;
 		case 'r'://r - restricted user connection
 			{
-				std::cout << "r" << std::endl;
 				if (modestring[0] == '+')
 					usr->addMode('r');
 			}
 			break;
 		case 'o'://o - operator flag
 			{
-				std::cout << "o" << std::endl;
 				if (modestring[0] == '-' && usr->getLvl() == SRV_OP){
-					std::cout << "-" << std::endl;
 					usr->setLvl(DEFAULT);
-					std::cout << "lvl set to DEF" << std::endl;
 					usr->rmMode('o');
-					std::cout << "o rm from mode" << std::endl; 
 					usr->setIsop(false);
-					std::cout << "isop set to false" << std::endl;
 				}
 			}
 			break;
@@ -63,7 +57,6 @@ int	mode_user(std::vector<std::string> params, user* askingOne,
 			return (numeric_reply(ERR_UMODEUNKNOWNFLAG, askingOne, srv));
 			break;
 	}
-	std::cout << "umodeis = " << usr->getMode() << std::endl;
 	return (EXIT_SUCCESS);
 }
 
@@ -86,6 +79,8 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 	std::string						modestring = params[1];
 	std::string						last_sign = "+";
 
+	if(modestring.size() == 1 && (modestring[0] == '-' || modestring[0] == '+'))
+		return (EXIT_FAILURE);
 	//check enough params
 	for (size_t i = 0; i < modestring.size(); ++i){
 		if (modestring[i] == 'o' || modestring[i] == 'v')

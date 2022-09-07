@@ -63,7 +63,7 @@ int	numeric_reply(int err, user* askingOne, channel* chan, Server& srv){
 			break;
 		case RPL_CHANNELMODEIS://"<client> <channel> <modestring> <mode arguments>..."
 			{
-				srv.send(to_string(err) + " " + askingOne->getIp() + " " + askingOne->getNick() + " " + chan->getName() + " +" + chan->getMode(), askingOne->getId());
+				srv.send(":server " + to_string(err) /*+ " " + askingOne->getIp() */+ " " + askingOne->getNick() + " " + chan->getName() + " +" + chan->getMode(), askingOne->getId());
 				//<mode arguments> ?????
 			}
 			break;
@@ -106,7 +106,7 @@ int	numeric_reply(int err, user* askingOne, std::string s, Server& srv){//s for 
 			srv.send(to_string(err) + " " + askingOne->getIp() + " " + askingOne->getNick() + " " + s + " :Nickname is already in use", askingOne->getId());
 			break;
 		case RPL_ENDOFNAMES://avec s comme param car le chan->getName() s peut de pas exister;
-			srv.send(to_string(err) + " " + askingOne->getIp() + " " + askingOne->getNick() + " " + s + " :End of NAMES list", askingOne->getId());
+			srv.send(":server " + to_string(err) /*+ " " + askingOne->getIp() */+ " " + askingOne->getNick() + " " + s + " :End of NAMES list", askingOne->getId());
 			break;
 		case RPL_YOUREOPER:
 			srv.send(to_string(err) + " " + askingOne->getIp() + " " + askingOne->getNick() + " " + s + " :You are now an IRC operator", askingOne->getId());
@@ -120,16 +120,16 @@ int	numeric_reply(int err, user* askingOne, std::string s, Server& srv){//s for 
 int	numeric_reply(int err, user* askingOne, Server& srv){
 	switch (err){
 		case RPL_WELCOME:
-			srv.send("001 " + askingOne->getIp() + " " + askingOne->getNick() + " " + ":Welcome to the ft_irc Network, " + askingOne->getNick() + "!", askingOne->getId());
+			srv.send("001 " /*+ askingOne->getIp() + " " */+ askingOne->getNick() + " " + ":Welcome to the ft_irc Network, " + askingOne->getNick() + "!", askingOne->getId());
 			break;
 		case RPL_YOURHOST:
-			srv.send("002 " + askingOne->getIp() + " " + askingOne->getNick() + " " + ":Your host is ft_irc, running version -1", askingOne->getId());
+			srv.send("002 " /*+ askingOne->getIp() + " " */+ askingOne->getNick() + " " + ":Your host is ft_irc, running version -1", askingOne->getId());
 			break;
 		case RPL_CREATED:
-			srv.send("003 " + askingOne->getIp() + " " + askingOne->getNick() + " " + ":This server was created: way too long ago", askingOne->getId());
+			srv.send("003 " /*+ askingOne->getIp() + " " */+ askingOne->getNick() + " " + ":This server was created: way too long ago", askingOne->getId());
 			break;
 		case RPL_MYINFO:
-			srv.send("004 " + askingOne->getIp() + " " + askingOne->getNick() + " " + askingOne->getIp() + " ft_irc -1 iro ovimpst", askingOne->getId());
+			srv.send("004 " /*+ askingOne->getIp() + " " */+ askingOne->getNick() + " " + askingOne->getIp() + " ft_irc -1 iro ovimpst", askingOne->getId());
 			break;
 		case ERR_NOSUCHSERVER:
 			srv.send(to_string(err) + " " + askingOne->getIp() + " " + askingOne->getNick() + " " + /*srv->name +*/ ":No such server", askingOne->getId());
