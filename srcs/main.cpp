@@ -11,17 +11,16 @@ int main(int argc, char **argv)
 	}
 
 	Server server(argv[1]);
-	fd_set readfds;
 	std::map<unsigned int, user *> users;
 	std::vector<channel *> channels;
 	std::map<unsigned int, std::string> buffers;
 	while (true)
 	{
-		server.select(readfds);
-		user *tmp = server.add_connection(readfds);
+		server.select();
+		user *tmp = server.add_connection();
 		if (tmp)
 			users[tmp->getId()] = tmp;
-		std::map<unsigned int, std::string> msg = server.receive(readfds, users);
+		std::map<unsigned int, std::string> msg = server.receive(users);
 		timeout(users, server);
 		if (make_full_command(msg, buffers, users, channels, server, argv[2]) == 1)
 			break;
