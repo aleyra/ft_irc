@@ -105,7 +105,7 @@ void	Server::send(const std::string &msg, const std::size_t &id)
 	if (_users.find(id) == _users.end() && FD_ISSET(_users[id], &(this->writefds)))
 		return;
 
-	std::string	sent = to_send[id] + msg + "\n";
+	std::string	sent = to_send[id] + msg + "\r\n";
 	size_t	num = ::send(_users[id], sent.c_str(), sent.size(), 0);
 	if(num < 0)
 	{
@@ -146,6 +146,7 @@ std::map<unsigned int, std::string>	Server::receive(std::map<unsigned int, user 
 			if (valread > 0)
 			{
 				buffer[valread] = '\0';
+				std::cout << buffer << std::endl;
 				m[it->first] = buffer;
 			}
 			else
@@ -284,6 +285,13 @@ void	Server::operator=(const Server &other)
 
 void	Server::check_port_range(const std::string &port)
 {
+	for(size_t i = 0; i < port.size(); ++i){
+		if (!std::isdigit(port[i]))
+		{
+			std::cout << "The given port is not a number" << std::endl;
+			exit(EXIT_FAILURE);
+		}
+	}
 	int iport = std::atoi(port.c_str());
 	if (iport < 1024 || iport > 65535)
 	{

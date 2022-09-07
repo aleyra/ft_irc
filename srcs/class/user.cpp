@@ -185,7 +185,7 @@ void	user::connect()
 // #pragma region other member functions
 void	user::addHistory_nick(std::string	old_nick){
 	if (!old_nick.empty())
-		this->_history_nick.push_front(old_nick);
+		this->_history_nick.push_back(old_nick);
 }
 
 void	user::clearHistory_nick(){
