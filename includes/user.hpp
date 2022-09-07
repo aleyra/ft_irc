@@ -17,7 +17,7 @@ class user{
 		std::string					_nick;
 		std::string					_username;
 		std::string					_truename;
-		std::list<std::string>		_history_nick;//liste des anciens nick de l'user, du moins ancien (au debut), au moins ancien (a la fin)
+		std::list<std::string>		_history_nick;//liste des anciens nick de l'user, du plus ancien (au debut), au moins ancien (a la fin)
 		int							_lvl;//lvl access
 		std::vector<channel*>		_list_chan;//list des 10 (nombre recommandé) chan où l'user est
 		bool						_isaway;
