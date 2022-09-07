@@ -5,12 +5,13 @@ int	rpl_namreply(user* askingOne, channel* chan, std::map<unsigned int,
 	std::string	to_send;
 	// "<client> <symbol> <channel> :[prefix]<nick>{ [prefix]<nick>}"
 	to_send += ":server " + to_string(RPL_NAMREPLY) + " " + askingOne->getNick() + " " ;//<client>
-	if (chan->hasMode('s') == true)//<symbol>
-		to_send += "@";//chan is secret
-	else if (chan->hasMode('p') == true)
-		to_send += "*";//chan is private
-	else 
-		to_send += "=";
+	// These are lines are supposed to be here, but... weechat
+	// if (chan->hasMode('s') == true)//<symbol>
+	// 	to_send += "@";//chan is secret
+	// else if (chan->hasMode('p') == true)
+	// 	to_send += "*";//chan is private
+	// else 
+	// 	to_send += "=";
 	to_send += chan->getName() + " :";//<channel> :
 	std::map<unsigned int, int>*	usr_map = &(chan->getUsr_list());
 	for (std::map<unsigned, int>::iterator it = usr_map->begin(); it != usr_map->end(); ++it){//[prefix]<nick>
