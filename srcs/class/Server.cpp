@@ -107,9 +107,8 @@ void	Server::send(const std::string &msg, const std::size_t &id)
 
 	std::string	sent = to_send[id] + msg + "\r\n";
 	int num = ::send(_users[id], sent.c_str(), sent.size(), 0);
-	if(num < 0)
-		std::cout << "Couldn't send message. errno: " << errno << std::endl;
-	to_send[id] = sent.substr(num, std::string::npos);
+	if(num > 0)
+		to_send[id] = sent.substr(num, std::string::npos);
 }
 
 /**
@@ -143,7 +142,7 @@ std::map<unsigned int, std::string>	Server::receive(std::map<unsigned int, user 
 			if (valread > 0)
 			{
 				buffer[valread] = '\0';
-				std::cout << buffer << std::endl;
+				// std::cout << buffer << std::endl;
 				m[it->first] = buffer;
 			}
 			else
