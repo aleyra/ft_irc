@@ -107,14 +107,4 @@ void	privmsg(std::vector<std::string> params, user &askingOne,
 	}
 	if (!sent)
 		numeric_reply(ERR_NORECIPIENT, &askingOne, message, server);
-
-	// Send messages
-	// for (std::vector<user*>::iterator it = recipients.begin();
-	// 	it != recipients.end(); ++it)
-	// {
-	// 	// server.send(":" + askingOne.getNick() + " PRIVMSG "
-	// 	// 	+ (*it)->getNick() + " :" + message, (*it)->getId());
-	// 	server.send(":" + askingOne.getNick() + "!" + askingOne.getHistory_nick().front() + "@" + askingOne.getIp() + " "
-	// 		+ "PRIVMSG " + (*it)->getNick() + " :" + message, (*it)->getId());
-	// }
 }
