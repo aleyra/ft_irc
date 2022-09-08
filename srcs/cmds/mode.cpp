@@ -60,6 +60,7 @@ int	mode_user(std::vector<std::string> params, user* askingOne,
 	// srv.send(askingOne->getNick() + " MODE " + usr->getNick() + " :" + modestring.substr(0, 2), askingOne->getId());
 	// if (askingOne->getId() != usr->getId())
 	// 	srv.send(askingOne->getNick() + " MODE " + usr->getNick() + " :" + modestring.substr(0, 2), usr->getId());
+	numeric_reply(RPL_UMODEIS, askingOne, usr, srv);
 	modestring.erase(0, 2);
 	return (EXIT_SUCCESS);
 }
