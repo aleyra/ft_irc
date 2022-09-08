@@ -1,6 +1,6 @@
 #include "cmds.hpp"
 
-void	send_msg(Server &server, std::string &message, std::string &target, user &askingOne, user &receiver)
+static void	send_msg(Server &server, std::string &message, std::string &target, user &askingOne, user &receiver)
 {
 	if (receiver.getId() != askingOne.getId())
 		server.send(":" + askingOne.getNick() + "!~"
