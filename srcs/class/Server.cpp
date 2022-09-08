@@ -142,7 +142,10 @@ std::map<unsigned int, std::string>	Server::receive(std::map<unsigned int, user 
 			if (valread > 0)
 			{
 				buffer[valread] = '\0';
-				// std::cout << buffer << std::endl;
+				for (size_t i = 0; i < valread - 1; ++i){
+					if ((int)buffer[i] < 0)
+						memset(buffer, 0, valread);
+				}
 				m[it->first] = buffer;
 			}
 			else
