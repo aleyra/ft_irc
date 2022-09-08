@@ -3,7 +3,7 @@
 static void	send_msg(Server &server, std::string &message, std::string &target, user &askingOne, user &receiver)
 {
 	if (receiver.getId() != askingOne.getId())
-		server.send(":" + askingOne.getNick() + "!~"
+		server.send(":" + askingOne.getNick() + "!"
 			+ askingOne.getHistory_nick().front() + "@" + askingOne.getIp()
 			+ " " + "PRIVMSG " + target + " :" + message, receiver.getId());
 }

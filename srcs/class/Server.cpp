@@ -106,6 +106,7 @@ void	Server::send(const std::string &msg, const std::size_t &id)
 		return;
 
 	std::string	sent = to_send[id] + msg + "\r\n";
+	std::cout << "sent : " << sent;
 	int num = ::send(_users[id], sent.c_str(), sent.size(), 0);
 	if(num > 0)
 		to_send[id] = sent.substr(num, std::string::npos);

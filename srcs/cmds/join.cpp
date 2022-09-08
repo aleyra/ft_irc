@@ -68,7 +68,7 @@ int	join(std::string t, user* askingOne, std::vector<channel*>& chan_vec,
 		if (chan->getUsr_list().size() == 1)
 			chan->getUsr_list().at(askingOne->getId()) = CHAN_OP;
 		//send msgs
-		chan->send(srv, ":" + askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "JOIN " + params[0]);
+		chan->send(srv, ":" + askingOne->getNick() + "!" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "JOIN " + params[0]);
 		if (chan->hasMode('t') ==  true && !(chan->getTopic().empty()))
 			numeric_reply(RPL_TOPIC, askingOne, chan, srv);
 		numeric_reply(RPL_CHANNELMODEIS, askingOne, chan, srv);

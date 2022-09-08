@@ -23,7 +23,7 @@ int	numeric_reply(int err, user* askingOne, user* usr, Server& srv){
 int	numeric_reply(int err, user* askingOne, channel* chan, Server& srv){
 	switch (err){
 		case ERR_CANNOTSENDTOCHAN:
-			srv.send(to_string(err) + " " + askingOne->getNick() + " " + chan->getName() + " :Cannot srv.send to channel", askingOne->getId());
+			srv.send(to_string(err) + " " + askingOne->getNick() + " " + chan->getName() + " :Cannot send to channel", askingOne->getId());
 			break;
 		case ERR_TOOMANYCHANNELS:
 			srv.send(to_string(err) + " " + askingOne->getNick() + " " + chan->getName() + " :You have joined too many channels", askingOne->getId());

@@ -28,7 +28,7 @@ int	invite(std::vector<std::string> params, user* askingOne,
 		return (numeric_reply(ERR_USERONCHANNEL, askingOne, usr, chan, srv));
 	//invite
 	chan->addInvite_list(usr->getId());
-	srv.send(":" + askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "INVITE " + usr->getNick() + " :" + chan->getName(), usr->getId());
+	srv.send(":" + askingOne->getNick() + "!" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "INVITE " + usr->getNick() + " :" + chan->getName(), usr->getId());
 	return (numeric_reply(RPL_INVITING, askingOne, usr, chan, srv));
 }
 

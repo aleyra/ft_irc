@@ -3,7 +3,7 @@
 static void	send_msg(Server &server, std::string &message, std::string &target, user &askingOne, user &receiver)
 {
 	if (receiver.getId() != askingOne.getId())
-		server.send(":" + askingOne.getNick() + "!~"
+		server.send(":" + askingOne.getNick() + "!"
 			+ askingOne.getHistory_nick().front() + "@" + askingOne.getIp()
 			+ " " + "PRIVMSG " + target + " :" + message, receiver.getId());
 }
@@ -65,6 +65,12 @@ void	privmsg(std::vector<std::string> params, user &askingOne,
 				continue;
 			}
 			std::map<unsigned int, int> chan_users = chan->getUsr_list();
+			if (chan_users.find(askingOne.getId()) == chan_users.end())
+			{
+				numeric_reply(ERR_CANNOTSENDTOCHAN, &askingOne, chan, server);
+				continue;
+			}
+			
 			if (it->find_first_of("~&@%") != std::string::npos)
 			{
 				int lvl = 0;
