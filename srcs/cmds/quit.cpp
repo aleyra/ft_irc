@@ -8,7 +8,7 @@ void	quit(std::vector<std::string> params, user &askingOne,
 		it != chan_vec.end(); ++it)
 	{
 		if ((*it)->getUsr_list().count(askingOne.getId()))
-			(*it)->send(server, ":" + askingOne.getNick() + "!~" + askingOne.getHistory_nick().front()
+			(*it)->send(server, ":" + askingOne.getNick() + "!" + askingOne.getHistory_nick().front()
 				+ "@" + askingOne.getIp() + " " + "QUIT " + askingOne.getNick() + ": " + reason);
 	}
 	error(askingOne, server, "quit requested");
@@ -20,7 +20,7 @@ void	quit_server(user &user, Server &server, std::string msg)
 	if (!user.getIsonline())
 		return;
 	
-	server.send(":" + user.getNick() + "!~" + user.getHistory_nick().front() +
+	server.send(":" + user.getNick() + "!" + user.getHistory_nick().front() +
 		"@" + user.getIp() + " " + "QUIT " + msg, user.getId());
 	server.disconnect(user);
 }

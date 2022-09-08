@@ -77,8 +77,8 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 		return (numeric_reply(RPL_CHANNELMODEIS, askingOne, chan, srv));
 
 	std::map<unsigned int, int>*	usr_list = &(chan->getUsr_list());
-	unsigned int					usr_id = askingOne->getId();
-	int								level_access = usr_list->at(usr_id);
+	unsigned int					askingOne_id = askingOne->getId();
+	int								level_access = usr_list->at(askingOne_id);
 	size_t							count_ov = 0;
 	std::string						modestring = params[1];
 	std::string						last_sign = "+";
@@ -92,7 +92,7 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 	}
 	if (params.size() < count_ov + 2)
 		return (numeric_reply(ERR_NEEDMOREPARAMS, askingOne, "MODE", srv));
-	if (usr_list->find(askingOne->getId()) == usr_list->end() || level_access != CHAN_OP)
+	if (usr_list->find(askingOne->getId()) == usr_list->end() || level_access >= CHAN_OP)
 		return (numeric_reply(ERR_CHANOPRIVSNEEDED, askingOne, chan, srv));
 	
 	size_t		i = 2;
@@ -101,17 +101,17 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 	user*		usr = NULL;
 	
 	while (!modestring.empty() && count <= 3){
-		if (modestring.size() != 2){//les 2 premiers char seront toujours un signe et une lettre, le signe se distribut
+		
 			if (modestring[0] != '+' && modestring[0] != '-'){
 				tmp = last_sign;
 				tmp.append(modestring);
 				modestring = tmp;
 			}
-			while (!std::isalpha(modestring[1])){
+			while (modestring.size() > 2 && !std::isalpha(modestring[1])){
 				modestring.erase(0, 1);
 			}
 			last_sign = modestring.substr(0, 1);
-		}
+		
 		switch (modestring[1]){
 			case 'o':// o - give/take channel operator privilege;
 				{
@@ -122,13 +122,13 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 						return (EXIT_FAILURE);
 					if (usr_list->find(usr->getId()) == usr_list->end())
 						return (numeric_reply(ERR_USERNOTINCHANNEL, askingOne, usr, chan, srv));
-					usr_id = usr->getId();
+					askingOne_id = usr->getId();
 					if (modestring[0] == '+')
-						usr_list->at(usr_id) = CHAN_OP;
+						usr_list->at(askingOne_id) = CHAN_OP;
 					else if (modestring[0] == '-')
-						usr_list->at(usr_id) = DEFAULT;
+						usr_list->at(askingOne_id) = DEFAULT;
 					i++;
-					chan->send(srv, ":" + askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "MODE " + chan->getName() + + " " + modestring.substr(0, 2) + " " + usr->getNick());
+					chan->send(srv, ":" + askingOne->getNick() + "!" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "MODE " + chan->getName() + + " " + modestring.substr(0, 2) + " " + usr->getNick());
 				}
 				break;
 			case 'v'://v - give/take the voice privilege;
@@ -140,13 +140,13 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 						return (EXIT_FAILURE);
 					if (usr_list->find(usr->getId()) == usr_list->end())
 						return (numeric_reply(ERR_USERNOTINCHANNEL, askingOne, usr, chan, srv));
-					usr_id = usr->getId();
+					askingOne_id = usr->getId();
 					if (modestring[0] == '+')
-						usr_list->at(usr_id) = VOICE_OK;
+						usr_list->at(askingOne_id) = VOICE_OK;
 					else if (modestring[0] == '-')
-						usr_list->at(usr_id) = DEFAULT;
+						usr_list->at(askingOne_id) = DEFAULT;
 					i++;
-					chan->send(srv, ":" + askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "MODE " + chan->getName() + " " + modestring.substr(0, 2) + " " + usr->getNick());
+					chan->send(srv, ":" + askingOne->getNick() + "!" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "MODE " + chan->getName() + " " + modestring.substr(0, 2) + " " + usr->getNick());
 				}
 				break;
 			case 'i'://i - toggle the invite-only channel flag;
@@ -157,7 +157,7 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 					else if (modestring[0] == '-'){
 						chan->rmMode('i');
 					}
-					chan->send(srv, ":" + askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "MODE " + chan->getName() + " " + modestring.substr(0, 2));
+					chan->send(srv, ":" + askingOne->getNick() + "!" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "MODE " + chan->getName() + " " + modestring.substr(0, 2));
 				}
 				break;
 			case 'm'://m - toggle the moderated channel;
@@ -168,7 +168,7 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 					else if (modestring[0] == '-'){
 						chan->rmMode('m');
 					}
-					chan->send(srv, ":" + askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "MODE " + chan->getName() + " " + modestring.substr(0, 2));
+					chan->send(srv, ":" + askingOne->getNick() + "!" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "MODE " + chan->getName() + " " + modestring.substr(0, 2));
 				}
 				break;
 			case 'p'://p - toggle the private channel flag;
@@ -179,7 +179,7 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 					else if (modestring[0] == '-'){
 						chan->rmMode('p');
 					}
-					chan->send(srv, ":" + askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "MODE " + chan->getName() + " " + modestring.substr(0, 2));
+					chan->send(srv, ":" + askingOne->getNick() + "!" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "MODE " + chan->getName() + " " + modestring.substr(0, 2));
 				}
 				break;
 			case 's'://s - toggle the secret channel flag;
@@ -190,9 +190,19 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 					else if (modestring[0] == '-'){
 						chan->rmMode('s');
 					}
-					chan->send(srv, ":" + askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "MODE " + chan->getName() + " " + modestring.substr(0, 2));
+					chan->send(srv, ":" + askingOne->getNick() + "!" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "MODE " + chan->getName() + " " + modestring.substr(0, 2));
 				}
 				break;
+			case 'n'://n - notice ok
+				{
+					if (modestring[0] == '+'){
+						chan->addMode('n');
+					}
+					else if (modestring[0] == '-'){
+						chan->rmMode('n');
+					}
+					chan->send(srv, ":" + askingOne->getNick() + "!" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "MODE " + chan->getName() + " " + modestring.substr(0, 2));
+				}
 			case 't'://t - toggle the topic settable by channel operator only flag;
 				{
 					if (modestring[0] == '+'){
@@ -201,7 +211,7 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 					else if (modestring[0] == '-'){
 						chan->rmMode('t');
 					}
-					chan->send(srv, ":" + askingOne->getNick() + "!~" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "MODE " + chan->getName() + " " + modestring.substr(0, 2));
+					chan->send(srv, ":" + askingOne->getNick() + "!" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "MODE " + chan->getName() + " " + modestring.substr(0, 2));
 				}
 				break;
 
@@ -231,8 +241,8 @@ int	mode(std::vector<std::string> params, user* askingOne, std::vector<channel *
 	// Parameters: <target> [<modestring> [<mode arguments>...]]
 	if (params.empty())
 		return (numeric_reply(ERR_NEEDMOREPARAMS, askingOne, "MODE", srv));
-	if (params[0][0] == '&' || params[0][0] == '#'
-		|| params[0][0] == '+' || params[0][0] == '!')
-		return (mode_channel(params, askingOne, chan_vec, users, srv));
-	return (mode_user(params, askingOne, users, srv));
+	if (params[0][0] != '&' || params[0][0] != '#'
+		|| params[0][0] != '+' || params[0][0] != '!')
+			return (mode_user(params, askingOne, users, srv));
+	return (mode_channel(params, askingOne, chan_vec, users, srv));
 }

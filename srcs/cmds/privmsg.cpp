@@ -92,7 +92,7 @@ void	privmsg(std::vector<std::string> params, user &askingOne,
 	{
 		// server.send(":" + askingOne.getNick() + " PRIVMSG "
 		// 	+ (*it)->getNick() + " :" + message, (*it)->getId());
-		server.send(":" + askingOne.getNick() + "!~" + askingOne.getHistory_nick().front() + "@" + askingOne.getIp() + " "
+		server.send(":" + askingOne.getNick() + "!" + askingOne.getHistory_nick().front() + "@" + askingOne.getIp() + " "
 			+ "PRIVMSG " + (*it)->getNick() + " :" + message, (*it)->getId());
 	}
 }
