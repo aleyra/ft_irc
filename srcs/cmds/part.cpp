@@ -41,8 +41,8 @@ int	part(std::vector<std::string> paramsEtMsg, user* askingOne,
 			srv.send(":" + askingOne->getNick() + "!" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "PART " + params[i], askingOne->getId());
 		}
 		else{
-			chan->send(srv, ":" + askingOne->getNick() + "!" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "PART " + params[i] + ":" + msg);
-			srv.send(":" + askingOne->getNick() + "!" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "PART " + params[i] + ":" + msg, askingOne->getId());
+			chan->send(srv, ":" + askingOne->getNick() + "!" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "PART " + params[i] + " " + msg);
+			srv.send(":" + askingOne->getNick() + "!" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "PART " + params[i] + " " + msg, askingOne->getId());
 		}
 		//if chan is empty, delete chan
 		if (chan->getUsr_list().empty()){

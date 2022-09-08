@@ -14,7 +14,7 @@ int	try_to_kick(std::string kicked, std::string msg, user *askingOne, channel* c
 	pos = usr_list.find(usr->getId());
 	if (pos == usr_list.end())
 		numeric_reply(ERR_USERNOTINCHANNEL, askingOne, usr, chan, srv);
-	//kick usr ans send msg msg
+	//kick usr and send msg
 	chan->rmUsr_list(usr);
 	{
 		std::map<unsigned int, int>::iterator f = chan->getUsr_list().find(usr->getId());

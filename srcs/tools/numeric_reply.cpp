@@ -97,16 +97,16 @@ int	numeric_reply(int err, user* askingOne, std::string s, Server& srv){//s for 
 			srv.send(to_string(err) + " " + askingOne->getNick() + " " + s + " :is unknown mode char to me", askingOne->getId());
 			break;
 		case RPL_ENDOFWHO:
-			srv.send(s + " :End of WHO list", askingOne->getId());
+			srv.send(to_string(err) + " " + askingOne->getNick() + " " + s + " :End of WHO list", askingOne->getId());
 			break;
 		case ERR_UNAVAILRESOURCE:
-			srv.send(s + " :Nick/channel is temporarily unavailable", askingOne->getId());
+			srv.send(to_string(err) + " " + askingOne->getNick() + " " + s + " :Nick/channel is temporarily unavailable", askingOne->getId());
 			break;
 		case ERR_NICKNAMEINUSE:
 			srv.send(to_string(err) + " " + askingOne->getNick() + " " + s + " :Nickname is already in use", askingOne->getId());
 			break;
 		case RPL_ENDOFNAMES://avec s comme param car le chan->getName() s peut de pas exister;
-			srv.send(":server " + to_string(err) /*+ " " + askingOne->getIp() */+ " " + askingOne->getNick() + " " + s + " :End of NAMES list", askingOne->getId());
+			srv.send(to_string(err) + " " + askingOne->getNick() + " " + s + " :End of NAMES list", askingOne->getId());
 			break;
 		case RPL_YOUREOPER:
 			srv.send(to_string(err) + " " + askingOne->getNick() + " " + s + " :You are now an IRC operator", askingOne->getId());
