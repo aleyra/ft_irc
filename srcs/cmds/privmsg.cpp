@@ -1,6 +1,6 @@
 #include "cmds.hpp"
 
-void	send_msg(Server &server, std::string &message, std::string &target, user &askingOne, user &receiver)
+static void	send_msg(Server &server, std::string &message, std::string &target, user &askingOne, user &receiver)
 {
 	if (receiver.getId() != askingOne.getId())
 		server.send(":" + askingOne.getNick() + "!~"
@@ -28,6 +28,7 @@ void	privmsg(std::vector<std::string> params, user &askingOne,
 			std::map<unsigned int, user *>& users, Server &server)
 {
 	std::string message = concat(params);
+	int sent = 0;
 
 	if (message.find(':') == std::string::npos)
 	{
@@ -52,6 +53,7 @@ void	privmsg(std::vector<std::string> params, user &askingOne,
 				continue;
 			}
 			send_msg(server, message, *it, askingOne, *receiver);
+			sent = 1;
 		}
 		// Channels
 		else
@@ -78,7 +80,10 @@ void	privmsg(std::vector<std::string> params, user &askingOne,
 					it2 != chan_users.end(); it2++)
 				{
 					if (it2->second >= lvl)
+					{
 						send_msg(server, message, *it, askingOne, *searchUserByID(it2->first, users));
+						sent = 1;
+					}
 				}
 
 			}
@@ -86,10 +91,14 @@ void	privmsg(std::vector<std::string> params, user &askingOne,
 			{
 				for (std::map<unsigned int, int>::iterator it3 = chan_users.begin();
 					it3 != chan_users.end(); it3++)
-
+				{
 					send_msg(server, message, *it, askingOne, *searchUserByID(it3->first, users));
+					sent = 1;
+				}
 
 			}
 		}
 	}
+	if (!sent)
+		numeric_reply(ERR_NORECIPIENT, &askingOne, message, server);
 }
