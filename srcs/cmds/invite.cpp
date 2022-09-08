@@ -5,7 +5,6 @@ int	invite(std::vector<std::string> params, user* askingOne,
 	//Parameters: <nickname> <channel>
 	if (params.size() < 2)
 		return (numeric_reply(ERR_NEEDMOREPARAMS, askingOne, "MODE", srv));
-	std::cout << "params = [" << params[0] << "] [" << params[1] << "]" << std::endl;//
 	//check usr exists
 	user*	usr = searchUserByNick(params[0], users);
 	if (usr == NULL)
