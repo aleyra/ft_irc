@@ -218,8 +218,10 @@ void	user::addList_chan(channel* nc){//gerer que max 10
 void	user::rmList_chan(channel* c){
 	std::vector<channel*>::iterator f = std::find(this->_list_chan.begin(),
 			this->_list_chan.end(), c);
-		if (f != this->_list_chan.end())
+		if (f != this->_list_chan.end()){
+			// std::cout << "bouha" << std::endl;
 			this->_list_chan.erase(f);
+		}
 }
 void	user::addMode(char c){
 	size_t pos = this->_mode.find(c);
