@@ -24,6 +24,10 @@ int	topic(std::vector<std::string> params, user* askingOne,
 	
 	if (params[1][0] == ':')
 		params[1].erase(0, 1);
+	for (size_t i = 2; i < params.size(); ++i){
+		params[1].append(" ");
+		params[1].append(params[i]);
+	}
 	chan->setTopic(params[1]);
 	chan->send(srv, ":" + askingOne->getNick() + "!" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "TOPIC " + chan->getName() + " :" + params[1]);
 	/*case ERR_NOCHANMODES

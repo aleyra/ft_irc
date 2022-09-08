@@ -83,4 +83,11 @@ void	notice(std::vector<std::string> params, user &askingOne,
 			}
 		}
 	}
+
+	// Send messages
+	// for (std::vector<user*>::iterator it = recipients.begin();
+	// 	it != recipients.end(); ++it)
+	// {
+	// 	server.send(":" + askingOne.getNick() + "!" + askingOne.getHistory_nick().front() + "@" + askingOne.getIp() + " " + "NOTICE " + (*it)->getNick() + " :" + message, (*it)->getId());
+	// }
 }
