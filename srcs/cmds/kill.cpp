@@ -12,6 +12,6 @@ int	kill(std::vector<std::string> params, user* askingOne,
 	if (usr == NULL)
 		return (numeric_reply(ERR_NOSUCHNICK, askingOne, params[0], srv));
 	params.erase(params.begin());
-	quit(params, *usr, chan_vec, srv);
+	quit(params, *usr, chan_vec, srv, users);
 	return (EXIT_SUCCESS);
 }

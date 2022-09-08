@@ -35,7 +35,8 @@ class Server
 		std::string>				receive(std::map<unsigned int, user *> &users);
 		user						*add_connection();
 		void						select();
-		void						disconnect(user &user);
+		void						disconnect(user &askingOne,
+			std::map<unsigned int, user *>& users);
 		std::string					client_ip(unsigned int id);
 
 		void	operator=(const Server &f);

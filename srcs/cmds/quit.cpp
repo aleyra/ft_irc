@@ -1,7 +1,8 @@
 #include "cmds.hpp"
 
 void	quit(std::vector<std::string> params, user &askingOne,
-	std::vector<channel*> chan_vec, Server &server)
+	std::vector<channel*> chan_vec, Server &server,
+	std::map<unsigned int, user *>& users)
 {
 	std::string reason = (params.size() == 0) ? "" : params[0];
 	for (std::vector<channel *>::iterator it = chan_vec.begin();
@@ -11,16 +12,17 @@ void	quit(std::vector<std::string> params, user &askingOne,
 			(*it)->send(server, ":" + askingOne.getNick() + "!" + askingOne.getHistory_nick().front()
 				+ "@" + askingOne.getIp() + " " + "QUIT " + askingOne.getNick() + ": " + reason);
 	}
-	error(askingOne, server, "quit requested");
+	error(askingOne, server, "quit requested", users);
 
 }
 
-void	quit_server(user &user, Server &server, std::string msg)
+void	quit_server(user &askingOne, Server &server, std::string msg,
+	std::map<unsigned int, user *>& users)
 {
-	if (!user.getIsonline())
+	if (!askingOne.getIsonline())
 		return;
 	
-	server.send(":" + user.getNick() + "!" + user.getHistory_nick().front() +
-		"@" + user.getIp() + " " + "QUIT " + msg, user.getId());
-	server.disconnect(user);
+	server.send(":" + askingOne.getNick() + "!" + askingOne.getHistory_nick().front() +
+		"@" + askingOne.getIp() + " " + "QUIT " + msg, askingOne.getId());
+	server.disconnect(askingOne, users);
 }

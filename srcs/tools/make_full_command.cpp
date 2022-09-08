@@ -96,7 +96,7 @@ int	exec_command(const int &id, const std::string &command,
 		topic(params(args), users[id], channels, server);
 	else if (firstWord == "QUIT" && !users[id]->getHistory_nick().empty()
 		&& !users[id]->getTruename().empty())
-		quit(params(args), *users[id], channels, server);
+		quit(params(args), *users[id], channels, server, users);
 	else if (firstWord == "NOTICE" && !users[id]->getHistory_nick().empty()
 		&& !users[id]->getTruename().empty())
 		notice(params(args), *users[id], channels, users, server);

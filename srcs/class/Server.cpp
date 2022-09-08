@@ -237,7 +237,8 @@ void	Server::select()
 * 	Disconnect a user from the server.
 * 
 * Args:
-* 	id: The id of the user.
+* 	user: The user to disconnect.
+* 	users: The list of users.
 * 
 * Return:
 * 	None.
@@ -246,14 +247,15 @@ void	Server::select()
 * 	** Notes **
 **/
 
-void	Server::disconnect(user &user)
+void	Server::disconnect(user &askingOne, std::map<unsigned int, user *>& users)
 {
-	if (user.getIsonline())
+	(void)users;
+	if (askingOne.getIsonline())
 	{
-		user.setIsonline(false);
-		close(_users[user.getId()]);
-		_users.erase(_users.find(user.getId()));
-		_ips.erase(_ips.find(user.getId()));
+		askingOne.setIsonline(false);
+		close(_users[askingOne.getId()]);
+		_users.erase(_users.find(askingOne.getId()));
+		_ips.erase(_ips.find(askingOne.getId()));
 	}
 }
 
