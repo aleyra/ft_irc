@@ -57,9 +57,9 @@ int	mode_user(std::vector<std::string> params, user* askingOne,
 			return (numeric_reply(ERR_UMODEUNKNOWNFLAG, askingOne, srv));
 			break;
 	}
-	srv.send(askingOne->getNick() + " MODE " + usr->getNick() + " :" + modestring.substr(0, 2), askingOne->getId());
-	if (askingOne->getId() != usr->getId())
-		srv.send(askingOne->getNick() + " MODE " + usr->getNick() + " :" + modestring.substr(0, 2), usr->getId());
+	// srv.send(askingOne->getNick() + " MODE " + usr->getNick() + " :" + modestring.substr(0, 2), askingOne->getId());
+	// if (askingOne->getId() != usr->getId())
+	// 	srv.send(askingOne->getNick() + " MODE " + usr->getNick() + " :" + modestring.substr(0, 2), usr->getId());
 	modestring.erase(0, 2);
 	return (EXIT_SUCCESS);
 }
