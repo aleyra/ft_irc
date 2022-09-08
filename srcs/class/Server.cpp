@@ -249,7 +249,6 @@ void	Server::select()
 
 void	Server::disconnect(user &askingOne, std::map<unsigned int, user *>& users)
 {
-	(void)users;
 	if (askingOne.getIsonline())
 	{
 		askingOne.setIsonline(false);
@@ -257,6 +256,8 @@ void	Server::disconnect(user &askingOne, std::map<unsigned int, user *>& users)
 		_users.erase(_users.find(askingOne.getId()));
 		_ips.erase(_ips.find(askingOne.getId()));
 	}
+	// erase tends to segfault so look here if its the case !
+	users.erase(users.find(askingOne.getId()));
 }
 
 void	Server::operator=(const Server &other)
