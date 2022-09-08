@@ -58,7 +58,7 @@ int	exec_command(const int &id, const std::string &command,
 	if (firstWord == "NICK")
 		nick(params(args), users[id], users, server);
 	else if (firstWord == "USER")
-		user_cmd(params(args), users[id], server);
+		user_cmd(params(args), users[id], users, server);
 	else if (firstWord == "PASS")
 			pass(params(args), *users[id], server, password);
 	else if (firstWord == "INVITE" && !users[id]->getHistory_nick().empty()

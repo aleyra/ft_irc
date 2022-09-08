@@ -1,6 +1,6 @@
 #include "cmds.hpp"
 
-int	user_cmd(std::vector<std::string> params, user* usr, Server& srv){//<user> <mode> <unused> <realname>
+int	user_cmd(std::vector<std::string> params, user* usr, std::map<unsigned int, user *>& users, Server& srv){//<user> <mode> <unused> <realname>
 	if (params.size() < 4)
 		return (numeric_reply(ERR_NEEDMOREPARAMS, usr, "USER",srv));
 	if (!usr->getTruename().empty())
@@ -20,6 +20,10 @@ int	user_cmd(std::vector<std::string> params, user* usr, Server& srv){//<user> <
 	for(size_t i = 4; i < params.size(); ++i){
 		params[3].append(" ");
 		params[3].append(params[i]);
+	}
+	for (std::map<unsigned int, user *>::iterator it = users.begin(); it != users.end(); ++it){
+		if (it->second->getTruename().compare(params[3]) == 0)
+			return(numeric_reply(ERR_ALREADYREGISTERED, usr, srv));
 	}
 	usr->setTruename(params[3]);
 	return (EXIT_SUCCESS);
