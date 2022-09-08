@@ -7,8 +7,8 @@ int	mode_user(std::vector<std::string> params, user* askingOne,
 	user*	usr = searchUserByNick(params[0], users);
 	if (usr == NULL)
 		return (numeric_reply(ERR_NOSUCHNICK, askingOne, params[0], srv));
-	if (usr->getNick().compare(askingOne->getNick()) != 0)
-		return (numeric_reply(ERR_USERSDONTMATCH, askingOne, srv));
+	// if (usr->getNick().compare(askingOne->getNick()) != 0)//tentative en deplacant ce if
+	// 	return (numeric_reply(ERR_USERSDONTMATCH, askingOne, srv));
 	if (params.size() == 1)
 		return (numeric_reply(RPL_UMODEIS, askingOne, usr, srv));
 	
@@ -32,21 +32,24 @@ int	mode_user(std::vector<std::string> params, user* askingOne,
 	switch (modestring[1]){
 		case 'i':// i - marks a users as invisible
 			{
-				if (modestring[0] == '+')
+				if (modestring[0] == '+' && (usr->getNick().compare(askingOne->getNick()) != 0 || askingOne->getLvl() == SRV_OP))//tentative en ajoutant && cond
 					usr->addMode('i');
-				else if (params[1][0] == '-')
+				else if (params[1][0] == '-' && (usr->getNick().compare(askingOne->getNick()) != 0 || askingOne->getLvl() == SRV_OP))//tentative en ajoutant && cond
 					usr->rmMode('i');
 			}
 			break;
 		case 'r'://r - restricted user connection
 			{
-				if (modestring[0] == '+')
+				if (modestring[0] == '+' && (usr->getNick().compare(askingOne->getNick()) != 0 || askingOne->getLvl() == SRV_OP))//tentative en ajoutant && cond
 					usr->addMode('r');
+				if (modestring[0] == '-')
 			}
 			break;
 		case 'o'://o - operator flag
 			{
-				if (modestring[0] == '-' && usr->getLvl() == SRV_OP){
+				if (usr->getNick().compare(askingOne->getNick()) != 0)//tentative en deplacant ce if
+					return (numeric_reply(ERR_USERSDONTMATCH, askingOne, srv));
+				if (modestring[0] == '-'){
 					usr->setLvl(DEFAULT);
 					usr->rmMode('o');
 					usr->setIsop(false);
@@ -141,11 +144,11 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 						return (EXIT_FAILURE);
 					if (usr_list->find(usr->getId()) == usr_list->end())
 						return (numeric_reply(ERR_USERNOTINCHANNEL, askingOne, usr, chan, srv));
-					askingOne_id = usr->getId();
+					unsigned int	usr_id = usr->getId();
 					if (modestring[0] == '+')
-						usr_list->at(askingOne_id) = VOICE_OK;
-					else if (modestring[0] == '-')
-						usr_list->at(askingOne_id) = DEFAULT;
+						usr_list->at(usr_id) = VOICE_OK;
+					else if (modestring[0] == '-' && usr_list->at(usr_id) == VOICE_OK)
+						usr_list->at(usr_id) = DEFAULT;
 					i++;
 					chan->send(srv, ":" + askingOne->getNick() + "!" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "MODE " + chan->getName() + " " + modestring.substr(0, 2) + " " + usr->getNick());
 				}
