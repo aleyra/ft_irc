@@ -45,6 +45,7 @@ int	join(std::string t, user* askingOne, std::vector<channel*>& chan_vec,
 			chan = new channel(params[0], askingOne);
 			chan_vec.push_back(chan);
 			chan->addMode('t');
+			chan->addMode('n');
 		}
 		
 		std::vector<channel*>::iterator itchan = std::find(askingOne->getList_chan().begin(), askingOne->getList_chan().end(), chan);
