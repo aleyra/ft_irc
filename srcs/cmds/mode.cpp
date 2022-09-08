@@ -207,6 +207,7 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 					}
 					chan->send(srv, ":" + askingOne->getNick() + "!" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "MODE " + chan->getName() + " " + modestring.substr(0, 2));
 				}
+				break;
 			case 't'://t - toggle the topic settable by channel operator only flag;
 				{
 					if (modestring[0] == '+'){
@@ -218,16 +219,6 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 					chan->send(srv, ":" + askingOne->getNick() + "!" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "MODE " + chan->getName() + " " + modestring.substr(0, 2));
 				}
 				break;
-			case 'n'://n - notice ok
-				{
-					if (modestring[0] == '+'){
-						chan->addMode('n');
-					}
-					else if (modestring[0] == '-'){
-						chan->rmMode('n');
-					}
-					chan->send(srv, ":" + askingOne->getNick() + "!" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "MODE " + chan->getName() + " " + modestring.substr(0, 2));
-				}
 			// case 'b'://b - set/remove ban mask to keep users out;//whynot
 			// 	{
 			// 		if (modestring[0] == '+'){

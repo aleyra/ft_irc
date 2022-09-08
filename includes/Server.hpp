@@ -15,6 +15,7 @@
 #include <fstream>
 #include <sys/types.h>
 #include <arpa/inet.h>
+#include <cstring>
 #include "user.hpp"
 
 #define MAX_CLIENTS 4000
