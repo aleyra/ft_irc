@@ -1,5 +1,13 @@
 #include "cmds.hpp"
 
+static void	send_msg(Server &server, std::string &message, std::string &target, user &askingOne, user &receiver)
+{
+	if (receiver.getId() != askingOne.getId())
+		server.send(":" + askingOne.getNick() + "!"
+			+ askingOne.getHistory_nick().front() + "@" + askingOne.getIp()
+			+ " " + "PRIVMSG " + target + " :" + message, receiver.getId());
+}
+
 /**
 * Description:
 * 	Send a message to a user or a channel.
@@ -19,17 +27,15 @@ void	notice(std::vector<std::string> params, user &askingOne,
 			std::vector<channel*> chan_vec,
 			std::map<unsigned int, user *>& users, Server &server)
 {	
-	std::string	message = concat(params);
+	std::string message = concat(params);
 
 	if (message.find(':') == std::string::npos)
 		return;
-	
-	message = message.substr(message.find(':') + 1);
-	std::vector<user*> recipients;
 
-	// Iterate all targets and stop before the message.
+	message = message.substr(message.find(':') + 1);
+	std::map<std::string, user*> recipients;
 	for (std::vector<std::string>::iterator it = params.begin();
-		it != params.end() - 1; ++it)
+		it != params.end(); ++it)
 	{
 		if (it->find(':') != std::string::npos)
 			break;
@@ -39,7 +45,7 @@ void	notice(std::vector<std::string> params, user &askingOne,
 			user *receiver = searchUserByNick(*it, users);
 			if (receiver == NULL)
 				continue;
-			recipients.push_back(receiver);
+			send_msg(server, message, *it, askingOne, *receiver);
 		}
 		// Channels
 		else
@@ -59,28 +65,29 @@ void	notice(std::vector<std::string> params, user &askingOne,
 					lvl = 2;
 				else if (it->find("~") != std::string::npos)
 					lvl = 1;
-				for (std::map<unsigned int, int>::iterator it = chan_users.begin();
-					it != chan_users.end(); it++)
+				for (std::map<unsigned int, int>::iterator it2 = chan_users.begin();
+					it2 != chan_users.end(); it2++)
 				{
-					if (it->second >= lvl)
-						recipients.push_back(searchUserByID(it->first, users));
+					if (it2->second >= lvl)
+						send_msg(server, message, *it, askingOne, *searchUserByID(it2->first, users));
 				}
+
 			}
 			else
 			{
-				for (std::map<unsigned int, int>::iterator it = chan_users.begin();
-					it != chan_users.end(); it++)
-				{
-					recipients.push_back(searchUserByID(it->first, users));
-				}
+				for (std::map<unsigned int, int>::iterator it3 = chan_users.begin();
+					it3 != chan_users.end(); it3++)
+
+					send_msg(server, message, *it, askingOne, *searchUserByID(it3->first, users));
+
 			}
 		}
 	}
 
 	// Send messages
-	for (std::vector<user*>::iterator it = recipients.begin();
-		it != recipients.end(); ++it)
-	{
-		server.send(":" + askingOne.getNick() + "!" + askingOne.getHistory_nick().front() + "@" + askingOne.getIp() + " " + "NOTICE " + (*it)->getNick() + " :" + message, (*it)->getId());
-	}
+	// for (std::vector<user*>::iterator it = recipients.begin();
+	// 	it != recipients.end(); ++it)
+	// {
+	// 	server.send(":" + askingOne.getNick() + "!" + askingOne.getHistory_nick().front() + "@" + askingOne.getIp() + " " + "NOTICE " + (*it)->getNick() + " :" + message, (*it)->getId());
+	// }
 }

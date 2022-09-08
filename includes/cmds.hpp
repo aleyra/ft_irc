@@ -46,7 +46,8 @@ void	quit(std::vector<std::string> params, user &askingOne,
 			std::vector<channel*> chan_vec, Server &server);
 int		topic(std::vector<std::string> params, user* askingOne,
 			std::vector<channel*> chan_vec, Server& srv);
-int		user_cmd(std::vector<std::string> params, user* usr, Server& srv);
+int		user_cmd(std::vector<std::string> params, user* usr,
+			std::map<unsigned int, user *>& users, Server& srv);
 
 // Server-side commands
 void	quit_server(user &user, Server &server, std::string msg);

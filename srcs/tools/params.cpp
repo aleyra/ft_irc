@@ -28,5 +28,7 @@ std::string	concat(std::vector<std::string> params)
 	{
 		ret += *it + " ";
 	}
+	// Remove additionnal space
+	ret = ret.substr(0, ret.size() - 1);
 	return (ret);
 }

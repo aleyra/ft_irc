@@ -97,19 +97,19 @@ std::size_t const	&Server::get_current_id() const
 * 	None.
 * 
 * Notes:
-* 	Appends the \n at the end of the message the convenience.
+* 	Appends the \n at the end of the message for convenience.
 **/
 
 void	Server::send(const std::string &msg, const std::size_t &id)
 {
-	if (_users.find(id) == _users.end())
+	if (_users.find(id) == _users.end() && FD_ISSET(_users[id], &(this->writefds)))
 		return;
 
-	std::string	sent = msg + "\r\n";
-	// std::string	sent = ":" + msg + "\n";
-	std::cout << msg << std::endl;
-	if(::send(_users[id], sent.c_str(), sent.size(), 0) != static_cast<long>(sent.size()))
-		std::cout << "Couldn't send message. errno: " << errno << std::endl;
+	std::string	sent = to_send[id] + msg + "\r\n";
+	std::cout << "sent : " << sent;
+	int num = ::send(_users[id], sent.c_str(), sent.size(), 0);
+	if(num > 0)
+		to_send[id] = sent.substr(num, std::string::npos);
 }
 
 /**
@@ -117,18 +117,16 @@ void	Server::send(const std::string &msg, const std::size_t &id)
 * 	Receive the messages from all clients.
 * 
 * Args:
-* 	readfds: A fd_set of all sockets connected.
 * 	users: Set the user as offline if they disconnected.
 * 
 * Return:
 * 	Returns a vector of strings containing all the messages.
 * 
 * Notes:
-* 	The return should be a map, associocating an id with a buffer.
+* 	** Notes **
 **/
 
-std::map<unsigned int, std::string>	Server::receive(fd_set &readfds,
-	std::map<unsigned int, user *> &users)
+std::map<unsigned int, std::string>	Server::receive(std::map<unsigned int, user *> &users)
 {
 	char	buffer[4096];
 	std::map<unsigned int, std::string>	m;
@@ -138,14 +136,17 @@ std::map<unsigned int, std::string>	Server::receive(fd_set &readfds,
 	{
 		size_t valread = 0;
 		int sd = it->second;
-		if (FD_ISSET(sd, &readfds))
+		if (FD_ISSET(sd, &this->readfds))
 		{
 			fcntl(sd, F_SETFL, O_NONBLOCK);
 			valread = recv(sd, buffer, 4095, 0);
 			if (valread > 0)
 			{
 				buffer[valread] = '\0';
-				std::cout << buffer << std::endl;
+				for (size_t i = 0; i < valread - 1; ++i){
+					if ((int)buffer[i] < 0)
+						memset(buffer, 0, valread);
+				}
 				m[it->first] = buffer;
 			}
 			else
@@ -165,7 +166,7 @@ std::map<unsigned int, std::string>	Server::receive(fd_set &readfds,
 * 	occurence of the main loop.
 * 
 * Args:
-* 	readfds: A fd_set of all sockets connected.
+* 	None.
 * 
 * Return:
 * 	Returns a new user.
@@ -174,9 +175,9 @@ std::map<unsigned int, std::string>	Server::receive(fd_set &readfds,
 * 	Exits if accept fails.
 **/
 
-user	*Server::add_connection(fd_set &readfds)
+user	*Server::add_connection()
 {
-	if (!FD_ISSET(_main_socket, &readfds))
+	if (!FD_ISSET(_main_socket, &this->readfds))
 		return NULL;
 
 	std::size_t addrlen = sizeof(_address);
@@ -191,6 +192,7 @@ user	*Server::add_connection(fd_set &readfds)
 	_users[_current_id] = new_socket;
 	_ips[_current_id] = inet_ntoa(_address.sin_addr);
 	usr->setIp(_ips[_current_id]);
+	to_send[_current_id] = "";
 	_current_id++;
 	return (usr);
 }
@@ -200,7 +202,7 @@ user	*Server::add_connection(fd_set &readfds)
 * 	Init the select function to accept multiple connections.
 * 
 * Args:
-* 	readfds: A fd_set of all sockets connected.
+* 	None.
 * 
 * Return:
 * 	None.
@@ -209,10 +211,10 @@ user	*Server::add_connection(fd_set &readfds)
 * 	** Notes **
 **/
 
-void	Server::select(fd_set &readfds)
+void	Server::select()
 {
-	FD_ZERO(&readfds);
-	FD_SET(_main_socket, &readfds);
+	FD_ZERO(&this->readfds);
+	FD_SET(_main_socket, &this->readfds);
 	
 	int max_sd = _main_socket;
 	for (std::map<unsigned int, int>::iterator it = _users.begin();
@@ -220,14 +222,12 @@ void	Server::select(fd_set &readfds)
 	{
 		int sd = it->second;
 		if(sd > 0)
-		{
-			FD_SET(sd, &readfds);
-		}
+			FD_SET(sd, &this->readfds);
 		if(sd > max_sd)
 			max_sd = sd;
 	}
 
-	int activity = ::select(max_sd + 1, &readfds, NULL, NULL, NULL);
+	int activity = ::select(max_sd + 1, &this->readfds, &this->writefds, NULL, NULL);
 	if ((activity < 0) && (errno != EINTR))
 		std::cout << "Select failed: " << errno << std::endl;
 }

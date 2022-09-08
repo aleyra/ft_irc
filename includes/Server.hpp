@@ -32,10 +32,9 @@ class Server
 
 		void						send(const std::string &msg, const std::size_t &id);
 		std::map<unsigned int,
-		std::string>				receive(fd_set &readfds,
-			std::map<unsigned int, user *> &users);
-		user						*add_connection(fd_set &readfds);
-		void						select(fd_set &readfds);
+		std::string>				receive(std::map<unsigned int, user *> &users);
+		user						*add_connection();
+		void						select();
 		void						disconnect(user &user);
 		std::string					client_ip(unsigned int id);
 
@@ -44,14 +43,27 @@ class Server
 	private:
 		// A map of ids, with a socket associated.
 		std::map<unsigned int, int>	_users;
+		
 		// The socket that handles all connections.
 		int					_main_socket;
+		
 		// A thing used to get addresses.
 		sockaddr_in 		_address;
+
+		// The fd_set to read fds.
+		fd_set				readfds;
+
+		// The fd_set to write on fds.
+		fd_set				writefds;
+
 		// The id of the next user.
 		std::size_t			_current_id;
-		// A list of user ips
+		
+		// A list of user ips.
 		std::map<unsigned int, std::string> _ips;
+
+		// A map of buffers to send.
+		std::map<unsigned int, std::string> to_send;
 
 		void	check_port_range(const std::string &port);
 		void	set_oper();

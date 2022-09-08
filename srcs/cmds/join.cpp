@@ -47,6 +47,13 @@ int	join(std::string t, user* askingOne, std::vector<channel*>& chan_vec,
 			chan->addMode('t');
 			chan->addMode('n');
 		}
+		
+		std::vector<channel*>::iterator itchan = std::find(askingOne->getList_chan().begin(), askingOne->getList_chan().end(), chan);
+		if (itchan != askingOne->getList_chan().end()){
+			// std::cout << "already on it" << std::endl;
+			return (EXIT_SUCCESS);
+		}
+
 		invite_list = &(chan->getInvite_list());
 		id = askingOne->getId();
 		//check if chan has mode i and if so, if askingOne is invited

@@ -57,9 +57,10 @@ int	mode_user(std::vector<std::string> params, user* askingOne,
 			return (numeric_reply(ERR_UMODEUNKNOWNFLAG, askingOne, srv));
 			break;
 	}
-	srv.send(askingOne->getNick() + " MODE " + usr->getNick() + " :" + modestring.substr(0, 2), askingOne->getId());
-	if (askingOne->getId() != usr->getId())
-		srv.send(askingOne->getNick() + " MODE " + usr->getNick() + " :" + modestring.substr(0, 2), usr->getId());
+	// srv.send(askingOne->getNick() + " MODE " + usr->getNick() + " :" + modestring.substr(0, 2), askingOne->getId());
+	// if (askingOne->getId() != usr->getId())
+	// 	srv.send(askingOne->getNick() + " MODE " + usr->getNick() + " :" + modestring.substr(0, 2), usr->getId());
+	numeric_reply(RPL_UMODEIS, askingOne, usr, srv);
 	modestring.erase(0, 2);
 	return (EXIT_SUCCESS);
 }
@@ -101,17 +102,17 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 	user*		usr = NULL;
 	
 	while (!modestring.empty() && count <= 3){
-		
-			if (modestring[0] != '+' && modestring[0] != '-'){
-				tmp = last_sign;
-				tmp.append(modestring);
-				modestring = tmp;
-			}
-			while (modestring.size() > 2 && !std::isalpha(modestring[1])){
-				modestring.erase(0, 1);
-			}
-			last_sign = modestring.substr(0, 1);
-		
+		if (modestring[0] != '-' && modestring[0] != '+'){
+			tmp = last_sign;
+			tmp.append(modestring);
+			modestring = tmp;
+		}
+		while (modestring.size() > 2 && std::isalpha(modestring[1])){
+			modestring.erase(0, 1);
+		}
+		last_sign = modestring.substr(0, 1);
+		if (!std::isalpha(modestring[1]))
+			break ;
 		switch (modestring[1]){
 			case 'o':// o - give/take channel operator privilege;
 				{
@@ -119,13 +120,13 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 						return (EXIT_FAILURE);
 					usr = searchUserByNick(params[i], users);
 					if (usr == NULL)//params[i] ne correspond pas a un user
-						return (EXIT_FAILURE);
+						return (numeric_reply(ERR_NOSUCHNICK, askingOne, params[i], srv));
 					if (usr_list->find(usr->getId()) == usr_list->end())
 						return (numeric_reply(ERR_USERNOTINCHANNEL, askingOne, usr, chan, srv));
 					askingOne_id = usr->getId();
 					if (modestring[0] == '+')
 						usr_list->at(askingOne_id) = CHAN_OP;
-					else if (modestring[0] == '-')
+					else if (modestring[0] == '-'&& usr_list->at(askingOne_id) == CHAN_OP)
 						usr_list->at(askingOne_id) = DEFAULT;
 					i++;
 					chan->send(srv, ":" + askingOne->getNick() + "!" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "MODE " + chan->getName() + + " " + modestring.substr(0, 2) + " " + usr->getNick());
@@ -214,7 +215,16 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 					chan->send(srv, ":" + askingOne->getNick() + "!" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "MODE " + chan->getName() + " " + modestring.substr(0, 2));
 				}
 				break;
-
+			case 'n'://n - notice ok
+				{
+					if (modestring[0] == '+'){
+						chan->addMode('n');
+					}
+					else if (modestring[0] == '-'){
+						chan->rmMode('n');
+					}
+					chan->send(srv, ":" + askingOne->getNick() + "!" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "MODE " + chan->getName() + " " + modestring.substr(0, 2));
+				}
 			// case 'b'://b - set/remove ban mask to keep users out;//whynot
 			// 	{
 			// 		if (modestring[0] == '+'){

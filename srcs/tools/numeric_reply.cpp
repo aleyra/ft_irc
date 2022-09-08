@@ -12,7 +12,7 @@ int	numeric_reply(int err, user* askingOne, user* usr, Server& srv){
 			srv.send(to_string(err) + " " + askingOne->getNick() + " " + usr->getNick() + " :User not logged in", askingOne->getId());
 			break;
 		case RPL_UMODEIS:
-			srv.send(to_string(err) + " " + askingOne->getNick() + " " + usr->getMode(), askingOne->getId());
+			srv.send(to_string(err) + " " + askingOne->getNick() + " +" + usr->getMode(), askingOne->getId());
 			break;
 		default:
 			break;
