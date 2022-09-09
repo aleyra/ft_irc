@@ -75,7 +75,7 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 
 	std::map<unsigned int, int>*	usr_list = &(chan->getUsr_list());
 	unsigned int					askingOne_id = askingOne->getId();
-	int								level_access = usr_list->at(askingOne_id);
+	// int								level_access = usr_list->at(askingOne_id);
 	size_t							count_ov = 0;
 	std::string						modestring = params[1];
 	std::string						last_sign = "+";
@@ -89,8 +89,10 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 	}
 	if (params.size() < count_ov + 2)
 		return (numeric_reply(ERR_NEEDMOREPARAMS, askingOne, "MODE", srv));
-	if (usr_list->find(askingOne->getId()) == usr_list->end() || level_access >= CHAN_OP)
+	if ((usr_list->find(askingOne->getId()) != usr_list->end() && usr_list->at(askingOne_id) >= CHAN_OP) || askingOne->getLvl() == SRV_OP){
+		std::cout << "ici" << std::endl;
 		return (numeric_reply(ERR_CHANOPRIVSNEEDED, askingOne, chan, srv));
+	}
 	
 	size_t		i = 2;
 	int			count = 1;

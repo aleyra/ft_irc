@@ -76,40 +76,95 @@ int	numeric_reply(int err, user* askingOne, channel* chan, Server& srv){
 int	numeric_reply(int err, user* askingOne, std::string s, Server& srv){//s for cmd, operation, charactere, string
 	switch (err){
 		case ERR_NOSUCHCHANNEL:
-			srv.send(to_string(err) + " " + askingOne->getNick() + " " + s + " :No such channel", askingOne->getId());
+			{
+				if (!s.empty())
+					srv.send(to_string(err) + " " + askingOne->getNick() + " " + s + " :No such channel", askingOne->getId());
+				else
+					srv.send(to_string(err) + " " + askingOne->getNick() + " :No such channel", askingOne->getId());
+			}
 			break;
 		case ERR_NOSUCHNICK:
-			srv.send(to_string(err) + " " + askingOne->getNick() + " " + s + " :No such nick/channel", askingOne->getId());
+			{
+				if (!s.empty())
+					srv.send(to_string(err) + " " + askingOne->getNick() + " " + s + " :No such nick/channel", askingOne->getId());
+				else
+					srv.send(to_string(err) + " " + askingOne->getNick() + " :No such nick/channel", askingOne->getId());
+			}
 			break;
 		case ERR_TOOMANYTARGETS:
-			srv.send(to_string(err) + " " + askingOne->getNick() + " " + s + " :Duplicate recipients. No message delivered", askingOne->getId());
+			{
+				if (!s.empty())
+					srv.send(to_string(err) + " " + askingOne->getNick() + " " + s + " :Duplicate recipients. No message delivered", askingOne->getId());
+				else
+					srv.send(to_string(err) + " " + askingOne->getNick() + " :Duplicate recipients. No message delivered", askingOne->getId());
+			}
 			break;
 		case ERR_NORECIPIENT:
 			srv.send(to_string(err) + " " + askingOne->getNick() + " " + ":No recipient given (" + s + ")", askingOne->getId());
 			break;
 		case ERR_UNKNOWNCOMMAND:
-			srv.send(to_string(err) + " " + askingOne->getNick() + " " + s + " :Unknown command", askingOne->getId());
+			{
+				if (!s.empty())
+					srv.send(to_string(err) + " " + askingOne->getNick() + " " + s + " :Unknown command", askingOne->getId());
+				else
+					srv.send(to_string(err) + " " + askingOne->getNick() + " :Unknown command", askingOne->getId());
+			}
 			break;
 		case ERR_NEEDMOREPARAMS:
-			srv.send(to_string(err) + " " + askingOne->getNick() + " " + s + " :Not enough parameters", askingOne->getId());
+			{
+				if (!s.empty())
+					srv.send(to_string(err) + " " + askingOne->getNick() + " " + s + " :Not enough parameters", askingOne->getId());
+				else
+					srv.send(to_string(err) + " " + askingOne->getNick() + " " + s + " :Not enough parameters", askingOne->getId());
+			}
 			break;
 		case ERR_UNKNOWNMODE:
-			srv.send(to_string(err) + " " + askingOne->getNick() + " " + s + " :is unknown mode char to me", askingOne->getId());
+			{
+				if (!s.empty())
+					srv.send(to_string(err) + " " + askingOne->getNick() + " " + s + " :is unknown mode char to me", askingOne->getId());
+				else
+					srv.send(to_string(err) + " " + askingOne->getNick() + " :is unknown mode char to me", askingOne->getId());
+			}
 			break;
 		case RPL_ENDOFWHO:
-			srv.send(to_string(err) + " " + askingOne->getNick() + " " + s + " :End of WHO list", askingOne->getId());
+			{
+				if (!s.empty())
+					srv.send(to_string(err) + " " + askingOne->getNick() + " " + s + " :End of WHO list", askingOne->getId());
+				else
+					srv.send(to_string(err) + " " + askingOne->getNick() + " :End of WHO list", askingOne->getId());
+			}
 			break;
 		case ERR_UNAVAILRESOURCE:
-			srv.send(to_string(err) + " " + askingOne->getNick() + " " + s + " :Nick/channel is temporarily unavailable", askingOne->getId());
+			{
+				if (!s.empty())
+					srv.send(to_string(err) + " " + askingOne->getNick() + " " + s + " :Nick/channel is temporarily unavailable", askingOne->getId());
+				else
+					srv.send(to_string(err) + " " + askingOne->getNick() + " :Nick/channel is temporarily unavailable", askingOne->getId());
+			}
 			break;
 		case ERR_NICKNAMEINUSE:
-			srv.send(to_string(err) + " " + askingOne->getNick() + " " + s + " :Nickname is already in use", askingOne->getId());
+			{
+				if (!s.empty())
+					srv.send(to_string(err) + " " + askingOne->getNick() + " " + s + " :Nickname is already in use", askingOne->getId());
+				else
+					srv.send(to_string(err) + " " + askingOne->getNick() + " :Nickname is already in use", askingOne->getId());
+			}
 			break;
 		case RPL_ENDOFNAMES://avec s comme param car le chan->getName() s peut de pas exister;
-			srv.send(to_string(err) + " " + askingOne->getNick() + " " + s + " :End of NAMES list", askingOne->getId());
+			{
+				if (!s.empty())
+					srv.send(to_string(err) + " " + askingOne->getNick() + " " + s + " :End of NAMES list", askingOne->getId());
+				else
+					srv.send(to_string(err) + " " + askingOne->getNick() + " :End of NAMES list", askingOne->getId());
+			}
 			break;
 		case RPL_YOUREOPER:
-			srv.send(to_string(err) + " " + askingOne->getNick() + " " + s + " :You are now an IRC operator", askingOne->getId());
+			{
+				if (!s.empty())
+					srv.send(to_string(err) + " " + askingOne->getNick() + " " + s + " :You are now an IRC operator", askingOne->getId());
+				else
+					srv.send(to_string(err) + " " + askingOne->getNick() + " :You are now an IRC operator", askingOne->getId());
+			}
 			break;
 		default:
 			break;
@@ -129,7 +184,7 @@ int	numeric_reply(int err, user* askingOne, Server& srv){
 			srv.send("003 " + askingOne->getNick() + " " + ":This server was created: way too long ago", askingOne->getId());
 			break;
 		case RPL_MYINFO:
-			srv.send("004 " + askingOne->getNick() + " " + askingOne->getIp() + " ft_irc -1 iro ovimpst", askingOne->getId());
+			srv.send("004 " + askingOne->getNick() + " " + askingOne->getIp() + " ft_irc -1 io ovimpst", askingOne->getId());
 			break;
 		case ERR_NOSUCHSERVER:
 			srv.send(to_string(err) + " " + askingOne->getNick() + " " + /*srv->name +*/ ":No such server", askingOne->getId());

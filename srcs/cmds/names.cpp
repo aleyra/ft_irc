@@ -4,7 +4,7 @@ int	rpl_namreply(user* askingOne, channel* chan, std::map<unsigned int,
 	user *>& users, Server& srv){
 	std::string	to_send;
 	// "<client> <symbol> <channel> :[prefix]<nick>{ [prefix]<nick>}"
-	to_send += ":server " + to_string(RPL_NAMREPLY) + " " + askingOne->getNick() + " " ;//<client>
+	to_send += to_string(RPL_NAMREPLY) + " " + askingOne->getNick() + " " ;//<client>
 	// These are lines are supposed to be here, but... weechat
 	// if (chan->hasMode('s') == true)//<symbol>
 	// 	to_send += "@";//chan is secret
