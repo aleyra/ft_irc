@@ -107,7 +107,7 @@ int	exec_command(const int &id, const std::string &command,
 		&& !users[id]->getTruename().empty())
 		numeric_reply(ERR_UNKNOWNCOMMAND, users[id], firstWord, server);
 	
-	if (!users[id]->getHistory_nick().empty()
+	if (users.find(id) != users.end() && !users[id]->getHistory_nick().empty()
 		&& !users[id]->getTruename().empty()
 		&& !users[id]->getSentConnectionMessage())
 	{

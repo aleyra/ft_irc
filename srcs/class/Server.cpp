@@ -247,7 +247,7 @@ void	Server::select()
 * 	** Notes **
 **/
 
-void	Server::disconnect(user &askingOne, std::map<unsigned int, user *>& users)
+void	Server::disconnect(user &askingOne, std::map<unsigned int, user *> &users)
 {
 	if (askingOne.getIsonline())
 	{
