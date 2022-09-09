@@ -81,6 +81,7 @@ int	numeric_reply(int err, user* askingOne, std::string s, Server& srv){//s for 
 					srv.send(to_string(err) + " " + askingOne->getNick() + " " + s + " :No such channel", askingOne->getId());
 				else
 					srv.send(to_string(err) + " " + askingOne->getNick() + " :No such channel", askingOne->getId());
+			}
 			break;
 		case ERR_NOSUCHNICK:
 			{
@@ -183,7 +184,7 @@ int	numeric_reply(int err, user* askingOne, Server& srv){
 			srv.send("003 " + askingOne->getNick() + " " + ":This server was created: way too long ago", askingOne->getId());
 			break;
 		case RPL_MYINFO:
-			srv.send("004 " + askingOne->getNick() + " " + askingOne->getIp() + " ft_irc -1 iro ovimpst", askingOne->getId());
+			srv.send("004 " + askingOne->getNick() + " " + askingOne->getIp() + " ft_irc -1 io ovimpst", askingOne->getId());
 			break;
 		case ERR_NOSUCHSERVER:
 			srv.send(to_string(err) + " " + askingOne->getNick() + " " + /*srv->name +*/ ":No such server", askingOne->getId());
