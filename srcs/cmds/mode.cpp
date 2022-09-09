@@ -38,14 +38,6 @@ int	mode_user(std::vector<std::string> params, user* askingOne,
 					usr->rmMode('i');
 			}
 			break;
-		// case 'r'://r - restricted user connection
-		// 	{
-		// 		if (modestring[0] == '+' && (usr->getNick().compare(askingOne->getNick()) != 0 || askingOne->getLvl() == SRV_OP))//tentative en ajoutant && cond
-		// 			usr->addMode('r');
-		// 		if (modestring[0] == '-' && (askingOne->getLvl() == SRV_OP))
-		// 			usr->rmMode('r');
-		// 	}
-		// 	break;
 		case 'o'://o - operator flag
 			{
 				if (usr->getNick().compare(askingOne->getNick()) != 0)//tentative en deplacant ce if
