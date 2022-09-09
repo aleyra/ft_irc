@@ -42,7 +42,8 @@ int	mode_user(std::vector<std::string> params, user* askingOne,
 			{
 				if (modestring[0] == '+' && (usr->getNick().compare(askingOne->getNick()) != 0 || askingOne->getLvl() == SRV_OP))//tentative en ajoutant && cond
 					usr->addMode('r');
-				if (modestring[0] == '-')
+				if (modestring[0] == '-' && (askingOne->getLvl() == SRV_OP))
+					usr->rmMode('r');
 			}
 			break;
 		case 'o'://o - operator flag
@@ -145,7 +146,7 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 					if (usr_list->find(usr->getId()) == usr_list->end())
 						return (numeric_reply(ERR_USERNOTINCHANNEL, askingOne, usr, chan, srv));
 					unsigned int	usr_id = usr->getId();
-					if (modestring[0] == '+')
+					if (modestring[0] == '+' && usr_list->at(usr_id) < VOICE_OK)
 						usr_list->at(usr_id) = VOICE_OK;
 					else if (modestring[0] == '-' && usr_list->at(usr_id) == VOICE_OK)
 						usr_list->at(usr_id) = DEFAULT;
