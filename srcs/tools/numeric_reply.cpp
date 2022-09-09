@@ -63,7 +63,7 @@ int	numeric_reply(int err, user* askingOne, channel* chan, Server& srv){
 			break;
 		case RPL_CHANNELMODEIS://"<client> <channel> <modestring> <mode arguments>..."
 			{
-				srv.send(":server " + to_string(err) /*+ " " + askingOne->getIp() */+ " " + askingOne->getNick() + " " + chan->getName() + " +" + chan->getMode(), askingOne->getId());
+				srv.send(to_string(err) + " " + askingOne->getNick() + " " + chan->getName() + " +" + chan->getMode(), askingOne->getId());
 				//<mode arguments> ?????
 			}
 			break;

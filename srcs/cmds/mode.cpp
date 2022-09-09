@@ -238,8 +238,8 @@ int	mode(std::vector<std::string> params, user* askingOne, std::vector<channel *
 	// Parameters: <target> [<modestring> [<mode arguments>...]]
 	if (params.empty())
 		return (numeric_reply(ERR_NEEDMOREPARAMS, askingOne, "MODE", srv));
-	if (params[0][0] != '&' || params[0][0] != '#'
-		|| params[0][0] != '+' || params[0][0] != '!')
+	if (params[0][0] != '&' && params[0][0] != '#'
+		&& params[0][0] != '+' && params[0][0] != '!')
 			return (mode_user(params, askingOne, users, srv));
 	return (mode_channel(params, askingOne, chan_vec, users, srv));
 }
