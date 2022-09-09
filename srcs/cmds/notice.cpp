@@ -1,12 +1,12 @@
 #include "cmds.hpp"
 
-// static void	send_msg(Server &server, std::string &message, std::string &target, user &askingOne, user &receiver)
-// {
-// 	if (receiver.getId() != askingOne.getId())
-// 		server.send(":" + askingOne.getNick() + "!"
-// 			+ askingOne.getHistory_nick().front() + "@" + askingOne.getIp()
-// 			+ " " + "PRIVMSG " + target + " :" + message, receiver.getId());
-// }
+static void	send_msg(Server &server, std::string &message, std::string &target, user &askingOne, user &receiver)
+{
+	if (receiver.getId() != askingOne.getId())
+		server.send(":" + askingOne.getNick() + "!"
+			+ askingOne.getHistory_nick().front() + "@" + askingOne.getIp()
+			+ " " + "NOTICE " + target + " :" + message, receiver.getId());
+}
 
 /**
 * Description:
@@ -68,6 +68,8 @@ void	notice(std::vector<std::string> params, user &askingOne,
 					lvl = 2;
 				else if (it->find("~") != std::string::npos)
 					lvl = 1;
+				if (chan->hasMode('m') && lvl < CHAN_OP)
+					lvl = VOICE_OK;
 				for (std::map<unsigned int, int>::iterator it2 = chan_users.begin();
 					it2 != chan_users.end(); it2++)
 				{

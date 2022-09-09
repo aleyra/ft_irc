@@ -55,7 +55,5 @@ int		user_cmd(std::vector<std::string> params, user* usr,
 void	quit_server(user &askingOne, Server &server, std::string msg,
 	std::map<unsigned int, user *>& users);
 void	ping(std::vector<std::string> params, user &user, Server &server);
-void	send_msg(Server &server, std::string &message,
-	std::string &target, user &askingOne, user &receiver);
 
 #endif
