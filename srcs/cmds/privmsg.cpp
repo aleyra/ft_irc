@@ -82,11 +82,12 @@ void	privmsg(std::vector<std::string> params, user &askingOne,
 					lvl = 2;
 				else if (it->find("~") != std::string::npos)
 					lvl = 1;
-				if (chan->hasMode('m') && lvl < VOICE_OK)
+				if (chan->hasMode('m') && lvl < CHAN_OP)
 					lvl = VOICE_OK;
 				for (std::map<unsigned int, int>::iterator it2 = chan_users.begin();
 					it2 != chan_users.end(); it2++)
 				{
+					std::cout << it2->second << std::endl;
 					if (it2->second >= lvl)
 					{
 						send_msg(server, message, *it, askingOne, *searchUserByID(it2->first, users));
