@@ -59,21 +59,21 @@ void	notice(std::vector<std::string> params, user &askingOne,
 			
 			if (it->find_first_of("~&@%") != std::string::npos)
 			{
-				int lvl = 0;
+				int lvl = DEFAULT;
 				if (it->find("%") != std::string::npos)
-					lvl = 4;
+					lvl = CHAN_OP;
 				else if (it->find("@") != std::string::npos)
-					lvl = 3;
+					lvl = HALFOP;
 				else if (it->find("&") != std::string::npos)
-					lvl = 2;
+					lvl = PROTECTED;
 				else if (it->find("~") != std::string::npos)
-					lvl = 1;
-				if (chan->hasMode('m') && lvl < CHAN_OP)
+					lvl = VOICE_OK;
+				if (chan->hasMode('m') && lvl < VOICE_OK)
 					lvl = VOICE_OK;
 				for (std::map<unsigned int, int>::iterator it2 = chan_users.begin();
 					it2 != chan_users.end(); it2++)
 				{
-					if (it2->second >= lvl)
+					if (it2->second >= lvl && !chan->hasMode('n'))
 						send_msg(server, message, *it, askingOne, *searchUserByID(it2->first, users));
 				}
 
@@ -82,7 +82,10 @@ void	notice(std::vector<std::string> params, user &askingOne,
 			{
 				for (std::map<unsigned int, int>::iterator it3 = chan_users.begin();
 					it3 != chan_users.end(); it3++)
-					send_msg(server, message, *it, askingOne, *searchUserByID(it3->first, users));
+				{
+					if (!chan->hasMode('n'))
+						send_msg(server, message, *it, askingOne, *searchUserByID(it3->first, users));
+				}
 
 			}
 		}

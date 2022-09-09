@@ -82,7 +82,7 @@ void	privmsg(std::vector<std::string> params, user &askingOne,
 					lvl = 2;
 				else if (it->find("~") != std::string::npos)
 					lvl = 1;
-				if (chan->hasMode('m') && lvl < CHAN_OP)
+				if (chan->hasMode('m') && lvl < VOICE_OK)
 					lvl = VOICE_OK;
 				for (std::map<unsigned int, int>::iterator it2 = chan_users.begin();
 					it2 != chan_users.end(); it2++)
