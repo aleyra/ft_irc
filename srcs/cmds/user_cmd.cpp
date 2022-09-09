@@ -3,8 +3,9 @@
 int	user_cmd(std::vector<std::string> params, user* usr, std::map<unsigned int, user *>& users, Server& srv){//<user> <mode> <unused> <realname>
 	if (params.size() < 4)
 		return (numeric_reply(ERR_NEEDMOREPARAMS, usr, "USER",srv));
-	if (!usr->getTruename().empty())
+	if (!usr->getTruename().empty()){
 		return (numeric_reply(ERR_ALREADYREGISTERED, usr, srv));
+	}
 	for (size_t i = 0; i < params[1].size(); ++i){//case where mode is not a positive number
 		if (!std::isdigit(params[1][i]))
 			params[1] = "0";
@@ -22,8 +23,9 @@ int	user_cmd(std::vector<std::string> params, user* usr, std::map<unsigned int, 
 		params[3].append(params[i]);
 	}
 	for (std::map<unsigned int, user *>::iterator it = users.begin(); it != users.end(); ++it){
-		if (it->second->getTruename().compare(params[3]) == 0)
+		if (it->second->getTruename().compare(params[3]) == 0){
 			return(numeric_reply(ERR_ALREADYREGISTERED, usr, srv));
+		}
 	}
 	usr->setTruename(params[3]);
 	return (EXIT_SUCCESS);

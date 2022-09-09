@@ -2,9 +2,6 @@
 
 int	numeric_reply(int err, user* askingOne, user* usr, Server& srv){
 	switch (err){
-		case ERR_ERRONEUSNICKNAME:
-			srv.send(to_string(err) + " " + askingOne->getNick() + " " + usr->getNick() + " :Erroneus nickname", askingOne->getId());
-			break;
 		case ERR_NICKCOLLISION:
 			srv.send(to_string(err) + " " + askingOne->getNick() + " " + usr->getNick() + " :Nickname collision KILL", askingOne->getId());
 			break;
@@ -75,6 +72,15 @@ int	numeric_reply(int err, user* askingOne, channel* chan, Server& srv){
 
 int	numeric_reply(int err, user* askingOne, std::string s, Server& srv){//s for cmd, operation, charactere, string
 	switch (err){
+		case ERR_ERRONEUSNICKNAME:
+			{
+				if (!s.empty())
+					srv.send(to_string(err) + " " + askingOne->getNick() + " " + s + " :Erroneus nickname", askingOne->getId());
+				else
+					srv.send(to_string(err) + " " + askingOne->getNick() + " :Erroneus nickname", askingOne->getId());
+
+			}
+			break;
 		case ERR_NOSUCHCHANNEL:
 			{
 				if (!s.empty())
