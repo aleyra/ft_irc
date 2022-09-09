@@ -101,8 +101,9 @@ void	privmsg(std::vector<std::string> params, user &askingOne,
 				for (std::map<unsigned int, int>::iterator it3 = chan_users.begin();
 					it3 != chan_users.end(); it3++)
 				{
-					if (chan->hasMode('m') == false || (chan->hasMode('m') ==  true && it3->second >= VOICE_OK))
+					if (!chan->hasMode('m') || it3->second >= VOICE_OK)
 					{
+						std::cout << "Coucou " << it3->second << std::endl;
 						send_msg(server, message, *it, askingOne, *searchUserByID(it3->first, users));
 						sent = 1;
 					}

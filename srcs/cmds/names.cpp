@@ -19,7 +19,9 @@ int	rpl_namreply(user* askingOne, channel* chan, std::map<unsigned int,
 			to_send += "@";
 		else if (chan->getIsMod() == true && it->second == 1)
 			to_send += "+";
-		to_send += searchUserByID(it->first, users)->getNick() + " ";
+		user*	usr = searchUserByID(it->first, users);
+		if (usr != NULL)
+			to_send += usr->getNick() + " ";
 	}
 	srv.send(to_send, askingOne->getId());
 	return (RPL_NAMREPLY);
