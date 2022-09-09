@@ -154,13 +154,9 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 						chan->addMode('i');
 					}
 					else if (modestring[0] == '-'){
-						std::cout << "case -i" << std::endl;
 						chan->rmMode('i');
-						std::cout << "rm 'i' done" << std::endl;
 					}
-					std::cout << "send msg" << std::endl;
 					chan->send(srv, ":" + askingOne->getNick() + "!" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "MODE " + chan->getName() + " " + modestring.substr(0, 2));
-					std::cout << "msg sent" << std::endl;
 				}
 				break;
 			case 'm'://m - toggle the moderated channel;
@@ -233,9 +229,7 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 				return (numeric_reply(ERR_UNKNOWNMODE, askingOne, modestring.substr(1, 1), srv));
 				break;
 		}
-		std::cout << "erase of 2 char of modestring : " << modestring.substr(0, 2) << std::endl;
 		modestring.erase(0, 2);
-		std::cout << "erase done" << std::endl;
 		count++;
 	}
 	return (EXIT_SUCCESS);

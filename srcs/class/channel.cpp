@@ -89,7 +89,7 @@ channel&	channel::operator=(channel const &src){
 
 	void	channel::rmMode(char c){
 		size_t pos = this->_mode.find(c);
-		if (pos == std::string::npos)
+		if (pos != std::string::npos)
 			this->_mode.erase(pos, 1);
 	}
 
