@@ -10,7 +10,6 @@ void	pass(std::vector<std::string> params, user &user,
 	}
 	if (user.getHasConnected())
 	{
-		std::cout << "1" <<std::endl;
 		numeric_reply(ERR_ALREADYREGISTERED, &user, server);
 		return;
 	}

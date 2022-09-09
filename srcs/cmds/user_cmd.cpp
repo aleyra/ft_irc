@@ -4,7 +4,6 @@ int	user_cmd(std::vector<std::string> params, user* usr, std::map<unsigned int, 
 	if (params.size() < 4)
 		return (numeric_reply(ERR_NEEDMOREPARAMS, usr, "USER",srv));
 	if (!usr->getTruename().empty()){
-		std::cout << "2" << std::endl;
 		return (numeric_reply(ERR_ALREADYREGISTERED, usr, srv));
 	}
 	for (size_t i = 0; i < params[1].size(); ++i){//case where mode is not a positive number
@@ -25,7 +24,6 @@ int	user_cmd(std::vector<std::string> params, user* usr, std::map<unsigned int, 
 	}
 	for (std::map<unsigned int, user *>::iterator it = users.begin(); it != users.end(); ++it){
 		if (it->second->getTruename().compare(params[3]) == 0){
-			std::cout << "3" << std::endl;
 			return(numeric_reply(ERR_ALREADYREGISTERED, usr, srv));
 		}
 	}

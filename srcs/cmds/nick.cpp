@@ -14,24 +14,16 @@ int	nick(std::vector<std::string> params, user* askingOne,
 		nick.find("?") != std::string::npos ||
 		nick.find("!") != std::string::npos ||
 		nick.find("@") != std::string::npos){
-		std::cout << /*srv->client <<*/ ERR_ERRONEUSNICKNAME << " " << askingOne->getNick() << " ";
-		std::cout << nick << " :Erroneous nickname" <<std::endl;
-		return (ERR_ERRONEUSNICKNAME);
+		return (numeric_reply(ERR_ERRONEUSNICKNAME, askingOne, nick, srv));
 	}
 	if (nick.find("$") == 0 || nick.find(":") == 0){
-		std::cout << /*srv->client <<*/ ERR_ERRONEUSNICKNAME << " " << askingOne->getNick() << " ";
-		std::cout << nick << " :Erroneous nickname" <<std::endl;
-		return (ERR_ERRONEUSNICKNAME);
+		return (numeric_reply(ERR_ERRONEUSNICKNAME, askingOne, nick, srv));
 	}
 	if (nick.find("#") == 0 || nick.find("&") == 0){
-		std::cout << /*srv->client <<*/ ERR_ERRONEUSNICKNAME << " " << askingOne->getNick() << " ";
-		std::cout << nick << " :Erroneous nickname" <<std::endl;
-		return (ERR_ERRONEUSNICKNAME);
+		return (numeric_reply(ERR_ERRONEUSNICKNAME, askingOne, nick, srv));
 	}
 	if (nick.find(".") != std::string::npos){
-		std::cout << /*srv->client <<*/ ERR_ERRONEUSNICKNAME << " " << askingOne->getNick() << " ";
-		std::cout << nick << " :Erroneous nickname" <<std::endl;
-		return (ERR_ERRONEUSNICKNAME);
+		return (numeric_reply(ERR_ERRONEUSNICKNAME, askingOne, nick, srv));
 	}
 	//check if nick != actual_nick
 	if (nick.compare(askingOne->getNick()) == 0)

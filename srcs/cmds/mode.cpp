@@ -89,8 +89,8 @@ int	mode_channel(std::vector<std::string> params, user* askingOne,
 	}
 	if (params.size() < count_ov + 2)
 		return (numeric_reply(ERR_NEEDMOREPARAMS, askingOne, "MODE", srv));
-	if ((usr_list->find(askingOne->getId()) != usr_list->end() && usr_list->at(askingOne_id) >= CHAN_OP) || askingOne->getLvl() == SRV_OP){
-		std::cout << "ici" << std::endl;
+	
+	if (askingOne->getLvl() >= SRV_OP || !(usr_list->find(askingOne_id) != usr_list->end() && usr_list->at(askingOne_id) >= CHAN_OP)){
 		return (numeric_reply(ERR_CHANOPRIVSNEEDED, askingOne, chan, srv));
 	}
 	

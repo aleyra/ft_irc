@@ -46,7 +46,7 @@ int	exec_command(const int &id, const std::string &command,
 		return (1);
 
 	// Print the command (for debugging).
-	// std::cout << "The command is : " << command << std::endl;
+	std::cout << "The command is : " << command << std::endl;
 
 	if (!users[id]->getHasConnected())
 	{

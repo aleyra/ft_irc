@@ -16,25 +16,14 @@ int	try_to_kick(std::string kicked, std::string msg, user *askingOne, channel* c
 		numeric_reply(ERR_USERNOTINCHANNEL, askingOne, usr, chan, srv);
 	//kick usr and send msg
 	chan->rmUsr_list(usr);
-	{
-		std::map<unsigned int, int>::iterator f = chan->getUsr_list().find(usr->getId());
-		if (f != chan->getUsr_list().end())
-			std::cout << "oups" << std::endl;
-	}
 	usr->rmList_chan(chan);
-	{
-		std::vector<channel*>::iterator f = std::find(usr->getList_chan().begin(),
-			usr->getList_chan().end(), chan);
-		if (f != usr->getList_chan().end())
-			std::cout << "re oups" << std::endl;
-	}
 	if (msg.empty()){
 		chan->send(srv, ":" + askingOne->getNick() + "!" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "KICK " + chan->getName() + " " + usr->getNick() + " :" + def_msg);
 		srv.send(":" + askingOne->getNick() + "!" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "KICK " + chan->getName() + " " + usr->getNick() + " :" + def_msg, usr->getId());
 	}
 	else{
-		chan->send(srv, ":" + askingOne->getNick() + "!" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "KICK " + chan->getName() + " " + usr->getNick() + " :" + msg);
-		srv.send(":" + askingOne->getNick() + "!" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "KICK " + chan->getName() + " " + usr->getNick() + " :" + msg, usr->getId());
+		chan->send(srv, ":" + askingOne->getNick() + "!" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "KICK " + chan->getName() + " " + usr->getNick() + " " + msg);
+		srv.send(":" + askingOne->getNick() + "!" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "KICK " + chan->getName() + " " + usr->getNick() + " " + msg, usr->getId());
 	}
 	return (EXIT_SUCCESS);
 }
@@ -51,7 +40,8 @@ int	kick(std::vector<std::string> params, user *askingOne,
 	//preparation of msg. Can be empty
 	for (size_t i = 2; i < params.size(); ++i){
 		msg.append(params[i]);
-		msg.append(" ");
+		if (i != params.size() - 1)
+			msg.append(" ");
 	}
 	for (size_t i = 0; i < channels.size(); ++i){
 		//check chan exists
