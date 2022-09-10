@@ -257,6 +257,7 @@ void	Server::disconnect(user &askingOne, std::map<unsigned int, user *> &users)
 		_ips.erase(_ips.find(askingOne.getId()));
 	}
 	// erase tends to segfault so look here if its the case !
+	delete users.find(askingOne.getId())->second;
 	users.erase(users.find(askingOne.getId()));
 }
 

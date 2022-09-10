@@ -48,7 +48,7 @@ int	join(std::string t, user* askingOne, std::vector<channel*>& chan_vec,
 			chan->addMode('t');
 			chan->addMode('n');
 		}
-		std::cout << chan 
+		// std::cout << chan 
 		//check if askingOne is already on chan
 		std::vector<channel*>::iterator itchan = std::find(askingOne->getList_chan().begin(), askingOne->getList_chan().end(), chan);
 		if (itchan == askingOne->getList_chan().end()){

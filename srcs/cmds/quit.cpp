@@ -8,9 +8,14 @@ void	quit(std::vector<std::string> params, user &askingOne,
 	for (std::vector<channel *>::iterator it = chan_vec.begin();
 		it != chan_vec.end(); ++it)
 	{
+		std::map<unsigned int, int> usr_list = (*it)->getUsr_list();
 		if ((*it)->getUsr_list().count(askingOne.getId()))
 			(*it)->send(server, ":" + askingOne.getNick() + "!" + askingOne.getHistory_nick().front()
 				+ "@" + askingOne.getIp() + " " + "QUIT " + askingOne.getNick() + ": " + reason);
+		if (usr_list.at(askingOne.getId()) <= CHAN_OP)
+			(*it)->rm1toNbChanOp();
+		askingOne.rmList_chan((*it));
+		(*it)->rmUsr_list(&askingOne);
 	}
 	error(askingOne, server, "quit requested", users);
 
