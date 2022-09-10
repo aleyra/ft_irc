@@ -17,7 +17,6 @@ void	quit(std::vector<std::string> params, user &askingOne,
 		askingOne.rmList_chan((*it));
 		(*it)->rmUsr_list(&askingOne);
 		channel* chan = *it;
-		std::cout << chan->get_nb_chan_op() << std::endl;
 		if (chan->get_nb_chan_op() == 0){
 			for (std::map<unsigned int, int>::const_iterator it2 = usr_list.begin(); it2 != usr_list.end(); ++it2){
 				if (chan->hasMode('m') && ((it2->second < CHAN_OP && it2->second >= VOICE_OK) || usr_list.size() == 1)){
@@ -32,7 +31,6 @@ void	quit(std::vector<std::string> params, user &askingOne,
 					break;
 			}
 		}
-		std::cout << chan->get_nb_chan_op() << std::endl;
 	}
 	error(askingOne, server, "quit requested", users);
 
