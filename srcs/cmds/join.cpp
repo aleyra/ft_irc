@@ -34,7 +34,7 @@ int	join(std::string t, user* askingOne, std::vector<channel*>& chan_vec,
 	}
 
 	channel*		chan = NULL;
-	unsigned int	id = 0;
+	unsigned int	askingOne_id = 0;
 	std::vector<unsigned int> * invite_list = NULL;
 	// std::vector<unsigned int>::iterator	position;
 	for (size_t i = 0; i < params.size(); ++i){
@@ -48,31 +48,31 @@ int	join(std::string t, user* askingOne, std::vector<channel*>& chan_vec,
 			chan->addMode('t');
 			chan->addMode('n');
 		}
-		std::cout << chan 
 		//check if askingOne is already on chan
 		std::vector<channel*>::iterator itchan = std::find(askingOne->getList_chan().begin(), askingOne->getList_chan().end(), chan);
 		if (itchan == askingOne->getList_chan().end()){
+			std::cout << chan->getName() << std::endl;
 			invite_list = &(chan->getInvite_list());
-			id = askingOne->getId();
+			askingOne_id = askingOne->getId();
 			//check if chan has mode i and if so, if askingOne is invited
-			std::vector<unsigned int>::iterator position = std::find(invite_list->begin(), invite_list->end(), id);
+			std::vector<unsigned int>::iterator position = std::find(invite_list->begin(), invite_list->end(), askingOne_id);
 			if(chan->hasMode('i') == true && position == invite_list->end())
 				return (numeric_reply(ERR_INVITEONLYCHAN, askingOne, chan, srv));
 			//add chan to askingOne.list_chan
 			askingOne->addList_chan(chan);
 			//add askingOne to chan.list_usr
 			std::map<unsigned int, int> &	usr_list = chan->getUsr_list();
-			if (usr_list.find(askingOne->getId()) == usr_list.end())
+			if (usr_list.find(askingOne_id) == usr_list.end())
 				chan->addUsr_list(askingOne);
 			if (chan->getUsr_list().size() <= 5)
-				chan->getUsr_list().at(askingOne->getId()) = CHAN_OP;
-			std::cout << "askingOne lvl on chan : "<< chan->getUsr_list().at(askingOne->getId()) << std::endl;
+				chan->getUsr_list().at(askingOne_id) = CHAN_OP;
+			std::cout << "askingOne lvl on chan : "<< chan->getUsr_list().at(askingOne_id) << std::endl;
 			//send msgs
-			chan->send(srv, ":" + askingOne->getNick() + "!" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "JOIN " + params[0]);
+			chan->send(srv, ":" + askingOne->getNick() + "!" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "JOIN " + params[i]);
 			if (chan->hasMode('t') ==  true && !(chan->getTopic().empty()))
 				numeric_reply(RPL_TOPIC, askingOne, chan, srv);
 			numeric_reply(RPL_CHANNELMODEIS, askingOne, chan, srv);
-			names(params[0], askingOne, chan_vec, users, srv);
+			names(params[i], askingOne, chan_vec, users, srv);
 		}
 	}
 	return (EXIT_SUCCESS);
