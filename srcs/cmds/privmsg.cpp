@@ -27,6 +27,7 @@ void	privmsg(std::vector<std::string> params, user &askingOne,
 			std::vector<channel*> chan_vec,
 			std::map<unsigned int, user *>& users, Server &server)
 {
+	(void)chan_vec;
 	std::string message = concat(params);
 	int sent = 0;
 
@@ -52,7 +53,7 @@ void	privmsg(std::vector<std::string> params, user &askingOne,
 				numeric_reply(ERR_NOSUCHNICK, &askingOne, *it, server);
 				continue;
 			}
-			send_msg(server, message, *it, askingOne, *receiver);
+			receiver->send_msg(askingOne, server, message, PRIVMSG, *it);
 			sent = 1;
 		}
 		// Channels
@@ -64,6 +65,10 @@ void	privmsg(std::vector<std::string> params, user &askingOne,
 				numeric_reply(ERR_NOSUCHCHANNEL, &askingOne, *it, server);
 				continue;
 			}
+			// std::string test = "@%~#bunny";
+			// chan->send(askingOne, server, message, PRIVMSG, test);
+
+			/*****  *****/
 			std::map<unsigned int, int> chan_users = chan->getUsr_list();
 			if (chan_users.find(askingOne.getId()) == chan_users.end())
 			{
@@ -103,7 +108,6 @@ void	privmsg(std::vector<std::string> params, user &askingOne,
 				{
 					if (!chan->hasMode('m') || it3->second >= VOICE_OK)
 					{
-						std::cout << "Coucou " << it3->second << std::endl;
 						send_msg(server, message, *it, askingOne, *searchUserByID(it3->first, users));
 						sent = 1;
 					}
@@ -111,6 +115,7 @@ void	privmsg(std::vector<std::string> params, user &askingOne,
 
 			}
 		}
+		/***** *****/
 	}
 	if (!sent)
 		numeric_reply(ERR_NORECIPIENT, &askingOne, message, server);

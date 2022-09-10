@@ -241,6 +241,18 @@ bool	user::hasMode(char c){
 	return true;
 }
 
+void	user::send_msg(user &askingOne, Server &server, std::string &message,
+	int type, std::string &target)
+{
+	(void)server;
+	std::string msg_type = (type == PRIVMSG) ? "PRIVMSG " : "NOTICE ";
+	if (this->getId() != askingOne.getId())
+	{
+		server.send(":" + askingOne.getNick() + "!"
+			+ askingOne.getHistory_nick().front() + "@" + askingOne.getIp()
+			+ " " + msg_type + target + " :" + message, this->getId());
+	}
+}
 
 
 // #pragma endregion other member functions
@@ -302,4 +314,6 @@ void	sendToAllInChanOfAskingOne(user *askingOne, std::string msg, Server &srv){
 		list_chan[i]->send(srv, msg);
 	}
 }
+
+
 // #pragma endregion non-member functions

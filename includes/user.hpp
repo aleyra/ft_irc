@@ -9,6 +9,9 @@
 # include <list>
 # include "channel.hpp"
 
+# define PRIVMSG 0
+# define NOTICE 1
+
 class channel;
 class Server;
 
@@ -82,6 +85,8 @@ class user{
 		std::string const &				getIp() const;
 		void							setSentConnectionMessage(bool b);
 		bool const						&getSentConnectionMessage() const;
+		void	send_msg(user &askingOne, Server &server, std::string &message,
+			int type, std::string &target);
 	// #pragma endregion getters and setters
 	// #pragma region other member functions
 	public:	

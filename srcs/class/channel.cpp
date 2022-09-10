@@ -113,12 +113,22 @@ channel&	channel::operator=(channel const &src){
 			this->_invite_list.erase(pos);
 	}
 
-	void	channel::send(Server &server, std::string message, int level)
+	// int	hasAuthorisation(std::string level_chars)
+	// {
+	// 	if (this->hasMode)
+	// }
+
+	void	channel::send(user &askingOne, Server &server, std::string &message,
+		int type, std::string &target)
 	{
+		int i = target.find_last_of("~&@%") + 1;
+		std::string level_chars = target.substr(0, i);
+		target = target.substr(i);
+		(void)askingOne, (void)target, (void)type;
 		for (std::map<unsigned int, int>::iterator it = _usr_list.begin();
 			it != _usr_list.end(); ++it)
 		{
-			if (it->second >= level)
+			// if (it->second >= level)
 				server.send(message, it->first);
 		}
 	}
@@ -144,4 +154,14 @@ int	countVisibleUsers(channel* chan, std::map<unsigned int, user *>& users){
 			count++;
 	}
 	return count;
+}
+
+void	channel::send(Server &server, std::string message, int level)
+{
+	for (std::map<unsigned int, int>::iterator it = _usr_list.begin();
+		it != _usr_list.end(); ++it)
+	{
+		if (it->second >= level)
+			server.send(message, it->first);
+	}
 }
