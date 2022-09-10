@@ -32,6 +32,7 @@ class channel{
 		std::string					_mode;//https://datatracker.ietf.org/doc/html/rfc2811#section-4
 		std::string					_topic;
 		std::vector<unsigned int>	_invite_list;//contient les id des user invites
+		int							_nb_chan_op;
 
 	//#pragma region constructors destructor
 	private:
@@ -63,8 +64,8 @@ class channel{
 		std::string	const &					getTopic() const;
 		//pas de setter pour _invite_list, voir addInvite_list et rmInvite_list
 		std::vector<unsigned int> &			getInvite_list();
-		int	send(user &askingOne, Server &server,
-			std::map<unsigned int, user *>& users, std::string &message, int type);
+		int	const &							get_nb_chan_op();
+		//pas de setter pout _nb_chan_op, voir add1toNbChanOp et rm1toNbChanOp
 
 	// #pragma endregion getters and setters
 
@@ -77,6 +78,10 @@ class channel{
 		void	addInvite_list(unsigned int id);
 		void	rmInvite_list(unsigned int id);
 		void	send(Server &server, std::string message, int level = 0);
+		int		send(user &askingOne, Server &server,
+			std::map<unsigned int, user *>& users, std::string &message, int type);
+		void	add1toNbChanOp();
+		void	rm1toNbChanOp();
 	// #pragma endregion other member functions
 };
 
