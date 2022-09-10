@@ -113,21 +113,6 @@ channel&	channel::operator=(channel const &src){
 			this->_invite_list.erase(pos);
 	}
 
-	void	channel::send(user &askingOne, Server &server,
-		std::map<unsigned int, user *> &users, std::string &message, int type)
-	{
-		for (std::map<unsigned int, int>::iterator it = _usr_list.begin();
-			it != _usr_list.end(); ++it)
-		{
-			if (!this->hasMode('m') || (this->hasMode('m') && _usr_list.at(askingOne.getId()) >= VOICE_OK))
-			{
-				std::cout << "Sent to " << searchUserByID(it->first, users)->getNick() << "/" << it->first << std::endl;
-				searchUserByID(it->first, users)->send_msg(askingOne,
-					server, message, type, this->getName());
-			}
-		}
-	}
-
 
 // #pragma endregion other member functions
 

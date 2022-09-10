@@ -15,7 +15,7 @@ SRCS_CMDS		=	error.cpp invite.cpp join.cpp kick.cpp kill.cpp list.cpp \
 					pass.cpp ping.cpp pong.cpp privmsg.cpp quit.cpp topic.cpp \
 					user_cmd.cpp
 SRCS_CLASS		=	Server.cpp channel.cpp user.cpp
-SRCS_TOOLS		=	numeric_reply.cpp params.cpp make_full_command.cpp timeout.cpp
+SRCS_TOOLS		=	numeric_reply.cpp params.cpp make_full_command.cpp timeout.cpp send.cpp
 SRCS 			=	$(addprefix $(PATH_SRC)/cmds/, $(SRCS_CMDS)) \
 					$(addprefix $(PATH_SRC)/class/, $(SRCS_CLASS)) \
 					$(addprefix $(PATH_SRC)/tools/, $(SRCS_TOOLS)) \
