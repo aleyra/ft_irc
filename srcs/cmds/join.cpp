@@ -51,7 +51,7 @@ int	join(std::string t, user* askingOne, std::vector<channel*>& chan_vec,
 		//check if askingOne is already on chan
 		std::vector<channel*>::iterator itchan = std::find(askingOne->getList_chan().begin(), askingOne->getList_chan().end(), chan);
 		if (itchan != askingOne->getList_chan().end()){
-			return (EXIT_SUCCESS);
+			continue;
 		}
 
 		invite_list = &(chan->getInvite_list());
@@ -66,7 +66,7 @@ int	join(std::string t, user* askingOne, std::vector<channel*>& chan_vec,
 		std::map<unsigned int, int> &	usr_list = chan->getUsr_list();
 		if (usr_list.find(askingOne->getId()) == usr_list.end())
 			chan->addUsr_list(askingOne);
-		if (chan->getUsr_list().size() == 1)
+		if (chan->getUsr_list().size() <= 5)
 			chan->getUsr_list().at(askingOne->getId()) = CHAN_OP;
 		std::cout << "askingOne lvl on chan : "<< chan->getUsr_list().at(askingOne->getId()) << std::endl;
 		//send msgs

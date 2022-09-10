@@ -31,6 +31,10 @@ int	part(std::vector<std::string> paramsEtMsg, user* askingOne,
 		pos = std::find(list_chan.begin(), list_chan.end(), chan);
 		if (pos == list_chan.end())
 			numeric_reply(ERR_NOTONCHANNEL, askingOne, chan, srv);
+
+		std::map<unsigned int, int> & usr_list = chan->getUsr_list();
+		if (usr_list.at(askingOne->getId()) <= CHAN_OP)
+			chan->rm1toNbChanOp();
 		//rm chan from askingOne.list_chan
 		askingOne->rmList_chan(chan);
 		//rm askingOne from chan.usr_list
@@ -45,6 +49,23 @@ int	part(std::vector<std::string> paramsEtMsg, user* askingOne,
 			srv.send(":" + askingOne->getNick() + "!" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "PART " + params[i] + " " + msg, askingOne->getId());
 		}
 		//if chan is empty, delete chan
+
+		// std::map<unsigned int, int> * usr_list = &chan->getUsr_list();
+
+		if (chan->get_nb_chan_op() == 0){
+			for (std::map<unsigned int, int>::const_iterator it = usr_list.begin(); it != usr_list.end(); ++it){
+				if (chan->hasMode('m') && it->second < CHAN_OP && it->second >= VOICE_OK){
+					usr_list.at(it->first) = CHAN_OP;
+					chan->add1toNbChanOp();
+				}
+				else if (it->second < CHAN_OP){
+					usr_list.at(it->first) = CHAN_OP;
+					chan->add1toNbChanOp();
+				}
+				if (chan->get_nb_chan_op() == 1)
+					break;
+			}
+		}
 		if (chan->getUsr_list().empty()){
 			pos = std::find(chan_vec.begin(), chan_vec.end(), chan);
 			chan_vec.erase(pos);

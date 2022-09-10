@@ -13,6 +13,7 @@ channel::channel(std::string name, user* founder){
 	if (founder != NULL)
 		this->_usr_list[founder->getId()] = CHAN_OP;
 	this->_mode = "";
+	this->_nb_chan_op = 1;
 }
 
 channel::~channel(){
@@ -68,6 +69,9 @@ channel&	channel::operator=(channel const &src){
 		return this->_invite_list;
 	}
 
+	int const &	channel::get_nb_chan_op(){
+		return this->_nb_chan_op;
+	}
 
 // #pragma endregion getters and setters
 
@@ -113,6 +117,23 @@ channel&	channel::operator=(channel const &src){
 			this->_invite_list.erase(pos);
 	}
 
+	void	channel::send(Server &server, std::string message, int level)
+	{
+		for (std::map<unsigned int, int>::iterator it = _usr_list.begin();
+			it != _usr_list.end(); ++it)
+		{
+			if (it->second >= level)
+				server.send(message, it->first);
+		}
+	}
+
+	void	channel::add1toNbChanOp(){
+		this->_nb_chan_op++;
+	}
+
+	void	channel::rm1toNbChanOp(){
+		this->_nb_chan_op--;
+	}
 
 // #pragma endregion other member functions
 
@@ -180,12 +201,4 @@ int	countVisibleUsers(channel* chan, std::map<unsigned int, user *>& users){
 	return count;
 }
 
-void	channel::send(Server &server, std::string message, int level)
-{
-	for (std::map<unsigned int, int>::iterator it = _usr_list.begin();
-		it != _usr_list.end(); ++it)
-	{
-		if (it->second >= level)
-			server.send(message, it->first);
-	}
-}
+

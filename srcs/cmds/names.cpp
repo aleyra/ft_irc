@@ -15,7 +15,7 @@ int	rpl_namreply(user* askingOne, channel* chan, std::map<unsigned int,
 	to_send += chan->getName() + " :";//<channel> :
 	std::map<unsigned int, int>*	usr_map = &(chan->getUsr_list());
 	for (std::map<unsigned, int>::iterator it = usr_map->begin(); it != usr_map->end(); ++it){//[prefix]<nick>
-		if (it->second == 4)
+		if (it->second == CHAN_OP)
 			to_send += "@";
 		else if (chan->getIsMod() == true && it->second == 1)
 			to_send += "+";
