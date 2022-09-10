@@ -119,9 +119,12 @@ channel&	channel::operator=(channel const &src){
 		for (std::map<unsigned int, int>::iterator it = _usr_list.begin();
 			it != _usr_list.end(); ++it)
 		{
-			if (this->hasMode('m') && it->second >= VOICE_OK)
+			if (this->hasMode('m') && _usr_list.at(askingOne.getId()) >= VOICE_OK)
+			{
+				std::cout << "Sent to " << searchUserByID(it->first, users)->getNick() << "/" << it->first << std::endl;
 				searchUserByID(it->first, users)->send_msg(askingOne,
 					server, message, type, this->getName());
+			}
 		}
 	}
 
