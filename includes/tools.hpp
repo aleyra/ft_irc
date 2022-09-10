@@ -33,6 +33,10 @@ int	make_full_command(std::map<unsigned int, std::string> &msg,
 	std::vector<channel *> &channels,
 	Server &server, std::string password);
 
+//in send.cpp
+// int send(user &askingOne, channel* this_chan, Server &server,
+// 		std::map<unsigned int, user *> &users, std::string &message, int type);
+
 //in timeout.cpp
 void	timeout(std::map<unsigned int, user *> &users, Server &server);
 

@@ -44,8 +44,7 @@ void	privmsg(std::vector<std::string> params, user &askingOne,
 				numeric_reply(ERR_NOSUCHNICK, &askingOne, *it, server);
 				continue;
 			}
-			receiver->send_msg(askingOne, server, message, PRIVMSG, *it);
-			sent = 1;
+			sent = receiver->send_msg(askingOne, server, message, PRIVMSG, *it);
 		}
 		// Channels
 		else
@@ -57,7 +56,7 @@ void	privmsg(std::vector<std::string> params, user &askingOne,
 				numeric_reply(ERR_NOSUCHCHANNEL, &askingOne, *it, server);
 				continue;
 			}
-			chan->send(askingOne, server, users, message, PRIVMSG);
+			sent = chan->send(askingOne, server, users, message, PRIVMSG);
 		}
 	}
 	if (!sent)

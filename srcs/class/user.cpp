@@ -241,7 +241,7 @@ bool	user::hasMode(char c){
 	return true;
 }
 
-void	user::send_msg(user &askingOne, Server &server, std::string &message,
+int	user::send_msg(user &askingOne, Server &server, std::string &message,
 	int type, const std::string &target)
 {
 	std::string msg_type = (type == PRIVMSG) ? "PRIVMSG " : "NOTICE ";
@@ -250,7 +250,9 @@ void	user::send_msg(user &askingOne, Server &server, std::string &message,
 		server.send(":" + askingOne.getNick() + "!"
 			+ askingOne.getHistory_nick().front() + "@" + askingOne.getIp()
 			+ " " + msg_type + target + " :" + message, this->getId());
+		return (1);
 	}
+	return (0);
 }
 
 

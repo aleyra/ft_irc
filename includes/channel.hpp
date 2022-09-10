@@ -7,6 +7,7 @@
 #include <list>
 #include <ctime>
 #include <map>
+// #include "tools.hpp"
 #include "user.hpp"
 #include "Server.hpp"
 
@@ -62,7 +63,7 @@ class channel{
 		std::string	const &					getTopic() const;
 		//pas de setter pour _invite_list, voir addInvite_list et rmInvite_list
 		std::vector<unsigned int> &			getInvite_list();
-		void	send(user &askingOne, Server &server,
+		int	send(user &askingOne, Server &server,
 			std::map<unsigned int, user *>& users, std::string &message, int type);
 
 	// #pragma endregion getters and setters
