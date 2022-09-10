@@ -144,6 +144,50 @@ channel*	searchChannelByName(std::string mask, std::vector<channel*>& chan_vec){
 	return NULL;
 }
 
+std::vector<channel*>	selectChannelByPartOfName(std::string mask, std::vector<channel*>& chan_vec){
+	//mask = <symbol>*<fin de nom>
+	std::vector<channel*> res;
+	if (mask.empty())
+		return (res);
+	if (mask.find('*') == std::string::npos){
+		channel* chan = searchChannelByName(mask, chan_vec);
+		if (chan != NULL)
+			res.push_back(chan);
+		return (res);
+	}
+	res = chan_vec;
+	std::vector<channel*>::iterator to_erase;
+	std::string name;
+	for (std::vector<channel*>::iterator it = res.begin(); it != res.end(); ++it){
+		name = (*it)->getName();
+		if (name[0] != mask[0]){
+			to_erase = it;
+			--it;
+			res.erase(to_erase);
+		}
+	}
+	while (!mask.empty() && mask[0] != '*')
+		mask.erase(0, 1);
+	if (!mask.empty() && mask[0] == '*')
+		mask.erase(0, 1);
+	for (std::vector<channel*>::iterator it = res.begin(); it != res.end(); ++it){
+		name = (*it)->getName();
+		if (name.size() < mask.size()){
+			to_erase = it;
+			--it;
+			res.erase(to_erase);
+			continue;
+		}
+		name = name.substr(name.size() - 1 - mask.size(), mask.size());
+		if (name.compare(mask) != 0){
+			to_erase = it;
+			--it;
+			res.erase(to_erase);
+		}
+	}
+	return (res);
+}
+
 int	countVisibleUsers(channel* chan, std::map<unsigned int, user *>& users){
 	int						count = 0;
 	std::map<unsigned int, int> &	usr_list = chan->getUsr_list();

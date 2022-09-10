@@ -59,6 +59,7 @@ void	privmsg(std::vector<std::string> params, user &askingOne,
 		// Channels
 		else
 		{
+			
 			channel *chan = searchChannelByName(*it ,chan_vec);
 			if (chan == NULL)
 			{

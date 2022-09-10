@@ -79,7 +79,8 @@ class channel{
 	// #pragma endregion other member functions
 };
 
-channel*	searchChannelByName(std::string mask, std::vector<channel*>& chan_vec);
-int			countVisibleUsers(channel* chan, std::map<unsigned int, user *>& users);
+channel*				searchChannelByName(std::string mask, std::vector<channel*>& chan_vec);
+std::vector<channel*>	selectChannelByPartOfName(std::string mask, std::vector<channel*>& chan_vec);
+int						countVisibleUsers(channel* chan, std::map<unsigned int, user *>& users);
 
 #endif
