@@ -54,7 +54,7 @@ int	part(std::vector<std::string> paramsEtMsg, user* askingOne,
 
 		if (chan->get_nb_chan_op() == 0){
 			for (std::map<unsigned int, int>::const_iterator it = usr_list.begin(); it != usr_list.end(); ++it){
-				if (chan->hasMode('m') && it->second < CHAN_OP && it->second >= VOICE_OK){
+				if (chan->hasMode('m') && ((it->second < CHAN_OP && it->second >= VOICE_OK) || usr_list.size() == 1)){
 					usr_list.at(it->first) = CHAN_OP;
 					chan->add1toNbChanOp();
 				}
