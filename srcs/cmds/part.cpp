@@ -53,13 +53,13 @@ int	part(std::vector<std::string> paramsEtMsg, user* askingOne,
 		// std::map<unsigned int, int> * usr_list = &chan->getUsr_list();
 
 		if (chan->get_nb_chan_op() == 0){
-			for (std::map<unsigned int, int>::const_iterator it = usr_list.begin(); it != usr_list.end(); ++it){
-				if (chan->hasMode('m') && ((it->second < CHAN_OP && it->second >= VOICE_OK) || usr_list.size() == 1)){
-					usr_list.at(it->first) = CHAN_OP;
+			for (std::map<unsigned int, int>::const_iterator it2 = usr_list.begin(); it2 != usr_list.end(); ++it2){
+				if (chan->hasMode('m') && ((it2->second < CHAN_OP && it2->second >= VOICE_OK) || usr_list.size() == 1)){
+					usr_list.at(it2->first) = CHAN_OP;
 					chan->add1toNbChanOp();
 				}
-				else if (it->second < CHAN_OP){
-					usr_list.at(it->first) = CHAN_OP;
+				else if (it2->second < CHAN_OP){
+					usr_list.at(it2->first) = CHAN_OP;
 					chan->add1toNbChanOp();
 				}
 				if (chan->get_nb_chan_op() == 1)

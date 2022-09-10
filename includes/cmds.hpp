@@ -44,7 +44,7 @@ void	privmsg(std::vector<std::string> params, user &askingOne,
 			std::vector<channel*> chan_vec, std::map<unsigned int, user*> &users,
 			Server &server);
 void	quit(std::vector<std::string> params, user &askingOne,
-			std::vector<channel*> chan_vec, Server &server,
+			std::vector<channel*> &chan_vec, Server &server,
 			std::map<unsigned int, user *>& users);
 int		topic(std::vector<std::string> params, user* askingOne,
 			std::vector<channel*> chan_vec, Server& srv);

@@ -12,7 +12,7 @@ int	channel::send(user &askingOne, Server &server,
 		for (std::map<unsigned int, int>::iterator it = _usr_list.begin();
 			it != _usr_list.end(); ++it)
 		{
-			if (!this->hasMode('m') || (this->hasMode('m') && _usr_list.at(askingOne.getId()) >= VOICE_OK))
+			if (!this->hasMode('m') || (this->hasMode('m') && _usr_list.find(askingOne.getId()) != _usr_list.end() && _usr_list.at(askingOne.getId()) >= VOICE_OK))
 			{
 				sent = searchUserByID(it->first, users)->send_msg(askingOne,
 					server, message, type, this->getName());
