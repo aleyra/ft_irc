@@ -21,7 +21,6 @@ void	pass(std::vector<std::string> params, user &user,
 	else
 	{
 		numeric_reply(ERR_PASSWDMISMATCH, &user, server);
-		std::cout << params[0] << std::endl;
 		return;
 	}
 }
