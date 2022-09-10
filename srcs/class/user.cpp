@@ -242,7 +242,7 @@ bool	user::hasMode(char c){
 }
 
 void	user::send_msg(user &askingOne, Server &server, std::string &message,
-	int type, std::string &target)
+	int type, const std::string &target)
 {
 	(void)server;
 	std::string msg_type = (type == PRIVMSG) ? "PRIVMSG " : "NOTICE ";

@@ -86,7 +86,7 @@ class user{
 		void							setSentConnectionMessage(bool b);
 		bool const						&getSentConnectionMessage() const;
 		void	send_msg(user &askingOne, Server &server, std::string &message,
-			int type, std::string &target);
+			int type, const std::string &target);
 	// #pragma endregion getters and setters
 	// #pragma region other member functions
 	public:	

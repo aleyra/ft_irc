@@ -65,8 +65,8 @@ void	privmsg(std::vector<std::string> params, user &askingOne,
 				numeric_reply(ERR_NOSUCHCHANNEL, &askingOne, *it, server);
 				continue;
 			}
-			// std::string test = "@%~#bunny";
-			// chan->send(askingOne, server, message, PRIVMSG, test);
+			// std::string test = "#bunny";
+			chan->send(askingOne, server, users, message, PRIVMSG);
 
 			/*****  *****/
 			std::map<unsigned int, int> chan_users = chan->getUsr_list();

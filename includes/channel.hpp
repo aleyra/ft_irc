@@ -63,7 +63,7 @@ class channel{
 		//pas de setter pour _invite_list, voir addInvite_list et rmInvite_list
 		std::vector<unsigned int> &			getInvite_list();
 		void	send(user &askingOne, Server &server,
-			std::string &message, int type, std::string &target);
+			std::map<unsigned int, user *>& users, std::string &message, int type);
 
 	// #pragma endregion getters and setters
 
