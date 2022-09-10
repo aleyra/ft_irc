@@ -38,7 +38,6 @@ int	join(std::string t, user* askingOne, std::vector<channel*>& chan_vec,
 	std::vector<unsigned int> * invite_list = NULL;
 	// std::vector<unsigned int>::iterator	position;
 	for (size_t i = 0; i < params.size(); ++i){
-		std::cout << params[i] <<std::endl;
 		chan = searchChannelByName(params[i], chan_vec);
 		if (chan == NULL){//try to create chan
 			if (params[i][0] == '&' || params[i][0] == '+' || params[i][0] == '!')
@@ -51,7 +50,6 @@ int	join(std::string t, user* askingOne, std::vector<channel*>& chan_vec,
 		//check if askingOne is already on chan
 		std::vector<channel*>::iterator itchan = std::find(askingOne->getList_chan().begin(), askingOne->getList_chan().end(), chan);
 		if (itchan == askingOne->getList_chan().end()){
-			std::cout << chan->getName() << std::endl;
 			invite_list = &(chan->getInvite_list());
 			askingOne_id = askingOne->getId();
 			//check if chan has mode i and if so, if askingOne is invited
@@ -66,7 +64,6 @@ int	join(std::string t, user* askingOne, std::vector<channel*>& chan_vec,
 				chan->addUsr_list(askingOne);
 			if (chan->getUsr_list().size() <= 5)
 				chan->getUsr_list().at(askingOne_id) = CHAN_OP;
-			std::cout << "askingOne lvl on chan : "<< chan->getUsr_list().at(askingOne_id) << std::endl;
 			//send msgs
 			chan->send(srv, ":" + askingOne->getNick() + "!" + askingOne->getHistory_nick().front() + "@" + askingOne->getIp() + " " + "JOIN " + params[i]);
 			if (chan->hasMode('t') ==  true && !(chan->getTopic().empty()))
